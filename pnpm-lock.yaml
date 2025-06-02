@@ -11,9 +11,6 @@ importers:
       aframe:
         specifier: ^1.4.2
         version: 1.7.1
-      ar-vite-svelte-ghpages:
-        specifier: 'file:'
-        version: 'file:'
       svelte:
         specifier: ^4.2.8
         version: 4.2.20
@@ -351,9 +348,6 @@ packages:
 
   an-array@1.0.0:
     resolution: {integrity: sha512-M175GYI7RmsYu24Ok383yZQa3eveDfNnmhTe3OQ3bm70bEovz2gWenH+ST/n32M8lrwLWk74hcPds5CDRPe2wg==}
-
-  'ar-vite-svelte-ghpages@file:':
-    resolution: {directory: '', type: directory}
 
   aria-query@5.3.2:
     resolution: {integrity: sha512-COROpnaoap1E2F000S62r6A60uHZnmlvomhfyT2DlTcrY1OrBKn2UhH7qn5wTC9zMvD0AY7csdPSNwKP+7WiQw==}
@@ -1136,13 +1130,6 @@ snapshots:
       - supports-color
 
   an-array@1.0.0: {}
-
-  'ar-vite-svelte-ghpages@file:':
-    dependencies:
-      aframe: 1.7.1
-      svelte: 4.2.20
-    transitivePeerDependencies:
-      - supports-color
 
   aria-query@5.3.2: {}
 
