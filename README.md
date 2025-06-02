@@ -24,3 +24,6 @@ npm run build
 npm run deploy
 ```
 The build output is generated in the `dist` directory and the `deploy` script pushes it to the `gh-pages` branch.
+
+## License
+This project is licensed under the [MIT License](LICENSE).
