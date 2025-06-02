@@ -8,6 +8,8 @@
 
   // Логика камеры и трекинга маркера
   import '@logic/camera-ar-core.js';
+  // Управление AR‑объектом и отображение радиального меню
+  import '@logic/ar-object-controls.js';
   const base = import.meta.env.BASE_URL;
   const markerUrl = `${base}markers_patt/pattern-AGROmarkerWB.patt`;
   const modelUrl = `${base}models/000001.glb`;
