@@ -8,6 +8,10 @@
 
   // Логика камеры и трекинга маркера
   import './logic/camera-ar-core.js';
+  const base = import.meta.env.BASE_URL;
+  const markerUrl = `${base}markers_patt/pattern-AGROmarkerWB.patt`;
+  const modelUrl = `${base}models/000001.glb`;
+
 </script>
 
 <!-- Контейнер для радиального меню -->
@@ -28,12 +32,12 @@
     <a-marker
       id="marker-root"
       type="pattern"
-      url="/markers_patt/pattern-AGROmarkerWB.patt"
+      url={markerUrl}
     >
       <!-- Модель (по умолчанию скрыта, показывается при markerFound) -->
       <a-entity
         id="model-entity"
-        gltf-model="/models/000001.glb"
+        gltf-model={modelUrl}
         scale="0.5 0.5 0.5"
         rotation="0 0 0"
         position="0 0 0"
