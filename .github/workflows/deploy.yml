@@ -19,13 +19,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: npm
+          cache: pnpm
 
       - name: "Установка зависимостей"
-        run: npm ci
+        run: |
+          corepack enable
+          pnpm install
 
       - name: "Сборка проекта"
-        run: npm run build
+        run: pnpm run build
 
       - name: "Настройка Git-пользователя"
         run: |
@@ -35,5 +37,5 @@ jobs:
       - name: "Публикация на gh-pages"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run deploy
+        run: pnpm run deploy
 
