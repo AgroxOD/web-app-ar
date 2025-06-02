@@ -1,5 +1,5 @@
 {
-  "name": "ar-vite-svelte-ghpages",
+  "name": "web-app-ar",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "aframe": "^1.4.2",
-    "ar-vite-svelte-ghpages": "file:",
     "svelte": "^4.2.8"
   },
   "devDependencies": {
