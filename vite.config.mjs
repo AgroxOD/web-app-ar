@@ -15,7 +15,8 @@ export default defineConfig({
       '@assets': '/src/assets'
     }
   },
-  base: './',
+  // Указываем базовый путь для GitHub Pages
+  base: '/web-app-ar/',
   server: {
     port: 5173,
     open: true,
