@@ -1,0 +1,30 @@
+# Автоматическое развертывание на GitHub Pages
+# Отправляет содержимое dist в ветку gh-pages
+
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+      - name: "Установка зависимостей"
+        run: npm ci
+      - name: "Сборка проекта"
+        run: npm run build
+      - name: "Публикация на gh-pages"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run deploy
+
