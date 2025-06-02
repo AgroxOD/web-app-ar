@@ -1,8 +1,10 @@
 # Agent Instructions
 
-- All code comments must be written **in Russian**.
-- Project goal: build a **single-page AR application** intended for deployment to **GitHub Pages**.
-- Deployment:
-  1. Run `npm run build` to generate the production build.
-  2. Run `npm run deploy` to publish the contents of `dist` to the `gh-pages` branch.
-- 3D models are stored in this repository for now, but may be relocated in the future.
+- Все комментарии в коде пишутся **на русском языке**.
+- README также ведётся на русском.
+- Проект представляет собой одностраничное AR‑приложение, предназначенное для публикации на **GitHub Pages**.
+- Сборка и публикация:
+  1. `npm run build` — создаёт production-сборку.
+  2. `npm run deploy` — публикует содержимое `dist` в ветку `gh-pages`.
+- Lock‑файл `pnpm-lock.yaml` не используется и не должен храниться в репозитории.
+- 3D‑модели пока расположены в этом репозитории, но могут быть вынесены в будущем.

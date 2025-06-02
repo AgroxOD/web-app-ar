@@ -1,12 +1,12 @@
-// src/logic/ar-object-controls.js
+// Файл: src/logic/ar-object-controls.js
 
 // ---- 1. Константы ----
 const CONTROL_OBJECT_ID = 'model-entity';
 
 const MENU_RADIUS = 155;
-// Minimal distance from the center for a click to be registered.
-// Clicks inside this radius are ignored to provide an "inactive" zone
-// around the central button of the radial menu.
+// Минимальное расстояние от центра, при котором фиксируется клик.
+// Клики внутри этого радиуса игнорируются, образуя «неактивную» зону
+// вокруг центральной кнопки радиального меню.
 const MENU_INNER_RADIUS = 78;
 const SECTORS_COUNT = 8;
 const sectorIconSize = 65;
@@ -25,12 +25,12 @@ const ICONS = [
   'icons/8.png'
 ];
 
-// Utility to get the controlled 3D object
+// Вспомогательная функция для получения управляемого 3D-объекта
 function getModel() {
   return document.getElementById(CONTROL_OBJECT_ID);
 }
 
-// ---- 2a. Actions over the AR object ----
+// ---- 2a. Действия над AR-объектом ----
 
 function rotateY(delta) {
   const model = getModel();
@@ -54,7 +54,7 @@ function toggleModel() {
   const model = getModel();
   if (!model) return;
   const current = parseInt(model.dataset.modelIndex || '0', 10);
-  const next = (current + 1) % 2; // simple toggle between two states
+  const next = (current + 1) % 2; // простое переключение между двумя состояниями
   if (next === 0) {
     model.removeAttribute('geometry');
     model.setAttribute('gltf-model', 'models/000001.glb');
@@ -164,7 +164,7 @@ function handleMenuClick(e) {
   const dy = cursorpt.y - center;
   const distance = Math.sqrt(dx * dx + dy * dy);
 
-  // Ignore clicks too close to the center
+  // Игнорируем клики слишком близко к центру
   if (distance < MENU_INNER_RADIUS) {
     return;
   }
@@ -176,14 +176,14 @@ function handleMenuClick(e) {
   // Пример обработки клика — можно добавить свою логику
   console.log(`Клик по сектору #${sector + 1}`);
   const actions = [
-    () => rotateY(-15),     // sector 1
-    () => rotateY(15),      // sector 2
-    () => scaleModel(1.1),  // sector 3
-    () => scaleModel(0.9),  // sector 4
-    () => toggleModel(),    // sector 5
-    () => changeColor(),    // sector 6
-    () => toggleVisibility(), // sector 7
-    () => resetTransform()  // sector 8
+    () => rotateY(-15),     // сектор 1
+    () => rotateY(15),      // сектор 2
+    () => scaleModel(1.1),  // сектор 3
+    () => scaleModel(0.9),  // сектор 4
+    () => toggleModel(),    // сектор 5
+    () => changeColor(),    // сектор 6
+    () => toggleVisibility(), // сектор 7
+    () => resetTransform()  // сектор 8
   ];
 
   const action = actions[sector];

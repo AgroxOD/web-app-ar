@@ -1,29 +1,29 @@
 # web-app-ar
 
-## Overview
-web-app-ar is a simple augmented reality web project built with Svelte and Vite. It uses A-Frame and AR.js to display AR content and is configured for deployment to GitHub Pages.
+## Обзор
+web-app-ar — это простой веб-проект дополненной реальности на базе Svelte и Vite. Он использует A-Frame и AR.js для отображения AR-контента и настроен для публикации на GitHub Pages.
 
-## Installation
-1. Clone this repository.
-2. Install the dependencies:
+## Установка
+1. Клонируйте репозиторий.
+2. Установите зависимости:
    ```bash
    npm install
    ```
 
-## Development
-Start the development server with:
+## Разработка
+Запуск сервера разработки:
 ```bash
 npm run dev
 ```
-This runs Vite in development mode and watches for file changes.
+Команда запускает Vite в режиме разработки и следит за изменениями файлов.
 
-## Deployment
-Build the project and publish it to GitHub Pages:
+## Деплой
+Соберите проект и опубликуйте его на GitHub Pages:
 ```bash
 npm run build
 npm run deploy
 ```
-The build output is generated in the `dist` directory and the `deploy` script pushes it to the `gh-pages` branch.
+Сборка помещается в каталог `dist`, а скрипт `deploy` отправляет его в ветку `gh-pages`.
 
-## License
-This project is licensed under the [MIT License](LICENSE).
+## Лицензия
+Проект распространяется под [лицензией MIT](LICENSE).
