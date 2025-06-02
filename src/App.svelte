@@ -2,12 +2,12 @@
   import { onMount } from 'svelte';
 
   // Подключаем стили
-  import './assets/styles.css';
+  import '@assets/styles.css';
 
 
 
   // Логика камеры и трекинга маркера
-  import './logic/camera-ar-core.js';
+  import '@logic/camera-ar-core.js';
   const base = import.meta.env.BASE_URL;
   const markerUrl = `${base}markers_patt/pattern-AGROmarkerWB.patt`;
   const modelUrl = `${base}models/000001.glb`;
