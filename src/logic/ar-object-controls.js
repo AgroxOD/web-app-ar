@@ -4,6 +4,9 @@
 const CONTROL_OBJECT_ID = 'model-entity';
 
 const MENU_RADIUS = 155;
+// Minimal distance from the center for a click to be registered.
+// Clicks inside this radius are ignored to provide an "inactive" zone
+// around the central button of the radial menu.
 const MENU_INNER_RADIUS = 78;
 const SECTORS_COUNT = 8;
 const sectorIconSize = 65;
@@ -97,6 +100,13 @@ function handleMenuClick(e) {
   const center = MENU_RADIUS;
   const dx = cursorpt.x - center;
   const dy = cursorpt.y - center;
+  const distance = Math.sqrt(dx * dx + dy * dy);
+
+  // Ignore clicks too close to the center
+  if (distance < MENU_INNER_RADIUS) {
+    return;
+  }
+
   const angle = Math.atan2(dy, dx) + Math.PI / 2;
   let sector = Math.floor(((angle + 2 * Math.PI) % (2 * Math.PI)) / (2 * Math.PI / SECTORS_COUNT));
   if (sector < 0 || sector >= SECTORS_COUNT) sector = 0;
