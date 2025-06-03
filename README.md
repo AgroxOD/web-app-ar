@@ -81,6 +81,7 @@ pnpm dev
 - Каждый маркер требует свой `.mind`-файл (генерируй через mindar-cli)
 - Основная логика — в `src/ar-scene.js` и `src/main.js`
 - Рекомендуемые расширения VS Code: ESLint, Prettier, Vite
+- В каталоге `.vscode/` добавлен `tasks.json` с командами для `pnpm dev`, `pnpm build` и генерации `target.mind`
 
 ---
 
