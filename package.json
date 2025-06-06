@@ -1,6 +1,8 @@
 {
   "name": "web-app-ar",
   "version": "1.0.0",
+  "license": "MIT",
+  "repository": "https://github.com/AgroxOD/web-app-ar",
   "type": "module",
   "scripts": {
     "dev": "vite",
