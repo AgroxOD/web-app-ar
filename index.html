@@ -60,9 +60,9 @@
     <div id="ar-frame"></div>
     <div id="ar-overlay"><button id="start-btn">Start AR</button></div>
     <script type="module">
-      import { startAR } from './src/ar-scene.js';
       const overlay = document.getElementById('ar-overlay');
-      document.getElementById('start-btn').addEventListener('click', () => {
+      document.getElementById('start-btn').addEventListener('click', async () => {
+        const { startAR } = await import('./src/ar-scene.js');
         startAR();
         overlay.style.display = 'none';
       });

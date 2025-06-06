@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { MindARThree } from 'mind-ar/dist/mindar-image-three.prod.js';
 import './styles/mindar-image-three.prod.css';
+import { logEvent } from './utils/analytics.js';
 
 // Управление цветом рамки
 function setFrameColor(color) {
@@ -21,6 +22,11 @@ function hideFrame() {
 
 // Инициализация AR-сцены вызывается по нажатию кнопки
 export const startAR = async () => {
+  if (!navigator.mediaDevices?.getUserMedia || !window.WebGLRenderingContext) {
+    alert('Ваш браузер не поддерживает AR');
+    return;
+  }
+  logEvent('sessionStart');
   const base = import.meta.env.BASE_URL;
   const mindarThree = new MindARThree({
     container: document.querySelector('#ar-container'),
@@ -64,6 +70,7 @@ export const startAR = async () => {
     model.scale.setScalar(scale);
   } catch (e) {
     alert('Ошибка загрузки 3D-модели!');
+    logEvent('modelError', { message: e?.message });
     return;
   }
 
@@ -76,11 +83,13 @@ export const startAR = async () => {
     model.visible = true;
     hideFrame();
     setFrameColor('green');
+    logEvent('targetFound');
   };
   anchor.onTargetLost = () => {
     model.visible = false;
     showFrame();
     setFrameColor('white');
+    logEvent('targetLost');
   };
 
   try {
@@ -91,6 +100,7 @@ export const startAR = async () => {
     alert(
       'Не удалось инициализировать камеру. Проверьте разрешения и перезагрузите страницу.',
     );
+    logEvent("sessionError", { message: e?.message });
     return;
   }
   renderer.setAnimationLoop(() => renderer.render(scene, camera));
