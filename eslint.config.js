@@ -10,6 +10,7 @@ export default [
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
+      env: { browser: true },
       globals: {
         window: 'readonly',
         document: 'readonly',
