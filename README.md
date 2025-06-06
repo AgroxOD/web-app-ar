@@ -20,6 +20,7 @@
 - [MindAR.js](https://hiukim.github.io/mind-ar-js-doc/) — AR SDK для маркеров
 - [pnpm](https://pnpm.io/) — менеджер пакетов
 - [mindar-cli](https://github.com/hiukim/mind-ar-js/tree/main/packages/mindar-cli) — генерация `.mind` файлов из PNG-маркеров
+- [MindAR Marker Compiler](https://hiukim.github.io/mind-ar-js-doc/tools/compile/) — онлайн-конвертер PNG/JPG в `.mind`
 - ESLint + Prettier (flat config `eslint.config.js`)
 - _(опционально)_ [MongoDB Atlas](https://www.mongodb.com/atlas), [Cloudflare R2](https://www.cloudflare.com/products/r2/)
 
@@ -86,7 +87,7 @@ pnpm format # автоформатирование
 ## 👩‍💻 Разработка
 
 - PNG-маркеры хранятся в `public/`
-- Каждый маркер требует свой `.mind`-файл (генерируй через mindar-cli)
+- Каждый маркер требует свой `.mind`-файл. Его можно сгенерировать через [mindar-cli](https://github.com/hiukim/mind-ar-js/tree/main/packages/mindar-cli) **или** онлайн-компилятор [MindAR Marker Compiler](https://hiukim.github.io/mind-ar-js-doc/tools/compile/). Помести полученный файл в `public/` рядом с маркером.
 - Основная логика находится в `src/ar-scene.js`, ассеты загружаются из `public/`
 - Рекомендуемые расширения VS Code: ESLint, Prettier, Vite
 - Для проверки кода и автоформатирования используй:
