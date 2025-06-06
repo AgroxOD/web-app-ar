@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MindARThree } from 'mind-ar/dist/mindar-image-three.prod.js';
 import './styles/mindar-image-three.prod.css';
 import { logEvent } from './utils/analytics.js';
@@ -87,6 +88,11 @@ export const startAR = async () => {
   scene.add(wrapper);
   wrapper.visible = false;
 
+  // Управление камерой
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enablePan = false;
+  controls.enableDamping = true;
+
   // Якорь для маркера
   const anchor = mindarThree.addAnchor(0);
 
@@ -157,6 +163,10 @@ export const startAR = async () => {
     logEvent('sessionError', { message: e?.message });
     return false;
   }
-  renderer.setAnimationLoop(() => renderer.render(scene, camera));
+  renderer.setAnimationLoop(() => {
+    controls.target.copy(wrapper.position);
+    controls.update();
+    renderer.render(scene, camera);
+  });
   return true;
 };
