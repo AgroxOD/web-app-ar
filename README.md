@@ -66,12 +66,13 @@ pnpm format # автоформатирование
 1. Проверь базовый путь в `vite.config.js`:
    ```js
    export default defineConfig({
-     base: '/<repo-name>/',
+     base: '/web-app-ar/', // имя репозитория
      plugins: [
        /* ... */
      ],
    });
    ```
+   > ⚠️ Значение `base` должно совпадать с названием репозитория на GitHub.
 2. Сборка и деплой:
    ```bash
    pnpm build
