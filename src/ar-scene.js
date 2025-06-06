@@ -24,7 +24,7 @@ function hideFrame() {
 export const startAR = async () => {
   if (!navigator.mediaDevices?.getUserMedia || !window.WebGLRenderingContext) {
     alert('Ваш браузер не поддерживает AR');
-    return;
+    return false;
   }
   logEvent('sessionStart');
   const base = import.meta.env.BASE_URL;
@@ -71,7 +71,7 @@ export const startAR = async () => {
   } catch (e) {
     alert('Ошибка загрузки 3D-модели!');
     logEvent('modelError', { message: e?.message });
-    return;
+    return false;
   }
 
   // Якорь для маркера, модель видна только по маркеру
@@ -100,8 +100,9 @@ export const startAR = async () => {
     alert(
       'Не удалось инициализировать камеру. Проверьте разрешения и перезагрузите страницу.',
     );
-    logEvent("sessionError", { message: e?.message });
-    return;
+    logEvent('sessionError', { message: e?.message });
+    return false;
   }
   renderer.setAnimationLoop(() => renderer.render(scene, camera));
+  return true;
 };
