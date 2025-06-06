@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { MindARThree } from 'mind-ar/dist/mindar-image-three.prod.js';
-import '../public/mindar-image-three.prod.css';
+import './styles/mindar-image-three.prod.css';
 
 // Управление цветом рамки
 function setFrameColor(color) {
