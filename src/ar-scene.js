@@ -15,6 +15,9 @@ export const startAR = async () => {
   const mindarThree = new MindARThree({
     container: document.querySelector('#ar-container'),
     imageTargetSrc: `${base}target.mind`,
+    filterMinCF: 0.0001,
+    filterBeta: 0.01,
+    missTolerance: 10,
   });
 
   const { renderer, scene, camera } = mindarThree;
