@@ -9,6 +9,16 @@ function setFrameColor(color) {
   if (frame) frame.style.borderColor = color;
 }
 
+function showFrame() {
+  const frame = document.getElementById('ar-frame');
+  if (frame) frame.style.display = 'block';
+}
+
+function hideFrame() {
+  const frame = document.getElementById('ar-frame');
+  if (frame) frame.style.display = 'none';
+}
+
 // Инициализация AR-сцены вызывается по нажатию кнопки
 export const startAR = async () => {
   const base = import.meta.env.BASE_URL;
@@ -64,13 +74,19 @@ export const startAR = async () => {
 
   anchor.onTargetFound = () => {
     model.visible = true;
+    hideFrame();
+    setFrameColor('green');
   };
   anchor.onTargetLost = () => {
     model.visible = false;
+    showFrame();
+    setFrameColor('white');
   };
 
   try {
     await mindarThree.start();
+    showFrame();
+    setFrameColor('white');
   } catch (e) {
     alert(
       'Не удалось инициализировать камеру. Проверьте разрешения и перезагрузите страницу.',
