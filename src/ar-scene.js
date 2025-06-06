@@ -46,7 +46,14 @@ const init = async () => {
     setFrameColor('white');
   };
 
-  await mindarThree.start();
+  try {
+    await mindarThree.start();
+  } catch (e) {
+    alert(
+      'Не удалось инициализировать камеру. Проверьте разрешения и перезагрузите страницу.'
+    );
+    return;
+  }
   renderer.setAnimationLoop(() => renderer.render(scene, camera));
 };
 
