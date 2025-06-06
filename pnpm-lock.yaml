@@ -17,9 +17,6 @@ importers:
       vite:
         specifier: ^5.4.19
         version: 5.4.19(@types/node@22.15.29)
-      web-app-ar:
-        specifier: 'file:'
-        version: file:(@types/node@22.15.29)(seedrandom@3.0.5)
 
 packages:
 
@@ -824,8 +821,6 @@ packages:
       terser:
         optional: true
 
-  'web-app-ar@file:':
-    resolution: {directory: '', type: directory}
 
   webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
@@ -1582,23 +1577,6 @@ snapshots:
       '@types/node': 22.15.29
       fsevents: 2.3.3
 
-  web-app-ar@file:(@types/node@22.15.29)(seedrandom@3.0.5):
-    dependencies:
-      mind-ar: 1.2.5(seedrandom@3.0.5)(three@0.152.2)(vite@5.4.19(@types/node@22.15.29))
-      three: 0.152.2
-      vite: 5.4.19(@types/node@22.15.29)
-    transitivePeerDependencies:
-      - '@types/node'
-      - encoding
-      - less
-      - lightningcss
-      - sass
-      - sass-embedded
-      - seedrandom
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
 
   webidl-conversions@3.0.1: {}
 

@@ -52,7 +52,7 @@ pnpm install
 pnpm dev
 ```
 
-Открой [http://localhost:5173](http://localhost:5173) в браузере.
+Открой [http://localhost:5173/web-app-ar/](http://localhost:5173/web-app-ar/) в браузере.
 
 ---
 
