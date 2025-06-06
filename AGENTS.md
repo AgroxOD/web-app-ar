@@ -14,7 +14,7 @@
 - [Скрипты](#скрипты)
 - [Как создать .mind-файл для маркера](#как-создать-mind-файл-для-маркера)
 - [Инструкция по публикации на GitHub Pages](#инструкция-по-публикации-на-github-pages)
-- [VS Code Setup](#vs-code-setup)
+- [Настройка VS Code](#vs-code-setup)
 - [Расширение: CRM и MongoDB](#расширение-crm-и-mongodb)
 - [Статус и дорожная карта](#статус-и-дорожная-карта)
 - [Ссылки](#ссылки)
@@ -103,7 +103,7 @@ pnpm dev
    - Скачай target.mind и положи в `public/` (рядом с marker.png)
 3. Добавь новые ассеты (3D-модели, изображения) в `public/assets/`.
 4. Пиши основную логику в `src/ar-scene.js`; все ассеты загружаются из `public/`.
-5. Настрой кодстайл и автоформатирование (см. [VS Code Setup](#vs-code-setup)).
+5. Настрой кодстайл и автоформатирование (см. [Настройка VS Code](#vs-code-setup)).
 6. Для переменных окружения используй `.env` (если потребуется API-ключи).
 
 ## Скрипты
@@ -159,7 +159,8 @@ pnpm dev
 
 ---
 
-## VS Code Setup
+<a name="vs-code-setup"></a>
+## Настройка VS Code
 
 - Установи расширения:
   - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
