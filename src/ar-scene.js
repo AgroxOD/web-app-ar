@@ -26,7 +26,7 @@ export const startAR = async () => {
 
   // Основные константы для настройки освещения и модели
   const LIGHT_INTENSITY = 1; // при необходимости измените яркость света
-  const MODEL_SCALE = 0.5; // общий масштаб 3D-модели
+  const FALLBACK_MODEL_SCALE = 0.5; // масштаб по умолчанию, если объём модели не вычислен
 
   // Базовое освещение сцены
   const light = new THREE.HemisphereLight(0xffffff, 0x444444, LIGHT_INTENSITY);
@@ -38,7 +38,20 @@ export const startAR = async () => {
   try {
     const gltf = await loader.loadAsync(`${base}assets/model.glb`);
     model = gltf.scene;
-    model.scale.set(MODEL_SCALE, MODEL_SCALE, MODEL_SCALE);
+
+    // Подгоняем масштаб модели по bounding box, если возможно
+    const box = new THREE.Box3().setFromObject(model);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    const maxDim = Math.max(size.x, size.y, size.z);
+
+    const desired = 1; // целевой размер в условных единицах сцены
+    let scale = FALLBACK_MODEL_SCALE;
+    if (Number.isFinite(maxDim) && maxDim > 0) {
+      scale = desired / maxDim;
+    }
+
+    model.scale.setScalar(scale);
   } catch (e) {
     alert('Ошибка загрузки 3D-модели!');
     return;
