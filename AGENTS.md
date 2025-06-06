@@ -156,6 +156,7 @@ pnpm dev
   - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
   - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
   - [Vite](https://marketplace.visualstudio.com/items?itemName=antfu.vite)
+- Конфигурация ESLint использует flat config (`eslint.config.js`) с интеграцией Prettier; здесь же объявлены глобальные переменные `window`, `document` и `alert`.
 - Рекомендуемые настройки (`.vscode/settings.json`):
   ```json
   {
