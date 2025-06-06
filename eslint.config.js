@@ -14,7 +14,7 @@ export default [
         window: 'readonly',
         document: 'readonly',
         console: 'readonly',
-        alert: 'readonly', // <-- добавь это!
+        alert: 'readonly',
       },
     },
     plugins: {
