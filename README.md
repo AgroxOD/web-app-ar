@@ -20,6 +20,7 @@
 - [MindAR.js](https://hiukim.github.io/mind-ar-js-doc/) — AR SDK для маркеров
 - [pnpm](https://pnpm.io/) — менеджер пакетов
 - [mindar-cli](https://github.com/hiukim/mind-ar-js/tree/main/packages/mindar-cli) — генерация `.mind` файлов из PNG-маркеров
+- ESLint + Prettier (flat config `eslint.config.js`)
 - _(опционально)_ [MongoDB Atlas](https://www.mongodb.com/atlas), [Cloudflare R2](https://www.cloudflare.com/products/r2/)
 
 ---
