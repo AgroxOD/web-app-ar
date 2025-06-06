@@ -121,6 +121,35 @@ export const startAR = async () => {
     await mindarThree.start();
     showFrame();
     setFrameColor('white');
+    // Создаём скрытый canvas для оценки яркости кадра
+    const video = mindarThree.video;
+    const lumCanvas = document.createElement('canvas');
+    lumCanvas.width = video.videoWidth;
+    lumCanvas.height = video.videoHeight;
+    lumCanvas.style.display = 'none';
+    document.body.appendChild(lumCanvas);
+    const lumCtx = lumCanvas.getContext('2d');
+
+    const minIntensity = 0.5;
+    const maxIntensity = 1.5;
+
+    const updateLight = () => {
+      lumCtx.drawImage(video, 0, 0, lumCanvas.width, lumCanvas.height);
+      const { data } = lumCtx.getImageData(
+        0,
+        0,
+        lumCanvas.width,
+        lumCanvas.height,
+      );
+      let sum = 0;
+      for (let i = 0; i < data.length; i += 4) {
+        sum += data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114;
+      }
+      const avg = sum / (data.length / 4) / 255;
+      light.intensity = THREE.MathUtils.lerp(minIntensity, maxIntensity, avg);
+    };
+
+    setInterval(updateLight, 500);
   } catch (e) {
     alert(
       'Не удалось инициализировать камеру. Проверьте разрешения и перезагрузите страницу.',
