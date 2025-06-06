@@ -10,11 +10,12 @@ export default [
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
-    },
-    env: {
-      browser: true,
-      es2022: true,
-      node: true,
+      globals: {
+        window: 'readonly',
+        document: 'readonly',
+        console: 'readonly',
+        alert: 'readonly', // <-- добавь это!
+      },
     },
     plugins: {
       prettier: prettierPlugin,
