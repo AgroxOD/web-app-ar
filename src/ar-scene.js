@@ -1,16 +1,13 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MindARThree } from 'mind-ar/dist/mindar-image-three.prod.js';
 import './styles/mindar-image-three.prod.css';
 import { logEvent } from './utils/analytics.js';
 import { showControls, hideControls } from './utils/ui.js';
 
-// Параметры сглаживания движения модели
-export const smoothingParams = {
-  positionLerp: 0.2,
-  rotationLerp: 0.2,
-  scaleLerp: 0.2,
+export const modelParams = {
+  rotationY: 0,
+  scale: 1,
 };
 
 // Управление цветом рамки
@@ -83,55 +80,23 @@ export const startAR = async () => {
     return false;
   }
 
-  // Группа-обёртка для плавного следования за якорем
-  const wrapper = new THREE.Group();
-  wrapper.add(model);
-  scene.add(wrapper);
-  wrapper.visible = false;
-
-  // Управление камерой
-  const controls = new OrbitControls(camera, renderer.domElement);
-  controls.enablePan = false;
-  controls.enableDamping = true;
-
-  // Якорь для маркера
   const anchor = mindarThree.addAnchor(0);
+  anchor.group.add(model);
+  anchor.group.visible = false;
 
   anchor.onTargetFound = () => {
-    anchor.group.getWorldPosition(targetPosition);
-    anchor.group.getWorldQuaternion(targetQuaternion);
-    anchor.group.getWorldScale(targetScale);
-
-    wrapper.position.copy(targetPosition);
-    wrapper.quaternion.copy(targetQuaternion);
-    wrapper.scale.copy(targetScale);
-
-    wrapper.visible = true;
+    anchor.group.visible = true;
     hideFrame();
     showControls();
     setFrameColor('green');
     logEvent('targetFound');
   };
   anchor.onTargetLost = () => {
-    wrapper.visible = false;
+    anchor.group.visible = false;
     showFrame();
     hideControls();
     setFrameColor('white');
     logEvent('targetLost');
-  };
-
-  // Плавное следование за якорем
-  const targetPosition = new THREE.Vector3();
-  const targetQuaternion = new THREE.Quaternion();
-  const targetScale = new THREE.Vector3();
-  anchor.onTargetUpdate = () => {
-    anchor.group.getWorldPosition(targetPosition);
-    anchor.group.getWorldQuaternion(targetQuaternion);
-    anchor.group.getWorldScale(targetScale);
-
-    wrapper.position.lerp(targetPosition, smoothingParams.positionLerp);
-    wrapper.quaternion.slerp(targetQuaternion, smoothingParams.rotationLerp);
-    wrapper.scale.lerp(targetScale, smoothingParams.scaleLerp);
   };
 
   try {
@@ -175,8 +140,8 @@ export const startAR = async () => {
     return false;
   }
   renderer.setAnimationLoop(() => {
-    controls.target.copy(wrapper.position);
-    controls.update();
+    model.rotation.y = THREE.MathUtils.degToRad(modelParams.rotationY);
+    model.scale.setScalar(modelParams.scale);
     renderer.render(scene, camera);
   });
   return true;
