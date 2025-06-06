@@ -9,9 +9,8 @@ function setFrameColor(color) {
   if (frame) frame.style.borderColor = color;
 }
 
-// Инициализируем AR-сцену сразу, скрипт подключается в конце body,
-// поэтому событие DOMContentLoaded уже отработало
-const init = async () => {
+// Инициализация AR-сцены вызывается по нажатию кнопки
+export const startAR = async () => {
   const base = import.meta.env.BASE_URL;
   const mindarThree = new MindARThree({
     container: document.querySelector('#ar-container'),
@@ -66,5 +65,3 @@ const init = async () => {
   }
   renderer.setAnimationLoop(() => renderer.render(scene, camera));
 };
-
-init();
