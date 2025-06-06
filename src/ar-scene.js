@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MindARThree } from 'mind-ar/dist/mindar-image-three.prod.js';
 import './styles/mindar-image-three.prod.css';
 import { logEvent } from './utils/analytics.js';
+import { showControls, hideControls } from './utils/ui.js';
 
 // Параметры сглаживания движения модели
 export const smoothingParams = {
@@ -28,7 +29,7 @@ function hideFrame() {
   if (frame) frame.style.display = 'none';
 }
 
-// Инициализация AR-сцены вызывается по нажатию кнопки
+// Инициализация AR-сцены при загрузке страницы
 export const startAR = async () => {
   if (!navigator.mediaDevices?.getUserMedia || !window.WebGLRenderingContext) {
     alert('Ваш браузер не поддерживает AR');
@@ -107,12 +108,14 @@ export const startAR = async () => {
 
     wrapper.visible = true;
     hideFrame();
+    showControls();
     setFrameColor('green');
     logEvent('targetFound');
   };
   anchor.onTargetLost = () => {
     wrapper.visible = false;
     showFrame();
+    hideControls();
     setFrameColor('white');
     logEvent('targetLost');
   };

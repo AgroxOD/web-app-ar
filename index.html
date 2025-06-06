@@ -65,49 +65,54 @@
         pointer-events: none;
         z-index: 20;
       }
+
+      #smooth-controls {
+        display: none;
+        margin-top: 10px;
+        color: white;
+        font-family: sans-serif;
+      }
     </style>
   </head>
 
   <body>
     <div id="ar-container"></div>
     <div id="ar-frame"></div>
-    <div id="ar-overlay">
-      <button id="start-btn">Start AR</button>
-      <div style="margin-top: 10px; color: white; font-family: sans-serif">
-        <label>
-          Position smoothing
-          <input
-            type="range"
-            id="pos-smooth"
-            min="0"
-            max="1"
-            step="0.05"
-            value="0.2"
-          />
-        </label>
-        <label style="margin-left: 10px">
-          Rotation smoothing
-          <input
-            type="range"
-            id="rot-smooth"
-            min="0"
-            max="1"
-            step="0.05"
-            value="0.2"
-          />
-        </label>
-        <label style="margin-left: 10px">
-          Scale smoothing
-          <input
-            type="range"
-            id="scale-smooth"
-            min="0"
-            max="1"
-            step="0.05"
-            value="0.2"
-          />
-        </label>
-      </div>
+    <div id="ar-overlay"></div>
+    <div id="smooth-controls">
+      <label>
+        Position smoothing
+        <input
+          type="range"
+          id="pos-smooth"
+          min="0"
+          max="1"
+          step="0.05"
+          value="0.2"
+        />
+      </label>
+      <label style="margin-left: 10px">
+        Rotation smoothing
+        <input
+          type="range"
+          id="rot-smooth"
+          min="0"
+          max="1"
+          step="0.05"
+          value="0.2"
+        />
+      </label>
+      <label style="margin-left: 10px">
+        Scale smoothing
+        <input
+          type="range"
+          id="scale-smooth"
+          min="0"
+          max="1"
+          step="0.05"
+          value="0.2"
+        />
+      </label>
     </div>
     <div id="instructions">
       Вращайте модель мышью или пальцем, используйте колесо/жест для увеличения.
@@ -115,32 +120,26 @@
     <script type="module">
       const overlay = document.getElementById('ar-overlay');
       const instructions = document.getElementById('instructions');
-      document
-        .getElementById('start-btn')
-        .addEventListener('click', async () => {
-          const { startAR, smoothingParams } = await import(
-            './src/ar-scene.js'
-          );
+      const { startAR, smoothingParams } = await import('./src/ar-scene.js');
 
-          const bind = (id, key) => {
-            const el = document.getElementById(id);
-            el.addEventListener('input', (e) => {
-              smoothingParams[key] = parseFloat(e.target.value);
-            });
-          };
-          bind('pos-smooth', 'positionLerp');
-          bind('rot-smooth', 'rotationLerp');
-          bind('scale-smooth', 'scaleLerp');
-
-          const started = await startAR();
-          if (started) {
-            overlay.style.display = 'none';
-            instructions.style.display = 'block';
-            setTimeout(() => {
-              instructions.style.display = 'none';
-            }, 5000);
-          }
+      const bind = (id, key) => {
+        const el = document.getElementById(id);
+        el.addEventListener('input', (e) => {
+          smoothingParams[key] = parseFloat(e.target.value);
         });
+      };
+      bind('pos-smooth', 'positionLerp');
+      bind('rot-smooth', 'rotationLerp');
+      bind('scale-smooth', 'scaleLerp');
+
+      const started = await startAR();
+      if (started) {
+        overlay.style.display = 'none';
+        instructions.style.display = 'block';
+        setTimeout(() => {
+          instructions.style.display = 'none';
+        }, 5000);
+      }
     </script>
   </body>
 </html>
