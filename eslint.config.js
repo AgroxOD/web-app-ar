@@ -1,6 +1,8 @@
+// eslint.config.js
 import js from '@eslint/js';
 import prettierPlugin from 'eslint-plugin-prettier';
 import configPrettier from 'eslint-config-prettier';
+import globals from 'globals';
 
 export default [
   js.configs.recommended,
@@ -10,8 +12,8 @@ export default [
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
-      env: { browser: true },
       globals: {
+        ...globals.browser,
         window: 'readonly',
         document: 'readonly',
         console: 'readonly',
