@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AR AgroMarket</title>
+    <link rel="stylesheet" href="./src/styles/mindar-image-three.prod.css" />
     <style>
       html,
       body {
@@ -61,11 +62,13 @@
     <div id="ar-overlay"><button id="start-btn">Start AR</button></div>
     <script type="module">
       const overlay = document.getElementById('ar-overlay');
-      document.getElementById('start-btn').addEventListener('click', async () => {
-        const { startAR } = await import('./src/ar-scene.js');
-        const started = await startAR();
-        if (started) overlay.style.display = 'none';
-      });
+      document
+        .getElementById('start-btn')
+        .addEventListener('click', async () => {
+          const { startAR } = await import('./src/ar-scene.js');
+          const started = await startAR();
+          if (started) overlay.style.display = 'none';
+        });
     </script>
   </body>
 </html>
