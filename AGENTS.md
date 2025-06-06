@@ -1,7 +1,5 @@
-# AGENTS.md
-
-**Версия:** 0.2  
-**Обновлено:** 03.06.2025
+**Версия:** 0.3  
+**Обновлено:** 04.06.2025
 
 ---
 
@@ -13,6 +11,7 @@
 - [Требования](#требования)
 - [Быстрый старт](#быстрый-старт)
 - [Инструкция по разработке](#инструкция-по-разработке)
+- [Как создать .mind-файл для маркера](#как-создать-mind-файл-для-маркера)
 - [Инструкция по публикации на GitHub Pages](#инструкция-по-публикации-на-github-pages)
 - [VS Code Setup](#vs-code-setup)
 - [Расширение: CRM и MongoDB](#расширение-crm-и-mongodb)
@@ -35,7 +34,6 @@
 - [Three.js](https://threejs.org/) — 3D-графика в браузере
 - [MindAR.js (mindar-image)](https://hiukim.github.io/mind-ar-js-doc/) — AR SDK с marker-based трекингом
 - [pnpm](https://pnpm.io/) — менеджер пакетов
-- [mindar-cli](https://github.com/hiukim/mind-ar-js/tree/main/packages/mindar-cli) — генерация `.mind` таргетов из PNG
 - [Visual Studio Code](https://code.visualstudio.com/) — основная IDE
 - *(В перспективе)* [MongoDB](https://www.mongodb.com/) — хранение пользовательских данных и CRM-метаданных
 - *(Планируется)* [Cloudflare R2](https://www.cloudflare.com/products/r2/) — для хранения `.glb`-моделей
@@ -49,11 +47,11 @@ project-root/
 ├── public/
 │   ├── marker.png         # PNG изображение маркера (можно несколько)
 │   ├── target.mind        # Сгенерированный файл таргета (для каждого маркера свой .mind)
-│   └── assets/            # Прочие ассеты
+│   └── assets/            # Прочие ассеты (3D-модели, изображения)
 ├── src/
 │   ├── main.js            # Точка входа
 │   ├── ar-scene.js        # Инициализация и логика AR
-│   └── utils/             # Вспомогательные функции
+│   └── utils/             # Вспомогательные функции (по необходимости)
 ├── index.html
 ├── vite.config.js
 ├── package.json
@@ -82,8 +80,10 @@ cd <project-name>
 # 2. Установи зависимости
 pnpm install
 
-# 3. Сгенерируй target.mind для своего маркера
-pnpm dlx mindar-cli convert -i public/marker.png -o public/target.mind
+# 3. Сгенерируй target.mind для своего маркера через онлайн-сервис:
+#    3.1 Перейди на https://hiukim.github.io/mind-ar-js-doc/tools/compile/
+#    3.2 Загрузите PNG/JPG маркер
+#    3.3 Скачай target.mind и положи в папку public/
 
 # 4. Запусти проект в режиме разработки
 pnpm dev
@@ -95,15 +95,23 @@ pnpm dev
 
 ## Инструкция по разработке
 
-1. **Создай PNG-маркеры** и помести их в папку `public/`.
-2. Для каждого маркера сгенерируй соответствующий `.mind`-файл:
-   ```bash
-   pnpm dlx mindar-cli convert -i public/my-marker.png -o public/my-target.mind
-   ```
+1. **Создай PNG-маркеры** и положи их в папку `public/`.
+2. **Сгенерируй .mind-файл для каждого маркера через онлайн-сервис:**
+    - Перейди на [MindAR Marker Compiler](https://hiukim.github.io/mind-ar-js-doc/tools/compile/)
+    - Загрузите свой маркер (PNG/JPG)
+    - Скачай target.mind и положи в `public/` (рядом с marker.png)
 3. Добавь новые ассеты (3D-модели, изображения) в `public/assets/`.
 4. Пиши основную логику в `src/ar-scene.js` и точку входа в `src/main.js`.
 5. Настрой кодстайл и автоформатирование (см. [VS Code Setup](#vs-code-setup)).
 6. Для переменных окружения используй `.env` (если потребуется API-ключи).
+
+---
+
+## Как создать .mind-файл для маркера
+
+- Используй официальный онлайн-сервис [MindAR Marker Compiler](https://hiukim.github.io/mind-ar-js-doc/tools/compile/)
+- Загрузите PNG/JPG с маркером
+- Скачай target.mind и положи его в папку `public/` проекта (рядом с marker.png)
 
 ---
 
@@ -187,6 +195,7 @@ pnpm dev
 ## Ссылки
 
 - [Документация MindAR.js](https://hiukim.github.io/mind-ar-js-doc/)
+- [MindAR Marker Compiler (онлайн-конвертер)](https://hiukim.github.io/mind-ar-js-doc/tools/compile/)
 - [MindAR Examples](https://github.com/hiukim/mind-ar-js/tree/main/examples)
 - [Three.js Docs](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene)
 - [Vite Docs](https://vitejs.dev/guide/)

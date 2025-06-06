@@ -49,7 +49,6 @@ project-root/
 git clone <repo-url>
 cd <project-name>
 pnpm install
-pnpm dlx mindar-cli convert -i public/marker.png -o public/target.mind
 pnpm dev
 ```
 
