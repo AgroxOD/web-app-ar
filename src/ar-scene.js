@@ -14,7 +14,7 @@ function setFrameColor(color) {
 const init = async () => {
   const base = import.meta.env.BASE_URL;
   const mindarThree = new MindARThree({
-    container: document.body,
+    container: document.querySelector('#ar-container'),
     imageTargetSrc: `${base}target.mind`,
   });
 
