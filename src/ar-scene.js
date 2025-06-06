@@ -48,11 +48,9 @@ export const startAR = async () => {
 
   anchor.onTargetFound = () => {
     model.visible = true;
-    setFrameColor('limegreen');
   };
   anchor.onTargetLost = () => {
     model.visible = false;
-    setFrameColor('white');
   };
 
   try {
