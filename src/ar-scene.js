@@ -22,12 +22,21 @@ const init = async () => {
   if ('outputColorSpace' in renderer)
     renderer.outputColorSpace = THREE.SRGBColorSpace;
 
+  // Основные константы для настройки освещения и модели
+  const LIGHT_INTENSITY = 1; // при необходимости измените яркость света
+  const MODEL_SCALE = 0.5; // общий масштаб 3D-модели
+
+  // Базовое освещение сцены
+  const light = new THREE.HemisphereLight(0xffffff, 0x444444, LIGHT_INTENSITY);
+  scene.add(light);
+
   // Загрузка модели
   const loader = new GLTFLoader();
   let model;
   try {
     const gltf = await loader.loadAsync(`${base}assets/model.glb`);
     model = gltf.scene;
+    model.scale.set(MODEL_SCALE, MODEL_SCALE, MODEL_SCALE);
   } catch (e) {
     alert('Ошибка загрузки 3D-модели!');
     return;
