@@ -29,7 +29,7 @@ function hideFrame() {
 }
 
 // Инициализация AR-сцены вызывается по нажатию кнопки
-export const startAR = async ({ lockOnTarget = false } = {}) => {
+export const startAR = async () => {
   if (!navigator.mediaDevices?.getUserMedia || !window.WebGLRenderingContext) {
     alert('Ваш браузер не поддерживает AR');
     return false;
@@ -95,7 +95,6 @@ export const startAR = async ({ lockOnTarget = false } = {}) => {
 
   // Якорь для маркера
   const anchor = mindarThree.addAnchor(0);
-  let anchorLocked = false;
 
   anchor.onTargetFound = () => {
     anchor.group.getWorldPosition(targetPosition);
@@ -109,15 +108,12 @@ export const startAR = async ({ lockOnTarget = false } = {}) => {
     wrapper.visible = true;
     hideFrame();
     setFrameColor('green');
-    if (lockOnTarget) anchorLocked = true;
     logEvent('targetFound');
   };
   anchor.onTargetLost = () => {
-    if (!anchorLocked) {
-      wrapper.visible = false;
-      showFrame();
-      setFrameColor('white');
-    }
+    wrapper.visible = false;
+    showFrame();
+    setFrameColor('white');
     logEvent('targetLost');
   };
 
@@ -126,7 +122,6 @@ export const startAR = async ({ lockOnTarget = false } = {}) => {
   const targetQuaternion = new THREE.Quaternion();
   const targetScale = new THREE.Vector3();
   anchor.onTargetUpdate = () => {
-    if (anchorLocked) return;
     anchor.group.getWorldPosition(targetPosition);
     anchor.group.getWorldQuaternion(targetQuaternion);
     anchor.group.getWorldScale(targetScale);
