@@ -71,16 +71,25 @@
   <body>
     <div id="ar-container"></div>
     <div id="ar-frame"></div>
-    <div id="ar-overlay"><button id="start-btn">Start AR</button></div>
-    <div id="instructions">Вращайте модель мышью или пальцем, используйте колесо/жест для увеличения.</div>
+    <div id="ar-overlay">
+      <button id="start-btn">Start AR</button>
+      <label style="color: white; font-family: sans-serif; margin-left: 10px">
+        <input type="checkbox" id="lock-toggle" />
+        Lock placement
+      </label>
+    </div>
+    <div id="instructions">
+      Вращайте модель мышью или пальцем, используйте колесо/жест для увеличения.
+    </div>
     <script type="module">
       const overlay = document.getElementById('ar-overlay');
       const instructions = document.getElementById('instructions');
+      const lockToggle = document.getElementById('lock-toggle');
       document
         .getElementById('start-btn')
         .addEventListener('click', async () => {
           const { startAR } = await import('./src/ar-scene.js');
-          const started = await startAR();
+          const started = await startAR({ lockOnTarget: lockToggle.checked });
           if (started) {
             overlay.style.display = 'none';
             instructions.style.display = 'block';
