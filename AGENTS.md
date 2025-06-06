@@ -63,7 +63,7 @@ project-root/
 ## Требования
 
 - **Node.js**: 18.x или новее
-- **pnpm**: 8.x или новее
+- **pnpm**: 9.x или новее
 - В репозитории хранится `pnpm-lock.yaml`; `package-lock.json` не используется.
 - **Современный браузер** (Chrome, Edge, Firefox)
 - Рекомендуется: аккаунт на [GitHub](https://github.com/) для деплоя
