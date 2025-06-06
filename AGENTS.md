@@ -146,16 +146,19 @@ pnpm dev
    git --work-tree dist add --all
    git --work-tree dist commit -m 'Deploy'
    git push origin gh-pages --force
-   git checkout main
-   ```
+   git clean -fd      # remove untracked files (dist, etc.)
+  git checkout main
+  ```
 
-   > ⚠️ **Важно**: Значение `base` должно совпадать с названием репозитория на GitHub!
+> ⚠️ **Важно**: Значение `base` должно совпадать с названием репозитория на GitHub!
+
+Без очистки рабочее дерево сохранит файлы из `gh-pages`, что может привести к ошибке при переключении на `main`.
 
 4. (Опционально) Настрой [GitHub Actions](https://docs.github.com/ru/actions) для автоматического деплоя.
 
 5. Возможные проблемы:
-   - Проверь корректность путей в `index.html`
-   - Для AR-функций нужно HTTPS (GitHub Pages поддерживает)
+- Проверь корректность путей в `index.html`
+- Для AR-функций нужно HTTPS (GitHub Pages поддерживает)
 
 ---
 
@@ -163,19 +166,20 @@ pnpm dev
 ## Настройка VS Code
 
 - Установи расширения:
-  - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-  - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-  - [Vite](https://marketplace.visualstudio.com/items?itemName=antfu.vite)
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- [Vite](https://marketplace.visualstudio.com/items?itemName=antfu.vite)
 - Конфигурация ESLint использует flat config (`eslint.config.js`) с интеграцией Prettier; здесь же объявлены глобальные переменные `window`, `document` и `alert`.
 - Рекомендуемые настройки (`.vscode/settings.json`):
-  ```json
-  {
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
-    }
-  }
-  ```
+```json
+{
+"editor.formatOnSave": true,
+"editor.codeActionsOnSave": {
+"source.fixAll.eslint": true
+}
+}
+```
+
 - Работа через встроенный терминал (`pnpm dev`).
 - (Опционально) Настрой `.vscode/tasks.json` для автоматизации задач.
 
