@@ -1,8 +1,16 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MindARThree } from 'mind-ar/dist/mindar-image-three.prod.js';
 import './styles/mindar-image-three.prod.css';
 import { logEvent } from './utils/analytics.js';
+
+// Параметры сглаживания движения модели
+export const smoothingParams = {
+  positionLerp: 0.2,
+  rotationLerp: 0.2,
+  scaleLerp: 0.2,
+};
 
 // Управление цветом рамки
 function setFrameColor(color) {
@@ -21,7 +29,7 @@ function hideFrame() {
 }
 
 // Инициализация AR-сцены вызывается по нажатию кнопки
-export const startAR = async () => {
+export const startAR = async ({ lockOnTarget = false } = {}) => {
   if (!navigator.mediaDevices?.getUserMedia || !window.WebGLRenderingContext) {
     alert('Ваш браузер не поддерживает AR');
     return false;
@@ -74,28 +82,93 @@ export const startAR = async () => {
     return false;
   }
 
-  // Якорь для маркера, модель видна только по маркеру
+  // Группа-обёртка для плавного следования за якорем
+  const wrapper = new THREE.Group();
+  wrapper.add(model);
+  scene.add(wrapper);
+  wrapper.visible = false;
+
+  // Управление камерой
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enablePan = false;
+  controls.enableDamping = true;
+
+  // Якорь для маркера
   const anchor = mindarThree.addAnchor(0);
-  anchor.group.add(model);
-  model.visible = false;
+  let anchorLocked = false;
 
   anchor.onTargetFound = () => {
-    model.visible = true;
+    anchor.group.getWorldPosition(targetPosition);
+    anchor.group.getWorldQuaternion(targetQuaternion);
+    anchor.group.getWorldScale(targetScale);
+
+    wrapper.position.copy(targetPosition);
+    wrapper.quaternion.copy(targetQuaternion);
+    wrapper.scale.copy(targetScale);
+
+    wrapper.visible = true;
     hideFrame();
     setFrameColor('green');
+    if (lockOnTarget) anchorLocked = true;
     logEvent('targetFound');
   };
   anchor.onTargetLost = () => {
-    model.visible = false;
-    showFrame();
-    setFrameColor('white');
+    if (!anchorLocked) {
+      wrapper.visible = false;
+      showFrame();
+      setFrameColor('white');
+    }
     logEvent('targetLost');
+  };
+
+  // Плавное следование за якорем
+  const targetPosition = new THREE.Vector3();
+  const targetQuaternion = new THREE.Quaternion();
+  const targetScale = new THREE.Vector3();
+  anchor.onTargetUpdate = () => {
+    if (anchorLocked) return;
+    anchor.group.getWorldPosition(targetPosition);
+    anchor.group.getWorldQuaternion(targetQuaternion);
+    anchor.group.getWorldScale(targetScale);
+
+    wrapper.position.lerp(targetPosition, smoothingParams.positionLerp);
+    wrapper.quaternion.slerp(targetQuaternion, smoothingParams.rotationLerp);
+    wrapper.scale.lerp(targetScale, smoothingParams.scaleLerp);
   };
 
   try {
     await mindarThree.start();
     showFrame();
     setFrameColor('white');
+    // Создаём скрытый canvas для оценки яркости кадра
+    const video = mindarThree.video;
+    const lumCanvas = document.createElement('canvas');
+    lumCanvas.width = video.videoWidth;
+    lumCanvas.height = video.videoHeight;
+    lumCanvas.style.display = 'none';
+    document.body.appendChild(lumCanvas);
+    const lumCtx = lumCanvas.getContext('2d');
+
+    const minIntensity = 0.5;
+    const maxIntensity = 1.5;
+
+    const updateLight = () => {
+      lumCtx.drawImage(video, 0, 0, lumCanvas.width, lumCanvas.height);
+      const { data } = lumCtx.getImageData(
+        0,
+        0,
+        lumCanvas.width,
+        lumCanvas.height,
+      );
+      let sum = 0;
+      for (let i = 0; i < data.length; i += 4) {
+        sum += data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114;
+      }
+      const avg = sum / (data.length / 4) / 255;
+      light.intensity = THREE.MathUtils.lerp(minIntensity, maxIntensity, avg);
+    };
+
+    setInterval(updateLight, 500);
   } catch (e) {
     alert(
       'Не удалось инициализировать камеру. Проверьте разрешения и перезагрузите страницу.',
@@ -103,6 +176,10 @@ export const startAR = async () => {
     logEvent('sessionError', { message: e?.message });
     return false;
   }
-  renderer.setAnimationLoop(() => renderer.render(scene, camera));
+  renderer.setAnimationLoop(() => {
+    controls.target.copy(wrapper.position);
+    controls.update();
+    renderer.render(scene, camera);
+  });
   return true;
 };
