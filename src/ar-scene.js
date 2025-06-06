@@ -4,6 +4,13 @@ import { MindARThree } from 'mind-ar/dist/mindar-image-three.prod.js';
 import './styles/mindar-image-three.prod.css';
 import { logEvent } from './utils/analytics.js';
 
+// Параметры сглаживания движения модели
+export const smoothingParams = {
+  positionLerp: 0.2,
+  rotationLerp: 0.2,
+  scaleLerp: 0.2,
+};
+
 // Управление цветом рамки
 function setFrameColor(color) {
   const frame = document.getElementById('ar-frame');
@@ -74,22 +81,40 @@ export const startAR = async () => {
     return false;
   }
 
-  // Якорь для маркера, модель видна только по маркеру
+  // Группа-обёртка для плавного следования за якорем
+  const wrapper = new THREE.Group();
+  wrapper.add(model);
+  scene.add(wrapper);
+  wrapper.visible = false;
+
+  // Якорь для маркера
   const anchor = mindarThree.addAnchor(0);
-  anchor.group.add(model);
-  model.visible = false;
 
   anchor.onTargetFound = () => {
-    model.visible = true;
+    wrapper.visible = true;
     hideFrame();
     setFrameColor('green');
     logEvent('targetFound');
   };
   anchor.onTargetLost = () => {
-    model.visible = false;
+    wrapper.visible = false;
     showFrame();
     setFrameColor('white');
     logEvent('targetLost');
+  };
+
+  // Плавное следование за якорем
+  const targetPosition = new THREE.Vector3();
+  const targetQuaternion = new THREE.Quaternion();
+  const targetScale = new THREE.Vector3();
+  anchor.onTargetUpdate = () => {
+    anchor.group.getWorldPosition(targetPosition);
+    anchor.group.getWorldQuaternion(targetQuaternion);
+    anchor.group.getWorldScale(targetScale);
+
+    wrapper.position.lerp(targetPosition, smoothingParams.positionLerp);
+    wrapper.quaternion.slerp(targetQuaternion, smoothingParams.rotationLerp);
+    wrapper.scale.lerp(targetScale, smoothingParams.scaleLerp);
   };
 
   try {
