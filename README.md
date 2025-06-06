@@ -62,7 +62,7 @@ pnpm format # автоформатирование
 
 Этот проект использует **pnpm** как менеджер пакетов. В репозитории хранится `pnpm-lock.yaml`; файл `package-lock.json` не используется.
 
-Открой [http://localhost:5173/web-app-ar/](http://localhost:5173/web-app-ar/) в браузере.
+Открой [http://localhost:5173/web-app-ar/](http://localhost:5173/web-app-ar/) в браузере и нажми кнопку **Start AR**, чтобы загрузить сцену.
 
 Если планируется отправка аналитики, создай файл `.env` и укажи переменную `VITE_ANALYTICS_ENDPOINT` со ссылкой на свой сервер.
 

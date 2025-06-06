@@ -63,8 +63,8 @@
       const overlay = document.getElementById('ar-overlay');
       document.getElementById('start-btn').addEventListener('click', async () => {
         const { startAR } = await import('./src/ar-scene.js');
-        startAR();
-        overlay.style.display = 'none';
+        const started = await startAR();
+        if (started) overlay.style.display = 'none';
       });
     </script>
   </body>
