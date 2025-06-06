@@ -19,7 +19,8 @@ const init = async () => {
   });
 
   const { renderer, scene, camera } = mindarThree;
-  if ('outputColorSpace' in renderer) renderer.outputColorSpace = THREE.SRGBColorSpace;
+  if ('outputColorSpace' in renderer)
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
 
   // Загрузка модели
   const loader = new GLTFLoader();
@@ -50,7 +51,7 @@ const init = async () => {
     await mindarThree.start();
   } catch (e) {
     alert(
-      'Не удалось инициализировать камеру. Проверьте разрешения и перезагрузите страницу.'
+      'Не удалось инициализировать камеру. Проверьте разрешения и перезагрузите страницу.',
     );
     return;
   }

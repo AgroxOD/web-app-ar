@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-    base: "/web-app-ar/",
+  base: '/web-app-ar/',
 });

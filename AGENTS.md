@@ -35,8 +35,8 @@
 - [MindAR.js (mindar-image)](https://hiukim.github.io/mind-ar-js-doc/) — AR SDK с marker-based трекингом
 - [pnpm](https://pnpm.io/) — менеджер пакетов
 - [Visual Studio Code](https://code.visualstudio.com/) — основная IDE
-- *(В перспективе)* [MongoDB](https://www.mongodb.com/) — хранение пользовательских данных и CRM-метаданных
-- *(Планируется)* [Cloudflare R2](https://www.cloudflare.com/products/r2/) — для хранения `.glb`-моделей
+- _(В перспективе)_ [MongoDB](https://www.mongodb.com/) — хранение пользовательских данных и CRM-метаданных
+- _(Планируется)_ [Cloudflare R2](https://www.cloudflare.com/products/r2/) — для хранения `.glb`-моделей
 
 ---
 
@@ -65,8 +65,8 @@ project-root/
 - **pnpm**: 8.x или новее
 - В репозитории хранится `pnpm-lock.yaml`; `package-lock.json` не используется.
 - **Современный браузер** (Chrome, Edge, Firefox)
-- Рекомендуется: аккаунт на [GitHub](https://github.com/) для деплоя  
-- *(Планируется)*: доступ к MongoDB Atlas или своему серверу MongoDB
+- Рекомендуется: аккаунт на [GitHub](https://github.com/) для деплоя
+- _(Планируется)_: доступ к MongoDB Atlas или своему серверу MongoDB
 
 ---
 
@@ -97,9 +97,9 @@ pnpm dev
 
 1. **Создай PNG-маркеры** и положи их в папку `public/`.
 2. **Сгенерируй .mind-файл для каждого маркера через онлайн-сервис:**
-    - Перейди на [MindAR Marker Compiler](https://hiukim.github.io/mind-ar-js-doc/tools/compile/)
-    - Загрузите свой маркер (PNG/JPG)
-    - Скачай target.mind и положи в `public/` (рядом с marker.png)
+   - Перейди на [MindAR Marker Compiler](https://hiukim.github.io/mind-ar-js-doc/tools/compile/)
+   - Загрузите свой маркер (PNG/JPG)
+   - Скачай target.mind и положи в `public/` (рядом с marker.png)
 3. Добавь новые ассеты (3D-модели, изображения) в `public/assets/`.
 4. Пиши основную логику в `src/ar-scene.js`; все ассеты загружаются из `public/`.
 5. Настрой кодстайл и автоформатирование (см. [VS Code Setup](#vs-code-setup)).
@@ -118,25 +118,29 @@ pnpm dev
 ## Инструкция по публикации на GitHub Pages
 
 1. В `vite.config.js` укажи:
-    ```js
-    export default defineConfig({
-      base: "/web-app-ar/",
-      plugins: [ /* ... */ ]
-    });
-    ```
+   ```js
+   export default defineConfig({
+     base: '/web-app-ar/',
+     plugins: [
+       /* ... */
+     ],
+   });
+   ```
 2. Выполни сборку:
-    ```bash
-    pnpm build
-    ```
+   ```bash
+   pnpm build
+   ```
 3. Запушь содержимое папки `dist/` в ветку `gh-pages`:
-    ```bash
-    git checkout --orphan gh-pages
-    git --work-tree dist add --all
-    git --work-tree dist commit -m 'Deploy'
-    git push origin gh-pages --force
-    git checkout main
-    ```
-    > ⚠️ **Важно**: Путь в `base` должен совпадать с названием репозитория!
+
+   ```bash
+   git checkout --orphan gh-pages
+   git --work-tree dist add --all
+   git --work-tree dist commit -m 'Deploy'
+   git push origin gh-pages --force
+   git checkout main
+   ```
+
+   > ⚠️ **Важно**: Путь в `base` должен совпадать с названием репозитория!
 
 4. (Опционально) Настрой [GitHub Actions](https://docs.github.com/ru/actions) для автоматического деплоя.
 
@@ -153,14 +157,14 @@ pnpm dev
   - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
   - [Vite](https://marketplace.visualstudio.com/items?itemName=antfu.vite)
 - Рекомендуемые настройки (`.vscode/settings.json`):
-    ```json
-    {
-      "editor.formatOnSave": true,
-      "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
-      }
+  ```json
+  {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
     }
-    ```
+  }
+  ```
 - Работа через встроенный терминал (`pnpm dev`).
 - (Опционально) Настрой `.vscode/tasks.json` для автоматизации задач.
 
@@ -183,11 +187,11 @@ pnpm dev
 
 ## Статус и дорожная карта
 
-- [x] Локальная разработка  
-- [x] Совместимость с GitHub Pages  
-- [ ] Интеграция с MongoDB  
-- [ ] Аналитика и логи по маркерам  
-- [ ] Интеграция с Cloudflare R2  
+- [x] Локальная разработка
+- [x] Совместимость с GitHub Pages
+- [ ] Интеграция с MongoDB
+- [ ] Аналитика и логи по маркерам
+- [ ] Интеграция с Cloudflare R2
 - [ ] Расширение до production-ready CRM
 
 ---

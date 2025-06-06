@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint \"**/*.{js,html}\" --ignore-pattern node_modules/",
+    "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/",
     "format": "prettier --write \"**/*.{js,css,html,json,md}\""
   },
   "dependencies": {

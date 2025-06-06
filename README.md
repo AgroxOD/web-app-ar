@@ -20,7 +20,7 @@
 - [MindAR.js](https://hiukim.github.io/mind-ar-js-doc/) — AR SDK для маркеров
 - [pnpm](https://pnpm.io/) — менеджер пакетов
 - [mindar-cli](https://github.com/hiukim/mind-ar-js/tree/main/packages/mindar-cli) — генерация `.mind` файлов из PNG-маркеров
-- *(опционально)* [MongoDB Atlas](https://www.mongodb.com/atlas), [Cloudflare R2](https://www.cloudflare.com/products/r2/)
+- _(опционально)_ [MongoDB Atlas](https://www.mongodb.com/atlas), [Cloudflare R2](https://www.cloudflare.com/products/r2/)
 
 ---
 
@@ -64,17 +64,19 @@ pnpm format # автоформатирование
 ## 📝 Публикация на GitHub Pages
 
 1. Проверь базовый путь в `vite.config.js`:
-    ```js
-    export default defineConfig({
-      base: "/<repo-name>/",
-      plugins: [/* ... */]
-    });
-    ```
+   ```js
+   export default defineConfig({
+     base: '/<repo-name>/',
+     plugins: [
+       /* ... */
+     ],
+   });
+   ```
 2. Сборка и деплой:
-    ```bash
-    pnpm build
-    # Затем залей содержимое папки dist/ в ветку gh-pages (см. AGENTS.md для подробностей)
-    ```
+   ```bash
+   pnpm build
+   # Затем залей содержимое папки dist/ в ветку gh-pages (см. AGENTS.md для подробностей)
+   ```
 3. Рекомендуется автоматизировать деплой через GitHub Actions.
 
 ---
@@ -103,17 +105,17 @@ pnpm format # автоформатирование
 
 ## ✅ Статус
 
-- [x] Локальная разработка  
-- [x] GitHub Pages  
-- [ ] Интеграция с MongoDB  
-- [ ] Cloudflare R2  
+- [x] Локальная разработка
+- [x] GitHub Pages
+- [ ] Интеграция с MongoDB
+- [ ] Cloudflare R2
 - [ ] Production-ready CRM
 
 ---
+
 ## 📝 Лицензия
 
 Распространяется по [лицензии MIT](./LICENSE).
-
 
 ## 📚 Полезные ссылки
 
