@@ -10,7 +10,6 @@
   "dependencies": {
     "mind-ar": "^1.2.5",
     "three": "^0.152.2",
-    "vite": "^5.4.19",
-    "web-app-ar": "file:"
+    "vite": "^5.4.19"
   }
 }

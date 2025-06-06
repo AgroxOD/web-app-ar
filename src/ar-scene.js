@@ -9,9 +9,10 @@ function setFrameColor(color) {
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
+  const base = import.meta.env.BASE_URL;
   const mindarThree = new MindARThree({
     container: document.body,
-    imageTargetSrc: '/web-app-ar/target.mind',
+    imageTargetSrc: `${base}target.mind`,
   });
 
   const { renderer, scene, camera } = mindarThree;
@@ -21,7 +22,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   const loader = new GLTFLoader();
   let model;
   try {
-    const gltf = await loader.loadAsync('/web-app-ar/assets/model.glb');
+    const gltf = await loader.loadAsync(`${base}assets/model.glb`);
     model = gltf.scene;
   } catch (e) {
     alert('Ошибка загрузки 3D-модели!');
