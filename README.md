@@ -2,7 +2,7 @@
 
 **Современный шаблон AR-веб-приложения на MindAR.js и Three.js с деплоем на GitHub Pages и перспективой CRM-интеграции.**
 
-![MindAR Example]((https://agroxod.github.io/web-app-ar/index.html))
+![MindAR Example](https://agroxod.github.io/web-app-ar/)
 
 ---
 
