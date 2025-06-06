@@ -49,6 +49,8 @@ git clone <repo-url>
 cd <project-name>
 pnpm install
 pnpm dev
+pnpm lint # проверка стиля
+pnpm format # автоформатирование
 ```
 
 Этот проект использует **pnpm** как менеджер пакетов. В репозитории хранится `pnpm-lock.yaml`; файл `package-lock.json` не используется.
@@ -83,6 +85,11 @@ pnpm dev
 - Каждый маркер требует свой `.mind`-файл (генерируй через mindar-cli)
 - Основная логика находится в `src/ar-scene.js`, ассеты загружаются из `public/`
 - Рекомендуемые расширения VS Code: ESLint, Prettier, Vite
+- Для проверки кода и автоформатирования используй:
+  ```bash
+  pnpm lint
+  pnpm format
+  ```
 
 ---
 
