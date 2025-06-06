@@ -33,7 +33,6 @@ project-root/
 │   ├── target.mind
 │   └── assets/
 ├── src/
-│   ├── main.js
 │   ├── ar-scene.js
 │   └── utils/
 ├── index.html
@@ -78,7 +77,7 @@ pnpm dev
 
 - PNG-маркеры хранятся в `public/`
 - Каждый маркер требует свой `.mind`-файл (генерируй через mindar-cli)
-- Основная логика — в `src/ar-scene.js` и `src/main.js`
+- Основная логика находится в `src/ar-scene.js`, ассеты загружаются из `public/`
 - Рекомендуемые расширения VS Code: ESLint, Prettier, Vite
 
 ---
