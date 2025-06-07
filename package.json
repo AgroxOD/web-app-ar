@@ -9,12 +9,16 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint .",
-    "format": "prettier --write \"**/*.{js,css,html,json,md}\""
+    "format": "prettier --write \"**/*.{js,css,html,json,md}\"",
+    "api": "node server.js"
   },
   "dependencies": {
     "mind-ar": "^1.2.5",
     "three": "0.152.2",
-    "vite": "5.4.19"
+    "vite": "5.4.19",
+    "express": "^4.19.2",
+    "mongoose": "^8.3.0",
+    "@aws-sdk/client-s3": "^3.548.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",

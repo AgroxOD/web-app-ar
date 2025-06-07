@@ -108,6 +108,12 @@ pnpm format # автоформатирование
 - Рекомендуемые расширения VS Code: ESLint, Prettier, Vite
 - Для проверки кода и автоформатирования используй:
 
+### Сервер API
+
+- Файл `server.js` запускает API на Express с MongoDB
+- Модели доступны по `GET /api/models`
+- Запусти сервер командой `pnpm api`
+
 ```bash
 pnpm lint
 pnpm format
