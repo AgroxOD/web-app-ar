@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { MindARThree } from 'mind-ar/dist/mindar-image-three.prod.js';
-import './styles/mindar-image-three.prod.css';
 import { logEvent } from './utils/analytics.js';
 import { showControls, hideControls } from './utils/ui.js';
 
