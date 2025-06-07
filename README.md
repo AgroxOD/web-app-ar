@@ -123,7 +123,8 @@ pnpm install
 ```
 
 В `.gitattributes` указано `pnpm-lock.yaml merge=ours`, поэтому при слияниях используется локальный lockfile.
-Дополнительно можно применить утилиту [`@pnpm/merge-lockfile-changes`](https://github.com/pnpm/merge-lockfile-changes).
+Установи [`@pnpm/merge-lockfile-changes`](https://github.com/pnpm/merge-lockfile-changes) командой `pnpm add -D @pnpm/merge-lockfile-changes`.
+При конфликте lockfile выполни `npx @pnpm/merge-lockfile-changes` для автоматического слияния.
 
 ### Добавление нового AR-маркера
 
