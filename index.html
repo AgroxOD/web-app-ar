@@ -84,7 +84,9 @@
   <body>
     <div id="ar-container"></div>
     <div id="ar-frame"></div>
-    <div id="ar-overlay"></div>
+    <div id="ar-overlay">
+      <button id="start-ar">Start AR</button>
+    </div>
     <div id="model-controls">
       <label>
         Поворот Y
@@ -96,10 +98,12 @@
       </label>
     </div>
     <div id="instructions">
-      После распознавания маркера появятся ползунки для поворота и масштабирования модели.
+      После распознавания маркера появятся ползунки для поворота и
+      масштабирования модели.
     </div>
     <script type="module">
       const overlay = document.getElementById('ar-overlay');
+      const startButton = document.getElementById('start-ar');
       const instructions = document.getElementById('instructions');
       const { startAR, modelParams } = await import('./src/ar-scene.js');
 
@@ -111,15 +115,16 @@
       };
       bind('rot-y', 'rotationY');
       bind('scale', 'scale');
-
-      const started = await startAR();
-      if (started) {
-        overlay.style.display = 'none';
-        instructions.style.display = 'block';
-        setTimeout(() => {
-          instructions.style.display = 'none';
-        }, 5000);
-      }
+      startButton.addEventListener('click', async () => {
+        const started = await startAR();
+        if (started) {
+          overlay.style.display = 'none';
+          instructions.style.display = 'block';
+          setTimeout(() => {
+            instructions.style.display = 'none';
+          }, 5000);
+        }
+      });
     </script>
   </body>
 </html>
