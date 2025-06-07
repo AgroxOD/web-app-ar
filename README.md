@@ -112,6 +112,19 @@ pnpm lint
 pnpm format
 ```
 
+### Обновление локальной ветки
+
+```bash
+git checkout main
+git fetch origin
+git rebase origin/main
+pnpm install
+```
+
+Если в `pnpm-lock.yaml` возникают конфликты, их можно автоматически
+разрешать через `.gitattributes` и утилиту
+[`@pnpm/merge-lockfile-changes`](https://github.com/pnpm/merge-lockfile-changes).
+
 ### Добавление нового AR-маркера
 
 1. Подготовь изображение маркера в формате PNG или JPG и скопируй его в папку `public/` с уникальным именем.
