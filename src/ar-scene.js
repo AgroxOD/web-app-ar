@@ -61,9 +61,11 @@ export const startAR = async () => {
   const light = new THREE.HemisphereLight(0xffffff, 0x444444, LIGHT_INTENSITY);
   scene.add(light);
 
-  // Загрузка модели. Можно указать внешний URL через VITE_MODEL_URL
+  // Загрузка модели. Приоритет: параметр ?model=URL, затем VITE_MODEL_URL
   const loader = new GLTFLoader();
-  const modelUrl = import.meta.env.VITE_MODEL_URL || `${base}assets/model.glb`;
+  const urlParam = new URLSearchParams(window.location.search).get('model');
+  const modelUrl =
+    urlParam || import.meta.env.VITE_MODEL_URL || `${base}assets/model.glb`;
   let model;
   try {
     const gltf = await loader.loadAsync(modelUrl);
