@@ -108,6 +108,30 @@ pnpm format # автоформатирование
 - Рекомендуемые расширения VS Code: ESLint, Prettier, Vite
 - Для проверки кода и автоформатирования используй:
 
+### Настройка MongoDB
+
+1. Задай переменную окружения `MONGO_URL` со строкой подключения к MongoDB.
+   - Linux/macOS:
+     ```bash
+     export MONGO_URL="mongodb://localhost:27017"
+     ```
+   - Windows PowerShell:
+     ```powershell
+     $env:MONGO_URL="mongodb://localhost:27017"
+     ```
+2. Создай базу `ar` и коллекцию `models` через `mongosh`:
+   ```bash
+   mongosh
+   > use ar
+   > db.createCollection("models")
+   > db.models.insertOne({ name: "demo", url: "model.glb" })
+   ```
+3. Запусти сервер:
+   ```bash
+   pnpm api
+   ```
+   После старта страница `public/admin.html` позволит просматривать каталог.
+
 ### Сервер API
 
 - Файл `server.js` запускает API на Express с MongoDB
