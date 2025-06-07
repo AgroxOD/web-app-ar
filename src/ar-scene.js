@@ -6,6 +6,9 @@ import { showControls, hideControls } from './utils/ui.js';
 
 let mindarThreeInstance;
 let lightInterval;
+// Canvas для оценки яркости кадра сохраняется на уровне модуля,
+// чтобы корректно очищаться при остановке AR
+let lumCanvas;
 
 export const modelParams = {
   rotationY: 0,
@@ -110,7 +113,7 @@ export const startAR = async () => {
     setFrameColor('white');
     // Создаём скрытый canvas для оценки яркости кадра
     const video = mindarThree.video;
-    const lumCanvas = document.createElement('canvas');
+    lumCanvas = document.createElement('canvas');
     lumCanvas.width = video.videoWidth;
     lumCanvas.height = video.videoHeight;
     lumCanvas.style.display = 'none';
@@ -160,5 +163,9 @@ export const stopAR = () => {
   if (mindarThreeInstance) {
     mindarThreeInstance.stop();
     mindarThreeInstance = undefined;
+  }
+  if (lumCanvas) {
+    lumCanvas.remove();
+    lumCanvas = undefined;
   }
 };
