@@ -4,6 +4,9 @@ import { MindARThree } from 'mind-ar/dist/mindar-image-three.prod.js';
 import { logEvent } from './utils/analytics.js';
 import { showControls, hideControls } from './utils/ui.js';
 
+let mindarThreeInstance;
+let lightInterval;
+
 export const modelParams = {
   rotationY: 0,
   scale: 1,
@@ -40,6 +43,8 @@ export const startAR = async () => {
     filterBeta: 0.01,
     missTolerance: 10,
   });
+
+  mindarThreeInstance = mindarThree;
 
   const { renderer, scene, camera } = mindarThree;
   if ('outputColorSpace' in renderer)
@@ -130,7 +135,7 @@ export const startAR = async () => {
       light.intensity = THREE.MathUtils.lerp(minIntensity, maxIntensity, avg);
     };
 
-    setInterval(updateLight, 500);
+    lightInterval = setInterval(updateLight, 500);
   } catch (e) {
     alert(
       'Не удалось инициализировать камеру. Проверьте разрешения и перезагрузите страницу.',
@@ -144,4 +149,15 @@ export const startAR = async () => {
     renderer.render(scene, camera);
   });
   return true;
+};
+
+export const stopAR = () => {
+  if (lightInterval) {
+    clearInterval(lightInterval);
+    lightInterval = undefined;
+  }
+  if (mindarThreeInstance) {
+    mindarThreeInstance.stop();
+    mindarThreeInstance = undefined;
+  }
 };
