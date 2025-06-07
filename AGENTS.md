@@ -66,6 +66,7 @@ project-root/
 - **pnpm**: 9.x или новее
 - В репозитории хранится `pnpm-lock.yaml`; `package-lock.json` не используется.
 - В `.gitattributes` указано `pnpm-lock.yaml merge=ours`, локальный lockfile сохраняется при слияниях.
+- При конфликте lockfile установи утилиту `@pnpm/merge-lockfile-changes` командой `pnpm add -D @pnpm/merge-lockfile-changes` и запусти `npx @pnpm/merge-lockfile-changes`.
 - **Современный браузер** (Chrome, Edge, Firefox)
 - Рекомендуется: аккаунт на [GitHub](https://github.com/) для деплоя
 - _(Планируется)_: доступ к MongoDB Atlas или своему серверу MongoDB
