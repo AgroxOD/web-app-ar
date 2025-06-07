@@ -62,6 +62,7 @@ pnpm format # автоформатирование
 ```
 
 Этот проект использует **pnpm** как менеджер пакетов. В репозитории хранится `pnpm-lock.yaml`; файл `package-lock.json` не используется.
+В `.gitattributes` прописано `pnpm-lock.yaml merge=ours`, поэтому при слияниях предпочтение отдаётся локальному lockfile.
 
 Открой [http://localhost:5173/web-app-ar/](http://localhost:5173/web-app-ar/) в браузере и нажми кнопку **Start AR**, чтобы загрузить сцену.
 
@@ -121,9 +122,8 @@ git rebase origin/main
 pnpm install
 ```
 
-Если в `pnpm-lock.yaml` возникают конфликты, их можно автоматически
-разрешать через `.gitattributes` и утилиту
-[`@pnpm/merge-lockfile-changes`](https://github.com/pnpm/merge-lockfile-changes).
+В `.gitattributes` указано `pnpm-lock.yaml merge=ours`, поэтому при слияниях используется локальный lockfile.
+Дополнительно можно применить утилиту [`@pnpm/merge-lockfile-changes`](https://github.com/pnpm/merge-lockfile-changes).
 
 ### Добавление нового AR-маркера
 

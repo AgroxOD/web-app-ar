@@ -65,6 +65,7 @@ project-root/
 - **Node.js**: 18.x или новее
 - **pnpm**: 9.x или новее
 - В репозитории хранится `pnpm-lock.yaml`; `package-lock.json` не используется.
+- В `.gitattributes` указано `pnpm-lock.yaml merge=ours`, локальный lockfile сохраняется при слияниях.
 - **Современный браузер** (Chrome, Edge, Firefox)
 - Рекомендуется: аккаунт на [GitHub](https://github.com/) для деплоя
 - _(Планируется)_: доступ к MongoDB Atlas или своему серверу MongoDB
