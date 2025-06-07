@@ -107,6 +107,28 @@ pnpm dev
 6. Для переменных окружения используй `.env` (если потребуются API-ключи).
    - Для отправки аналитики укажи `VITE_ANALYTICS_ENDPOINT=<url>`
 
+### Как обновить ветку и разрешить конфликт pnpm-lock.yaml
+
+1. Сохрани текущие изменения:
+   ```bash
+   git stash
+   ```
+2. Получи свежие данные и смёрджи ветку `main`:
+   ```bash
+   git fetch origin && git merge origin/main
+   ```
+3. Если появился конфликт в `pnpm-lock.yaml`, примени свою версию и переустанови зависимости:
+   ```bash
+   git checkout --ours pnpm-lock.yaml
+   pnpm install
+   ```
+4. Добавь и закоммить обновлённый lock-файл, затем верни изменения из стэша:
+   ```bash
+   git add pnpm-lock.yaml
+   git commit -m "chore: resolve lockfile conflict"
+   git stash pop
+   ```
+
 ## Скрипты
 
 - `pnpm dev` — запуск сервера разработки.
