@@ -1,5 +1,5 @@
-**Версия:** 0.3  
-**Обновлено:** 04.06.2025
+**Версия:** 0.4
+**Обновлено:** 09.06.2025
 
 ---
 
@@ -62,7 +62,7 @@ project-root/
 
 ## Требования
 
-- **Node.js**: 18.x или новее
+- **Node.js**: 18.x LTS или новее
 - **pnpm**: 9.x или новее
 - В репозитории хранится `pnpm-lock.yaml`; `package-lock.json` не используется.
 - В `.gitattributes` указано `pnpm-lock.yaml merge=ours`, локальный lockfile сохраняется при слияниях.
@@ -90,6 +90,9 @@ pnpm install
 
 # 4. Запусти проект в режиме разработки
 pnpm dev
+
+pnpm build    # production сборка
+pnpm preview  # проверка dist/
 
 # Открой http://localhost:5173/web-app-ar/ в браузере и нажми кнопку **Start AR** для запуска сцены
 ```
