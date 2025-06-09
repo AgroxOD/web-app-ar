@@ -51,6 +51,7 @@ async function main() {
       await s3.send(command);
       res.json({ key: req.file.originalname });
     } catch (e) {
+      console.error(e);
       res.status(500).json({ error: 'Upload failed' });
     }
   });
@@ -65,6 +66,7 @@ async function main() {
       const url = await getSignedUrl(s3, command, { expiresIn: 60 });
       res.redirect(url);
     } catch (e) {
+      console.error(e);
       res.status(404).json({ error: 'File not found' });
     }
   });

@@ -85,6 +85,7 @@ export const startAR = async () => {
 
     model.scale.setScalar(scale);
   } catch (e) {
+    console.error(e);
     alert('Ошибка загрузки 3D-модели!');
     logEvent('modelError', { message: e?.message });
     return false;
@@ -143,6 +144,7 @@ export const startAR = async () => {
 
     lightInterval = setInterval(updateLight, 500);
   } catch (e) {
+    console.error(e);
     alert(
       'Не удалось инициализировать камеру. Проверьте разрешения и перезагрузите страницу.',
     );
