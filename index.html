@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AR AgroMarket</title>
-    <link rel="stylesheet" href="./src/styles/mindar-image-three.prod.css" />
     <style>
       *,
       *::before,
@@ -79,6 +78,8 @@
         z-index: 30;
       }
     </style>
+    <script type="module" crossorigin src="/web-app-ar/assets/index-D3ZFi0Em.js"></script>
+    <link rel="stylesheet" crossorigin href="/web-app-ar/assets/index-xlxoJ07g.css">
   </head>
 
   <body>
@@ -101,30 +102,5 @@
       После распознавания маркера появятся ползунки для поворота и
       масштабирования модели.
     </div>
-    <script type="module">
-      const overlay = document.getElementById('ar-overlay');
-      const startButton = document.getElementById('start-ar');
-      const instructions = document.getElementById('instructions');
-      const { startAR, modelParams } = await import('./src/ar-scene.js');
-
-      const bind = (id, key) => {
-        const el = document.getElementById(id);
-        el.addEventListener('input', (e) => {
-          modelParams[key] = parseFloat(e.target.value);
-        });
-      };
-      bind('rot-y', 'rotationY');
-      bind('scale', 'scale');
-      startButton.addEventListener('click', async () => {
-        const started = await startAR();
-        if (started) {
-          overlay.style.display = 'none';
-          instructions.style.display = 'block';
-          setTimeout(() => {
-            instructions.style.display = 'none';
-          }, 5000);
-        }
-      });
-    </script>
   </body>
 </html>

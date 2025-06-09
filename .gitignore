@@ -1,9 +1,0 @@
-node_modules
-
-dist/
-package-lock.json
-
-# Local environment variables
-.env
-!/.env.example
-.env.*
