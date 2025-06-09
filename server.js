@@ -41,6 +41,10 @@ async function main() {
   app.post('/upload', upload.single('model'), async (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
     const bucket = process.env.R2_BUCKET;
+    if (!bucket)
+      return res
+        .status(500)
+        .json({ error: 'R2_BUCKET environment variable not configured' });
     try {
       const command = new PutObjectCommand({
         Bucket: bucket,
@@ -58,6 +62,10 @@ async function main() {
 
   app.get('/model/:filename', async (req, res) => {
     const bucket = process.env.R2_BUCKET;
+    if (!bucket)
+      return res
+        .status(500)
+        .json({ error: 'R2_BUCKET environment variable not configured' });
     try {
       const command = new GetObjectCommand({
         Bucket: bucket,
