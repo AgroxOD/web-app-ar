@@ -56,6 +56,8 @@ cd <project-name>
 pnpm install
 # при необходимости скачай тяжелые модели
 sh public/assets/download_models.sh
+# пример для Cloudflare R2
+# MODEL_URL=https://<account>.r2.cloudflarestorage.com/<bucket>/model.glb sh public/assets/download_models.sh
 pnpm dev
 pnpm lint # проверка стиля
 pnpm format # автоформатирование
@@ -70,6 +72,7 @@ pnpm preview # предпросмотр dist/
 
 Если планируется отправка аналитики, скопируй `.env.example` в `.env` и задай переменную `VITE_ANALYTICS_ENDPOINT` со ссылкой на свой сервер.
 Для загрузки моделей из внешнего хранилища можно использовать переменную `VITE_MODEL_URL`.
+URL может указывать на объект в Cloudflare R2. Также модель можно передать через параметр `?model=URL` в адресной строке.
 
 > **Важно:** приложение должно обслуживаться веб-сервером. Запускай его через `pnpm dev` или статический сервер. Простое открытие `dist/index.html` напрямую в браузере не сработает.
 
