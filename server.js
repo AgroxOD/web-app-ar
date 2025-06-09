@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
+import cors from 'cors';
 import mongoose from 'mongoose';
 import multer from 'multer';
 import {
@@ -12,6 +13,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 const upload = multer({ storage: multer.memoryStorage() });
 
 const s3 = new S3Client({
