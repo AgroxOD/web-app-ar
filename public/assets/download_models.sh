@@ -18,9 +18,13 @@ MODEL_URL="${MODEL_URL:-https://example.com/model.glb}"
 
 echo "Downloading model from $MODEL_URL..."
 mkdir -p "$TARGET_DIR"
-# Use curl with --fail so the script exits on non-200 responses
-# Capture the HTTP status code to ensure it is 200
-STATUS=$(curl -L --fail -o "$TARGET_DIR/model.glb" -w "%{http_code}" "$MODEL_URL")
+# Download without --fail and handle errors manually
+if ! STATUS=$(curl -L -o "$TARGET_DIR/model.glb" -w "%{http_code}" "$MODEL_URL"); then
+    CURL_EXIT=$?
+    echo "Error: curl failed with code $CURL_EXIT" >&2
+    rm -f "$TARGET_DIR/model.glb"
+    exit 1
+fi
 if [ "$STATUS" -ne 200 ]; then
     echo "Error: failed to download model (HTTP status $STATUS)" >&2
     rm -f "$TARGET_DIR/model.glb"
