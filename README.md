@@ -63,6 +63,7 @@ pnpm lint # проверка стиля
 pnpm format # автоформатирование
 pnpm build # production сборка
 pnpm preview # предпросмотр dist/
+pnpm start  # запуск API-сервера
 ```
 
 Этот проект использует **pnpm** как менеджер пакетов. В репозитории хранится `pnpm-lock.yaml`; файл `package-lock.json` не используется.
@@ -151,6 +152,8 @@ URL может указывать на объект в Cloudflare R2. Также
 3. Запусти сервер:
    ```bash
    pnpm api
+   # или
+   pnpm start
    ```
    После старта страница `public/admin.html` позволит просматривать каталог.
 
@@ -158,7 +161,7 @@ URL может указывать на объект в Cloudflare R2. Также
 
 - Файл `server.js` запускает API на Express с MongoDB
 - Модели доступны по `GET /api/models`
-- Запусти сервер командой `pnpm api`
+- Запусти сервер командой `pnpm api` или `pnpm start`
 - Для загрузки моделей используется Cloudflare R2 (S3 API)
 - Примеры роутов:
   - `POST /upload` — загружает файл `model` в бакет
