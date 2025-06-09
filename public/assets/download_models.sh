@@ -1,6 +1,10 @@
 #!/usr/bin/env sh
-# Download heavy GLB assets from external storage (e.g., Cloudflare R2)
-# Usage: MODEL_URL=https://example.com/model.glb ./download_models.sh
+# Download heavy GLB assets from external storage (for example Cloudflare R2).
+#
+# Usage:
+#   MODEL_URL=https://example.com/model.glb ./download_models.sh
+#   # or from Cloudflare R2
+#   MODEL_URL=https://<account>.r2.cloudflarestorage.com/<bucket>/model.glb ./download_models.sh
 
 set -e
 
