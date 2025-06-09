@@ -14,6 +14,9 @@ importers:
       '@aws-sdk/s3-request-presigner':
         specifier: ^3.548.0
         version: 3.826.0
+      cors:
+        specifier: ^2.8.5
+        version: 2.8.5
       dotenv:
         specifier: ^16.5.0
         version: 16.5.0
@@ -995,6 +998,10 @@ packages:
 
   core-js@3.29.1:
     resolution: {integrity: sha512-+jwgnhg6cQxKYIIjGtAHq2nwUOolo9eoFZ4sHfUH09BLXBgxnH4gA0zEd+t+BO2cNB8idaBtZFcFTRjQJRJmAw==}
+
+  cors@2.8.5:
+    resolution: {integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==}
+    engines: {node: '>= 0.10'}
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -3249,6 +3256,11 @@ snapshots:
   cookie@0.7.1: {}
 
   core-js@3.29.1: {}
+
+  cors@2.8.5:
+    dependencies:
+      object-assign: 4.1.1
+      vary: 1.1.2
 
   cross-spawn@7.0.6:
     dependencies:
