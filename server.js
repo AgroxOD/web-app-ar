@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 const app = express();
 app.use(express.json());
 
-const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017/ar';
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/ar';
 
 const modelSchema = new mongoose.Schema({
   name: String,
@@ -13,7 +13,7 @@ const modelSchema = new mongoose.Schema({
 const Model = mongoose.model('Model', modelSchema);
 
 async function main() {
-  await mongoose.connect(mongoUrl);
+  await mongoose.connect(mongoUri);
   // TODO: add Cloudflare R2 synchronization
 
   app.get('/api/models', async (req, res) => {
