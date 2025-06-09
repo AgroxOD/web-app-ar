@@ -28,4 +28,12 @@ export default [
       'prettier/prettier': 'error',
     },
   },
+  {
+    files: ['server.js'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
 ];
