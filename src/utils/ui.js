@@ -2,9 +2,11 @@ export function showInstructions(temp = false) {
   const el = document.getElementById('instructions');
   if (!el) return;
   el.style.display = 'block';
-  if (temp) setTimeout(() => {
-    el.style.display = 'none';
-  }, 5000);
+  if (temp) {
+    setTimeout(() => {
+      el.style.display = 'none';
+    }, 5000);
+  }
 }
 
 export function hideInstructions() {
