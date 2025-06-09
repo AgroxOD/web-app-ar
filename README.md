@@ -15,7 +15,7 @@
 
 ## Требования
 
- - Node.js 18.x LTS или новее
+- Node.js 18.x LTS или новее
 - pnpm ≥9 (репозиторий использует `pnpm-lock.yaml` вместо `package-lock.json`)
 
 ## 🛠️ Технологии
@@ -162,6 +162,23 @@ pnpm preview # предпросмотр dist/
 - Файл `server.js` запускает API на Express с MongoDB
 - Модели доступны по `GET /api/models`
 - Запусти сервер командой `pnpm api`
+- Для загрузки моделей используется Cloudflare R2 (S3 API)
+- Примеры роутов:
+  - `POST /upload` — загружает файл `model` в бакет
+  - `GET /model/:filename` — выдаёт временную ссылку на модель
+  - перед запуском задайте переменные `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `R2_ENDPOINT` и `R2_BUCKET`
+
+Пример конфигурации `.env`:
+
+```env
+AWS_ACCESS_KEY_ID=xxxx
+AWS_SECRET_ACCESS_KEY=yyyy
+AWS_REGION=auto
+R2_ENDPOINT=https://<account>.r2.cloudflarestorage.com
+R2_BUCKET=my-bucket
+```
+
+Создайте бакет в панели Cloudflare R2 и укажите его имя в `R2_BUCKET`.
 
 ```bash
 pnpm lint
