@@ -13,23 +13,24 @@
     "api": "node server.js"
   },
   "dependencies": {
-    "mind-ar": "^1.2.5",
-    "three": "0.152.2",
-    "vite": "5.4.19",
-    "express": "^4.19.2",
-    "mongoose": "^8.3.0",
     "@aws-sdk/client-s3": "^3.548.0",
     "@aws-sdk/s3-request-presigner": "^3.548.0",
-    "multer": "^2.0.1"
+    "dotenv": "^16.5.0",
+    "express": "^4.19.2",
+    "mind-ar": "^1.2.5",
+    "mongoose": "^8.3.0",
+    "multer": "^2.0.1",
+    "three": "0.152.2",
+    "vite": "5.4.19"
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",
+    "@pnpm/merge-lockfile-changes": "^2.0.0",
     "eslint": "^9.28.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.1",
     "globals": "^16.2.0",
-    "prettier": "^3.5.3",
-    "@pnpm/merge-lockfile-changes": "^2.0.0"
+    "prettier": "^3.5.3"
   },
   "engines": {
     "node": ">=18",
