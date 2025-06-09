@@ -111,6 +111,7 @@ pnpm preview  # проверка dist/
 5. Настрой кодстайл и автоформатирование (см. [Настройка VS Code](#vs-code-setup)).
 6. Для переменных окружения используй `.env` (если потребуются API-ключи).
    - Для отправки аналитики укажи `VITE_ANALYTICS_ENDPOINT=<url>`
+   - Для загрузки моделей в R2 задай `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `R2_ENDPOINT` и `R2_BUCKET`
 
 ### Как обновить ветку и разрешить конфликт pnpm-lock.yaml
 
@@ -175,8 +176,10 @@ pnpm preview  # проверка dist/
    git --work-tree dist commit -m 'Deploy'
    git push origin gh-pages --force
    git clean -fd      # remove untracked files (dist, etc.)
-  git checkout main
-  ```
+   git checkout main
+   ```
+
+````
 
 > ⚠️ **Важно**: Значение `base` должно совпадать с названием репозитория на GitHub!
 
@@ -206,7 +209,7 @@ pnpm preview  # проверка dist/
 "source.fixAll.eslint": true
 }
 }
-```
+````
 
 - Работа через встроенный терминал (`pnpm dev`).
 - (Опционально) Настрой `.vscode/tasks.json` для автоматизации задач.
