@@ -66,7 +66,7 @@ pnpm format # автоформатирование
 
 Открой [http://localhost:5173/web-app-ar/](http://localhost:5173/web-app-ar/) в браузере и нажми кнопку **Start AR**, чтобы загрузить сцену.
 
-Если планируется отправка аналитики, создай файл `.env` и укажи переменную `VITE_ANALYTICS_ENDPOINT` со ссылкой на свой сервер.
+Если планируется отправка аналитики, скопируй `.env.example` в `.env` и задай переменную `VITE_ANALYTICS_ENDPOINT` со ссылкой на свой сервер.
 Для загрузки моделей из внешнего хранилища можно использовать переменную `VITE_MODEL_URL`.
 
 > **Важно:** приложение должно обслуживаться веб-сервером. Запускай его через `pnpm dev` или статический сервер. Простое открытие `dist/index.html` напрямую в браузере не сработает.
@@ -110,14 +110,14 @@ pnpm format # автоформатирование
 
 ### Настройка MongoDB
 
-1. Задай переменную окружения `MONGO_URL` со строкой подключения к MongoDB.
+1. Скопируй `.env.example` в `.env` и задай переменную `MONGODB_URI` со строкой подключения к MongoDB.
    - Linux/macOS:
      ```bash
-     export MONGO_URL="mongodb://localhost:27017"
+     export MONGODB_URI="mongodb://localhost:27017/ar"
      ```
    - Windows PowerShell:
      ```powershell
-     $env:MONGO_URL="mongodb://localhost:27017"
+     $env:MONGODB_URI="mongodb://localhost:27017/ar"
      ```
 2. Создай базу `ar` и коллекцию `models` через `mongosh`:
    ```bash
