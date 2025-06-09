@@ -19,10 +19,16 @@
     <button id="refresh">Обновить</button>
     <select id="models"></select>
     <button id="open">Открыть в AR</button>
+    <div style="margin-top: 10px">
+      <input type="file" id="file" />
+      <button id="upload">Загрузить</button>
+    </div>
     <script type="module">
       const select = document.getElementById('models');
       const refreshBtn = document.getElementById('refresh');
       const openBtn = document.getElementById('open');
+      const fileInput = document.getElementById('file');
+      const uploadBtn = document.getElementById('upload');
 
       async function loadModels() {
         try {
@@ -47,6 +53,26 @@
         const url = select.value;
         if (url)
           window.location.href = `index.html?model=${encodeURIComponent(url)}`;
+      });
+
+      uploadBtn.addEventListener('click', async () => {
+        const file = fileInput.files[0];
+        if (!file) {
+          alert('Выберите файл');
+          return;
+        }
+        const form = new FormData();
+        form.append('model', file);
+        try {
+          const res = await fetch('/upload', { method: 'POST', body: form });
+          if (!res.ok) throw new Error('Upload failed');
+          const data = await res.json();
+          alert(`Загружено как ${data.key}`);
+          loadModels();
+        } catch (e) {
+          console.error(e);
+          alert('Ошибка загрузки');
+        }
       });
 
       loadModels();
