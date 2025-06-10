@@ -56,6 +56,8 @@ project-root/
 git clone <repo-url>
 cd <project-name>
 pnpm install
+# скопируй пример конфигурации и заполни значения
+cp .env.example .env
 # при необходимости скачай тяжелые модели
 sh public/assets/download_models.sh
 # пример для Cloudflare R2
@@ -74,7 +76,7 @@ pnpm strapi # локальный Strapi CMS (опционально)
 
 Открой [http://localhost:5173/web-app-ar/](http://localhost:5173/web-app-ar/) в браузере и нажми кнопку **Start AR**, чтобы загрузить сцену.
 
-Если планируется отправка аналитики, скопируй `.env.example` в `.env` и задай переменную `VITE_ANALYTICS_ENDPOINT` со ссылкой на свой сервер.
+Скопируй `.env.example` в `.env` и заполни нужные переменные, например `VITE_ANALYTICS_ENDPOINT` для отправки аналитики.
 Для загрузки моделей из внешнего хранилища можно использовать переменную `VITE_MODEL_URL`.
 Для подключения к Strapi укажи `VITE_STRAPI_URL` (например, `http://localhost:1337/api`).
 URL может указывать на объект в Cloudflare R2. Также модель можно передать через параметр `?model=URL` в адресной строке.

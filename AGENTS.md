@@ -86,6 +86,9 @@ cd <project-name>
 # 2. Установи зависимости
 pnpm install
 
+# скопируй пример конфигурации и заполни значения
+cp .env.example .env
+
 # 3. Сгенерируй target.mind для своего маркера через онлайн-сервис:
 #    3.1 Перейди на https://hiukim.github.io/mind-ar-js-doc/tools/compile/
 #    3.2 Загрузите PNG/JPG маркер
