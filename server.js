@@ -13,7 +13,7 @@ import {
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import path from 'path';
 
-const app = express();
+export const app = express();
 app.use(express.json());
 app.use(cors());
 const upload = multer({ storage: multer.memoryStorage() });
@@ -33,7 +33,7 @@ const modelSchema = new mongoose.Schema({
   name: String,
   url: String,
 });
-const Model = mongoose.model('Model', modelSchema);
+export const Model = mongoose.model('Model', modelSchema);
 
 async function syncR2Models() {
   const bucket = process.env.R2_BUCKET;
@@ -65,63 +65,63 @@ async function syncR2Models() {
   }
 }
 
+app.get('/api/models', async (req, res) => {
+  const list = await Model.find().select('name url -_id').lean();
+  res.json(list);
+});
+
+app.post('/upload', upload.single('model'), async (req, res) => {
+  if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+  const bucket = process.env.R2_BUCKET;
+  if (!bucket)
+    return res
+      .status(500)
+      .json({ error: 'R2_BUCKET environment variable not configured' });
+  try {
+    const command = new PutObjectCommand({
+      Bucket: bucket,
+      Key: req.file.originalname,
+      Body: req.file.buffer,
+      ContentType: req.file.mimetype,
+    });
+    await s3.send(command);
+    await Model.updateOne(
+      { url: req.file.originalname },
+      {
+        name: path.parse(req.file.originalname).name,
+        url: req.file.originalname,
+      },
+      { upsert: true },
+    );
+    res.json({ key: req.file.originalname });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Upload failed' });
+  }
+});
+
+app.get('/model/:filename', async (req, res) => {
+  const bucket = process.env.R2_BUCKET;
+  if (!bucket)
+    return res
+      .status(500)
+      .json({ error: 'R2_BUCKET environment variable not configured' });
+  try {
+    const command = new GetObjectCommand({
+      Bucket: bucket,
+      Key: req.params.filename,
+    });
+    const url = await getSignedUrl(s3, command, { expiresIn: 60 });
+    res.redirect(url);
+  } catch (e) {
+    console.error(e);
+    res.status(404).json({ error: 'File not found' });
+  }
+});
+
 async function main() {
   await mongoose.connect(mongoUri);
   await syncR2Models();
-
-  app.get('/api/models', async (req, res) => {
-    const list = await Model.find().select('name url -_id').lean();
-    res.json(list);
-  });
-
-  app.post('/upload', upload.single('model'), async (req, res) => {
-    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-    const bucket = process.env.R2_BUCKET;
-    if (!bucket)
-      return res
-        .status(500)
-        .json({ error: 'R2_BUCKET environment variable not configured' });
-    try {
-      const command = new PutObjectCommand({
-        Bucket: bucket,
-        Key: req.file.originalname,
-        Body: req.file.buffer,
-        ContentType: req.file.mimetype,
-      });
-      await s3.send(command);
-      await Model.updateOne(
-        { url: req.file.originalname },
-        {
-          name: path.parse(req.file.originalname).name,
-          url: req.file.originalname,
-        },
-        { upsert: true },
-      );
-      res.json({ key: req.file.originalname });
-    } catch (e) {
-      console.error(e);
-      res.status(500).json({ error: 'Upload failed' });
-    }
-  });
-
-  app.get('/model/:filename', async (req, res) => {
-    const bucket = process.env.R2_BUCKET;
-    if (!bucket)
-      return res
-        .status(500)
-        .json({ error: 'R2_BUCKET environment variable not configured' });
-    try {
-      const command = new GetObjectCommand({
-        Bucket: bucket,
-        Key: req.params.filename,
-      });
-      const url = await getSignedUrl(s3, command, { expiresIn: 60 });
-      res.redirect(url);
-    } catch (e) {
-      console.error(e);
-      res.status(404).json({ error: 'File not found' });
-    }
-  });
 
   const port = process.env.PORT || 3000;
   app.listen(port, () => {
@@ -129,7 +129,11 @@ async function main() {
   });
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+if (process.env.NODE_ENV !== 'test') {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}
+
+export { main };
