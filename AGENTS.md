@@ -120,6 +120,7 @@ pnpm strapi   # запуск локального Strapi CMS (опциональ
    - Для отправки аналитики укажи `VITE_ANALYTICS_ENDPOINT=<url>`
    - Для загрузки моделей в R2 задай `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `R2_ENDPOINT` и `R2_BUCKET`
    - Для доступа к CMS укажи `VITE_STRAPI_URL=http://localhost:1337/api`
+7. Перед запуском `pnpm lint` обязательно установи зависимости командой `pnpm install`.
 
 ### Как обновить ветку и разрешить конфликт pnpm-lock.yaml
 
