@@ -79,7 +79,7 @@ pnpm strapi # локальный Strapi CMS (опционально)
 Для подключения к Strapi укажи `VITE_STRAPI_URL` (например, `http://localhost:1337/api`).
 URL может указывать на объект в Cloudflare R2. Также модель можно передать через параметр `?model=URL` в адресной строке.
 
-Страница [`public/admin.html`](./public/admin.html) по умолчанию обращается к удалённому API `https://web-app-ar-api.onrender.com`. Запускайте собственный сервер (`pnpm api` или `pnpm start`), только если хотите использовать свою базу данных и хранилище. Адрес API можно изменить, отредактировав константу `API_BASE` в `admin.html` (или задать переменную окружения, если добавлена соответствующая поддержка).
+Для загрузки и выбора 3D‑моделей теперь используется Strapi CMS. Запусти `pnpm strapi` и открой административную панель, чтобы добавить модели. Клиентская часть получает список через модуль `src/utils/models.js`.
 
 > **Важно:** приложение должно обслуживаться веб-сервером. Запускай его через `pnpm dev` или статический сервер. Простое открытие `dist/index.html` напрямую в браузере не сработает.
 
@@ -165,10 +165,14 @@ URL может указывать на объект в Cloudflare R2. Также
 3. (Опционально) запусти сервер:
    ```bash
    pnpm api
-   # или
-   pnpm start
    ```
-   Локальный сервер нужен только при использовании собственной базы данных. По умолчанию `public/admin.html` работает с API `https://web-app-ar-api.onrender.com`.
+
+# или
+
+pnpm start
+
+````
+Локальный сервер нужен только при использовании собственной базы данных. Ранее для выбора моделей использовался `public/admin.html`, но теперь список формируется через Strapi CMS.
 
 ### Сервер API
 
@@ -177,9 +181,9 @@ URL может указывать на объект в Cloudflare R2. Также
 - Запусти сервер командой `pnpm api` или `pnpm start`, если нужен собственный API
 - Для загрузки моделей используется Cloudflare R2 (S3 API)
 - Примеры роутов:
-  - `POST /upload` — загружает файл `model` в бакет
-  - `GET /model/:filename` — выдаёт временную ссылку на модель
-  - перед запуском задайте переменные `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `R2_ENDPOINT` и `R2_BUCKET`
+- `POST /upload` — загружает файл `model` в бакет
+- `GET /model/:filename` — выдаёт временную ссылку на модель
+- перед запуском задайте переменные `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `R2_ENDPOINT` и `R2_BUCKET`
 
 Пример конфигурации `.env`:
 
@@ -189,7 +193,7 @@ AWS_SECRET_ACCESS_KEY=yyyy
 AWS_REGION=auto
 R2_ENDPOINT=https://<account>.r2.cloudflarestorage.com
 R2_BUCKET=my-bucket
-```
+````
 
 Создайте бакет в панели Cloudflare R2 и укажите его имя в `R2_BUCKET`.
 

@@ -32,7 +32,7 @@ function hideFrame() {
 }
 
 // Инициализация AR-сцены при загрузке страницы
-export const startAR = async () => {
+export const startAR = async (modelOverride) => {
   if (!navigator.mediaDevices?.getUserMedia || !window.WebGLRenderingContext) {
     alert('Ваш браузер не поддерживает AR');
     return false;
@@ -65,7 +65,10 @@ export const startAR = async () => {
   const loader = new GLTFLoader();
   const urlParam = new URLSearchParams(window.location.search).get('model');
   const modelUrl =
-    urlParam || import.meta.env.VITE_MODEL_URL || `${base}assets/model.glb`;
+    modelOverride ||
+    urlParam ||
+    import.meta.env.VITE_MODEL_URL ||
+    `${base}assets/model.glb`;
   let model;
   try {
     const gltf = await loader.loadAsync(modelUrl);

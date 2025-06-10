@@ -86,6 +86,7 @@
     <div id="ar-container"></div>
     <div id="ar-frame"></div>
     <div id="ar-overlay">
+      <select id="model-select"></select>
       <button id="start-ar">Start AR</button>
     </div>
     <div id="model-controls">
@@ -105,8 +106,20 @@
     <script type="module">
       const overlay = document.getElementById('ar-overlay');
       const startButton = document.getElementById('start-ar');
+      const select = document.getElementById('model-select');
       const instructions = document.getElementById('instructions');
       const { startAR, modelParams } = await import('./src/ar-scene.js');
+      const { loadModels } = await import('./src/utils/models.js');
+
+      try {
+        const list = await loadModels();
+        list.forEach((m) => {
+          const opt = document.createElement('option');
+          opt.value = m.url;
+          opt.textContent = m.name;
+          select.appendChild(opt);
+        });
+      } catch {}
 
       const bind = (id, key) => {
         const el = document.getElementById(id);
@@ -117,7 +130,7 @@
       bind('rot-y', 'rotationY');
       bind('scale', 'scale');
       startButton.addEventListener('click', async () => {
-        const started = await startAR();
+        const started = await startAR(select.value);
         if (started) {
           overlay.style.display = 'none';
           instructions.style.display = 'block';
