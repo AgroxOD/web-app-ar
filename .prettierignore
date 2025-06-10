@@ -1,0 +1,6 @@
+node_modules/
+strapi/.strapi/
+strapi/dist/
+strapi/**/.strapi/
+strapi/**/dist/
+dist/
