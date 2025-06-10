@@ -64,6 +64,7 @@ sh public/assets/download_models.sh
 # MODEL_URL=https://<account>.r2.cloudflarestorage.com/<bucket>/model.glb sh public/assets/download_models.sh
 pnpm dev
 pnpm lint # проверка стиля (требует предварительного pnpm install)
+pnpm test  # запуск тестов
 pnpm format # автоформатирование
 pnpm build # production сборка
 pnpm preview # предпросмотр dist/
