@@ -5,10 +5,7 @@ import configPrettier from 'eslint-config-prettier';
 import globals from 'globals';
 
 export default [
-  js.configs.recommended,
-  // Общие правила для JS-файлов фронта (браузер)
   {
-    files: ['**/*.js'],
     ignores: [
       'node_modules/**',
       'strapi/.strapi/**',
@@ -16,6 +13,11 @@ export default [
       'strapi/**/.strapi/**',
       'strapi/**/dist/**',
     ],
+  },
+  js.configs.recommended,
+  // Общие правила для JS-файлов фронта (браузер)
+  {
+    files: ['**/*.js'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
