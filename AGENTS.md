@@ -39,6 +39,8 @@
 - [Tailwind CSS](https://tailwindcss.com/) — utility‑first CSS
 - [Visual Studio Code](https://code.visualstudio.com/) — основная IDE
 - _(Опционально)_ [Strapi](https://strapi.io/) — headless CMS
+- [Express](https://expressjs.com/) — API сервер
+- [Vitest](https://vitest.dev/) — тестовый фреймворк
 - _(В перспективе)_ [MongoDB](https://www.mongodb.com/) — хранение пользовательских данных и CRM-метаданных
 - _(Планируется)_ [Cloudflare R2](https://www.cloudflare.com/products/r2/) — для хранения `.glb`-моделей
 
@@ -55,6 +57,9 @@ project-root/
 ├── src/
 │   ├── ar-scene.js        # Инициализация и логика AR
 │   └── utils/             # Вспомогательные функции (по необходимости)
+├── server.js             # API сервер на Express
+├── tests/                # тесты Vitest
+├── strapi/               # директория CMS
 ├── index.html
 ├── vite.config.js
 ├── package.json
@@ -151,6 +156,9 @@ pnpm strapi   # запуск локального Strapi CMS (опциональ
 - `pnpm format` — автоформатирование Prettier.
 - `pnpm build` — production сборка.
 - `pnpm preview` — предпросмотр собранных файлов.
+- `pnpm start` — запуск API-сервера.
+- `pnpm test` — прогон тестов Vitest.
+- `pnpm strapi` — локальный Strapi CMS (опционально).
 
 ---
 

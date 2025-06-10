@@ -27,6 +27,8 @@
 - [Tailwind CSS](https://tailwindcss.com/) — utility‑first CSS
 - [MindAR Marker Compiler](https://hiukim.github.io/mind-ar-js-doc/tools/compile/) — онлайн-конвертер PNG/JPG в `.mind`
 - [Strapi](https://strapi.io/) — headless CMS (опционально)
+- [Express](https://expressjs.com/) — API-сервер
+- [Vitest](https://vitest.dev/) — тестовый фреймворк
 - ESLint + Prettier (flat config `eslint.config.js`)
 - _(опционально)_ [MongoDB Atlas](https://www.mongodb.com/atlas), [Cloudflare R2](https://www.cloudflare.com/products/r2/)
 
@@ -43,6 +45,9 @@ project-root/
 ├── src/
 │   ├── ar-scene.js
 │   └── utils/
+├── server.js           # API сервер на Express
+├── tests/              # тесты Vitest
+├── strapi/             # директория CMS
 ├── index.html
 ├── vite.config.js
 └── package.json
@@ -250,6 +255,7 @@ pnpm install
 - [ ] Интеграция с MongoDB
 - [ ] Cloudflare R2
 - [ ] Готовая к продакшену CRM
+- [ ] Аналитика и логи по маркерам
 
 ---
 
