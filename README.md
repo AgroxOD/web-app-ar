@@ -63,6 +63,7 @@ cd <project-name>
 pnpm install       # установит зависимости клиента и CMS
 # скопируй пример конфигурации и заполни значения
 cp .env.example .env
+# не коммить файл .env в репозиторий
 # перед запуском CMS укажи JWT_SECRET (openssl rand -hex 32)
 # при необходимости скачай тяжелые модели
 sh public/assets/download_models.sh
@@ -84,6 +85,7 @@ pnpm strapi # запускает Strapi CMS (опционально)
 Открой [http://localhost:5173/web-app-ar/](http://localhost:5173/web-app-ar/) в браузере и нажми кнопку **Start AR**, чтобы загрузить сцену.
 
 Скопируй `.env.example` в `.env` и заполни нужные переменные, например `VITE_ANALYTICS_ENDPOINT` для отправки аналитики.
+Файл `.env` используется только локально и не должен попадать в git.
 Для загрузки моделей из внешнего хранилища можно использовать переменную `VITE_MODEL_URL`.
 Для подключения к Strapi укажи `VITE_STRAPI_URL`. В локальной среде значение
 `http://localhost:1337/api` используется по умолчанию и приведено в `.env.example`.
@@ -160,6 +162,7 @@ URL может указывать на объект в Cloudflare R2. Также
 ### Настройка MongoDB
 
 1. Скопируй `.env.example` в `.env` и задай переменную `MONGODB_URI` со строкой подключения к MongoDB.
+   `.env` коммитить не нужно – оставь его локальным.
    - Linux/macOS:
      ```bash
      export MONGODB_URI="mongodb://localhost:27017/ar"

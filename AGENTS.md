@@ -93,6 +93,7 @@ pnpm install
 
 # скопируй пример конфигурации и заполни значения
 cp .env.example .env
+# не добавляй .env в git
 
 # 3. Сгенерируй target.mind для своего маркера через онлайн-сервис:
 #    3.1 Перейди на https://hiukim.github.io/mind-ar-js-doc/tools/compile/
@@ -122,6 +123,7 @@ pnpm strapi   # запуск локального Strapi CMS (опциональ
 4. Пиши основную логику в `src/ar-scene.js`; все ассеты загружаются из `public/`.
 5. Настрой кодстайл и автоформатирование (см. [Настройка VS Code](#vs-code-setup)).
 6. Для переменных окружения используй `.env` (если потребуются API-ключи).
+   Этот файл предназначен только для локальной разработки и не коммитится в репозиторий.
    - Для отправки аналитики укажи `VITE_ANALYTICS_ENDPOINT=<url>`
    - Для загрузки моделей в R2 задай `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `R2_ENDPOINT` и `R2_BUCKET`
    - Для доступа к CMS укажи `VITE_STRAPI_URL=http://localhost:1337/api`
