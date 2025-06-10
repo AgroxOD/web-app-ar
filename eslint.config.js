@@ -6,6 +6,7 @@ import globals from 'globals';
 
 export default [
   js.configs.recommended,
+  // Общие правила для JS-файлов фронта (браузер)
   {
     files: ['**/*.js'],
     ignores: ['node_modules/**', 'strapi/.strapi/**', 'strapi/dist/**'],
@@ -28,11 +29,15 @@ export default [
       'prettier/prettier': 'error',
     },
   },
+  // Node.js/Backend + тесты (server.js, все *.test.js и все из tests/)
   {
-    files: ['server.js'],
+    files: ['server.js', '**/tests/**/*.js', '**/*.test.js'],
     languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
       globals: {
         ...globals.node,
+        ...globals.jest, // если используешь jest
       },
     },
   },
