@@ -29,10 +29,11 @@
       const openBtn = document.getElementById('open');
       const fileInput = document.getElementById('file');
       const uploadBtn = document.getElementById('upload');
+      const API_BASE = 'https://web-app-ar-api.onrender.com';
 
       async function loadModels() {
         try {
-          const res = await fetch('/api/models');
+          const res = await fetch(`${API_BASE}/api/models`);
           const list = await res.json();
           select.innerHTML = '';
           list.forEach((m) => {
@@ -64,7 +65,7 @@
         const form = new FormData();
         form.append('model', file);
         try {
-          const res = await fetch('/upload', { method: 'POST', body: form });
+          const res = await fetch(`${API_BASE}/upload`, { method: 'POST', body: form });
           if (!res.ok) throw new Error('Upload failed');
           const data = await res.json();
           alert(`Загружено как ${data.key}`);
