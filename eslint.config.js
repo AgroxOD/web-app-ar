@@ -9,7 +9,13 @@ export default [
   // Общие правила для JS-файлов фронта (браузер)
   {
     files: ['**/*.js'],
-    ignores: ['node_modules/**', 'strapi/.strapi/**', 'strapi/dist/**'],
+    ignores: [
+      'node_modules/**',
+      'strapi/.strapi/**',
+      'strapi/dist/**',
+      'strapi/**/.strapi/**',
+      'strapi/**/dist/**',
+    ],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
