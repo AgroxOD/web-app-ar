@@ -24,7 +24,9 @@
 - [Three.js](https://threejs.org/) — 3D-графика в браузере
 - [MindAR.js](https://hiukim.github.io/mind-ar-js-doc/) — AR SDK для маркеров
 - [pnpm](https://pnpm.io/) — менеджер пакетов
+- [Tailwind CSS](https://tailwindcss.com/) — utility‑first CSS
 - [MindAR Marker Compiler](https://hiukim.github.io/mind-ar-js-doc/tools/compile/) — онлайн-конвертер PNG/JPG в `.mind`
+- [Strapi](https://strapi.io/) — headless CMS (опционально)
 - ESLint + Prettier (flat config `eslint.config.js`)
 - _(опционально)_ [MongoDB Atlas](https://www.mongodb.com/atlas), [Cloudflare R2](https://www.cloudflare.com/products/r2/)
 
@@ -64,6 +66,7 @@ pnpm format # автоформатирование
 pnpm build # production сборка
 pnpm preview # предпросмотр dist/
 pnpm start  # запуск API-сервера (опционально)
+pnpm strapi # локальный Strapi CMS (опционально)
 ```
 
 Этот проект использует **pnpm** как менеджер пакетов. В репозитории хранится `pnpm-lock.yaml`; файл `package-lock.json` не используется.
@@ -73,6 +76,7 @@ pnpm start  # запуск API-сервера (опционально)
 
 Если планируется отправка аналитики, скопируй `.env.example` в `.env` и задай переменную `VITE_ANALYTICS_ENDPOINT` со ссылкой на свой сервер.
 Для загрузки моделей из внешнего хранилища можно использовать переменную `VITE_MODEL_URL`.
+Для подключения к Strapi укажи `VITE_STRAPI_URL` (например, `http://localhost:1337/api`).
 URL может указывать на объект в Cloudflare R2. Также модель можно передать через параметр `?model=URL` в адресной строке.
 
 Страница [`public/admin.html`](./public/admin.html) по умолчанию обращается к удалённому API `https://web-app-ar-api.onrender.com`. Запускайте собственный сервер (`pnpm api` или `pnpm start`), только если хотите использовать свою базу данных и хранилище. Адрес API можно изменить, отредактировав константу `API_BASE` в `admin.html` (или задать переменную окружения, если добавлена соответствующая поддержка).
@@ -104,7 +108,9 @@ URL может указывать на объект в Cloudflare R2. Также
 # Затем залей содержимое папки dist/ в ветку gh-pages (см. AGENTS.md для подробностей)
 
 # После push может потребоваться удалить отслеживаемые файлы, созданные при deploy, иначе переключение на main может завершиться ошибкой
-# Используй `git clean -fdx` или вернись на основную ветку командой `git checkout -f main` 
+
+# Используй `git clean -fdx` или вернись на основную ветку командой `git checkout -f main`
+
 # (это помогает избежать ошибки "would be overwritten by checkout")
 
 3. Рекомендуется автоматизировать деплой через GitHub Actions.
@@ -220,6 +226,7 @@ pnpm install
 - Интеграция с MongoDB Atlas для хранения статистики и лидов
 - Cloudflare R2 — для хранения `.glb` моделей
 - Аналитика взаимодействия с маркерами
+- Strapi как headless CMS для управления контентом
 
 ---
 
@@ -227,6 +234,8 @@ pnpm install
 
 - [x] Локальная разработка
 - [x] GitHub Pages
+- [x] Tailwind CSS
+- [ ] Strapi CMS
 - [ ] Интеграция с MongoDB
 - [ ] Cloudflare R2
 - [ ] Готовая к продакшену CRM
