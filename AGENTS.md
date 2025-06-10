@@ -36,7 +36,9 @@
 - [Three.js](https://threejs.org/) — 3D-графика в браузере
 - [MindAR.js (mindar-image)](https://hiukim.github.io/mind-ar-js-doc/) — AR SDK с marker-based трекингом
 - [pnpm](https://pnpm.io/) — менеджер пакетов
+- [Tailwind CSS](https://tailwindcss.com/) — utility‑first CSS
 - [Visual Studio Code](https://code.visualstudio.com/) — основная IDE
+- _(Опционально)_ [Strapi](https://strapi.io/) — headless CMS
 - _(В перспективе)_ [MongoDB](https://www.mongodb.com/) — хранение пользовательских данных и CRM-метаданных
 - _(Планируется)_ [Cloudflare R2](https://www.cloudflare.com/products/r2/) — для хранения `.glb`-моделей
 
@@ -94,6 +96,7 @@ pnpm dev
 
 pnpm build    # production сборка
 pnpm preview  # проверка dist/
+pnpm strapi   # запуск локального Strapi CMS (опционально)
 
 # Открой http://localhost:5173/web-app-ar/ в браузере и нажми кнопку **Start AR** для запуска сцены
 ```
@@ -113,6 +116,7 @@ pnpm preview  # проверка dist/
 6. Для переменных окружения используй `.env` (если потребуются API-ключи).
    - Для отправки аналитики укажи `VITE_ANALYTICS_ENDPOINT=<url>`
    - Для загрузки моделей в R2 задай `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `R2_ENDPOINT` и `R2_BUCKET`
+   - Для доступа к CMS укажи `VITE_STRAPI_URL=http://localhost:1337/api`
 
 ### Как обновить ветку и разрешить конфликт pnpm-lock.yaml
 
@@ -230,6 +234,7 @@ pnpm preview  # проверка dist/
 > Разработка в отдельном агенте/модуле, интеграция по мере готовности.
 
 - **API-интеграция** с [MongoDB Atlas](https://www.mongodb.com/atlas) или своим сервером MongoDB
+- **Strapi CMS** для удобного управления контентом
 - **Логирование** взаимодействия пользователей с маркерами
 - **Привязка данных** (аналитика, контактные формы) к каждому marker target
 - **Хранение .glb** моделей в облаке ([Cloudflare R2](https://www.cloudflare.com/products/r2/))
@@ -244,6 +249,8 @@ pnpm preview  # проверка dist/
 
 - [x] Локальная разработка
 - [x] Совместимость с GitHub Pages
+- [x] Tailwind CSS
+- [ ] Strapi CMS
 - [ ] Интеграция с MongoDB
 - [ ] Аналитика и логи по маркерам
 - [ ] Интеграция с Cloudflare R2
@@ -258,6 +265,8 @@ pnpm preview  # проверка dist/
 - [MindAR Examples](https://github.com/hiukim/mind-ar-js/tree/main/examples)
 - [Three.js Docs](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene)
 - [Vite Docs](https://vitejs.dev/guide/)
+- [Tailwind CSS](https://tailwindcss.com/docs)
+- [Strapi Docs](https://docs.strapi.io/)
 - [MongoDB Atlas](https://www.mongodb.com/atlas)
 - [Cloudflare R2](https://www.cloudflare.com/products/r2/)
 
