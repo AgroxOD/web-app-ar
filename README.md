@@ -55,7 +55,7 @@ project-root/
 ```bash
 git clone <repo-url>
 cd <project-name>
-pnpm install
+pnpm install       # установит зависимости клиента и CMS
 # скопируй пример конфигурации и заполни значения
 cp .env.example .env
 # при необходимости скачай тяжелые модели
@@ -68,10 +68,10 @@ pnpm format # автоформатирование
 pnpm build # production сборка
 pnpm preview # предпросмотр dist/
 pnpm start  # запуск API-сервера (опционально)
-pnpm strapi # локальный Strapi CMS (опционально)
+pnpm strapi # запускает Strapi CMS (опционально)
 ```
 
-Этот проект использует **pnpm** как менеджер пакетов. В репозитории хранится `pnpm-lock.yaml`; файл `package-lock.json` не используется.
+Этот проект использует **pnpm** как менеджер пакетов. Команда `pnpm install` устанавливает зависимости как для клиента, так и для каталога `strapi`, так как проект настроен как workspace. В репозитории хранится `pnpm-lock.yaml`; файл `package-lock.json` не используется.
 В `.gitattributes` прописано `pnpm-lock.yaml merge=ours`, поэтому при слияниях предпочтение отдаётся локальному lockfile.
 
 Открой [http://localhost:5173/web-app-ar/](http://localhost:5173/web-app-ar/) в браузере и нажми кнопку **Start AR**, чтобы загрузить сцену.
