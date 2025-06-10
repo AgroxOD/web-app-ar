@@ -8,7 +8,7 @@ export default [
   js.configs.recommended,
   {
     files: ['**/*.js'],
-    ignores: ['node_modules/**'],
+    ignores: ['node_modules/**', 'strapi/.strapi/**', 'strapi/dist/**'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
