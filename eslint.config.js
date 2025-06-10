@@ -29,15 +29,26 @@ export default [
       'prettier/prettier': 'error',
     },
   },
-  // Node.js/Backend + тесты (server.js, все *.test.js и все из tests/)
+  // Node.js/Backend
   {
-    files: ['server.js', '**/tests/**/*.js', '**/*.test.js'],
+    files: ['server.js'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
         ...globals.node,
-        ...globals.jest, // если используешь jest
+      },
+    },
+  },
+  // Тесты на Vitest
+  {
+    files: ['tests/**/*.js'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: {
+        ...globals.node,
+        ...globals.vitest,
       },
     },
   },
