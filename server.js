@@ -8,8 +8,10 @@ import {
   S3Client,
   PutObjectCommand,
   GetObjectCommand,
+  ListObjectsV2Command,
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import path from 'path';
 
 const app = express();
 app.use(express.json());
@@ -33,9 +35,39 @@ const modelSchema = new mongoose.Schema({
 });
 const Model = mongoose.model('Model', modelSchema);
 
+async function syncR2Models() {
+  const bucket = process.env.R2_BUCKET;
+  if (!bucket) return;
+  try {
+    const keys = [];
+    let token;
+    do {
+      const resp = await s3.send(
+        new ListObjectsV2Command({ Bucket: bucket, ContinuationToken: token }),
+      );
+      resp.Contents?.forEach((obj) => {
+        if (obj.Key) keys.push(obj.Key);
+      });
+      token = resp.IsTruncated ? resp.NextContinuationToken : undefined;
+    } while (token);
+
+    if (keys.length === 0) return;
+    const existing = await Model.find({ url: { $in: keys } })
+      .select('url')
+      .lean();
+    const existingSet = new Set(existing.map((m) => m.url));
+    const docs = keys
+      .filter((k) => !existingSet.has(k))
+      .map((k) => ({ name: path.parse(k).name, url: k }));
+    if (docs.length) await Model.insertMany(docs);
+  } catch (e) {
+    console.error('R2 sync error', e);
+  }
+}
+
 async function main() {
   await mongoose.connect(mongoUri);
-  // TODO: add Cloudflare R2 synchronization
+  await syncR2Models();
 
   app.get('/api/models', async (req, res) => {
     const list = await Model.find().select('name url -_id').lean();
@@ -57,6 +89,14 @@ async function main() {
         ContentType: req.file.mimetype,
       });
       await s3.send(command);
+      await Model.updateOne(
+        { url: req.file.originalname },
+        {
+          name: path.parse(req.file.originalname).name,
+          url: req.file.originalname,
+        },
+        { upsert: true },
+      );
       res.json({ key: req.file.originalname });
     } catch (e) {
       console.error(e);
