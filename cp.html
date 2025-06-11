@@ -114,6 +114,12 @@
         />
         <button class="button button-primary" type="submit">Upload</button>
       </form>
+      <p
+        id="upload-message"
+        style="margin-bottom: 1rem; color: #666; display: none"
+      >
+        Login required to upload models
+      </p>
       <ul id="model-list" class="model-list"></ul>
     </div>
 
@@ -152,6 +158,14 @@
         document
           .getElementById('upload-form')
           .classList.toggle('hidden', !logged);
+        const msg = document.getElementById('upload-message');
+        if (logged) {
+          msg.style.display = 'none';
+          msg.textContent = '';
+        } else {
+          msg.textContent = 'Login required to upload models';
+          msg.style.display = 'block';
+        }
       }
 
       document
