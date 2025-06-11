@@ -1,0 +1,1 @@
+async function n(e,r=""){return null}async function a(){try{const e=await n("models");return(e?.data??e).map(t=>({id:t.id,name:t.attributes?.name||t.name||`model-${t.id}`,url:t.attributes?.url||t.url}))}catch(e){return console.error("CMS error",e),[]}}export{a as loadModels};
