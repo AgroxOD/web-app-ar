@@ -21,7 +21,6 @@ beforeEach(() => {
       delete store[k];
     },
   };
-  
 });
 
 afterEach(() => {
@@ -30,31 +29,31 @@ afterEach(() => {
 });
 
 describe('login', () => {
-  it('sends POST to /api/login', async () => {
+  it('sends POST to /auth/login', async () => {
     fetch.mockResolvedValue({ ok: true, json: vi.fn() });
-    await login('user', 'pass');
+    await login('user@example.com', 'pass');
     expect(fetch).toHaveBeenCalledWith(
-      '/api/login',
+      '/auth/login',
       expect.objectContaining({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ identifier: 'user', password: 'pass' }),
+        body: JSON.stringify({ email: 'user@example.com', password: 'pass' }),
       }),
     );
   });
 
   it('throws on error status', async () => {
     fetch.mockResolvedValue({ ok: false, status: 400 });
-    await expect(login('u', 'p')).rejects.toThrow('Login failed: 400');
+    await expect(login('e', 'p')).rejects.toThrow('Login failed: 400');
   });
 });
 
 describe('register', () => {
-  it('sends POST to /api/register', async () => {
+  it('sends POST to /auth/register', async () => {
     fetch.mockResolvedValue({ ok: true, json: vi.fn() });
     await register('u', 'e', 'p');
     expect(fetch).toHaveBeenCalledWith(
-      '/api/register',
+      '/auth/register',
       expect.objectContaining({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

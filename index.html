@@ -102,7 +102,7 @@
   <body>
     <div id="menu">
       <form id="login-form">
-        <input id="login-identifier" placeholder="Email" required />
+        <input id="login-email" placeholder="Email" required />
         <input
           id="login-password"
           type="password"
@@ -179,7 +179,7 @@
         e.preventDefault();
         try {
           const { jwt } = await login(
-            document.getElementById('login-identifier').value,
+            document.getElementById('login-email').value,
             document.getElementById('login-password').value,
           );
           setToken(jwt);

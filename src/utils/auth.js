@@ -25,10 +25,14 @@ async function sendAuth(path, payload, failMsg) {
   return res.json();
 }
 
-export function login(identifier, password) {
-  return sendAuth('/api/login', { identifier, password }, 'Login failed');
+export function login(email, password) {
+  return sendAuth('/auth/login', { email, password }, 'Login failed');
 }
 
 export function register(username, email, password) {
-  return sendAuth('/api/register', { username, email, password }, 'Register failed');
+  return sendAuth(
+    '/auth/register',
+    { username, email, password },
+    'Register failed',
+  );
 }
