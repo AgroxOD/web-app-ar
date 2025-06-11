@@ -29,7 +29,7 @@ afterEach(() => {
 
 describe('login', () => {
   it('sends POST to /auth/login', async () => {
-    fetch.mockResolvedValue({ ok: true, json: vi.fn() });
+    fetch.mockResolvedValue({ ok: true, json: vi.fn().mockResolvedValue({}) });
     await login('user@example.com', 'pass');
     expect(fetch).toHaveBeenCalledWith(
       '/auth/login',
@@ -53,7 +53,7 @@ describe('login', () => {
 
 describe('register', () => {
   it('sends POST to /auth/register', async () => {
-    fetch.mockResolvedValue({ ok: true, json: vi.fn() });
+    fetch.mockResolvedValue({ ok: true, json: vi.fn().mockResolvedValue({}) });
     await register('u', 'e', 'p');
     expect(fetch).toHaveBeenCalledWith(
       '/auth/register',
