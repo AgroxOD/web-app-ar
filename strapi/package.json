@@ -35,7 +35,7 @@
     "autoprefixer": "^10.4.17"
   },
   "engines": {
-    "node": ">=18.0.0 <=22.x.x",
+    "node": ">=18 <22",
     "npm": ">=6.0.0"
   },
   "strapi": {
