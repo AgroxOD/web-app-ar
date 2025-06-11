@@ -26,9 +26,18 @@ async function sendAuth(path, payload, failMsg) {
 }
 
 export function login(identifier, password) {
-  return sendAuth('/api/login', { identifier, password }, 'Login failed');
+  // prettier-ignore
+  return sendAuth(
+    '/api/login',
+    { identifier, password },
+    'Login failed',
+  );
 }
 
 export function register(username, email, password) {
-  return sendAuth('/api/register', { username, email, password }, 'Register failed');
+  return sendAuth(
+    '/api/register',
+    { username, email, password },
+    'Register failed',
+  );
 }
