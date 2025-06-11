@@ -20,6 +20,8 @@ jobs:
         with:
           node-version: 18
           cache: 'pnpm'
+      - name: Validate Lockfile
+        run: pnpm install
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Lint
