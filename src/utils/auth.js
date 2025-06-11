@@ -15,9 +15,7 @@ export function isAuthenticated() {
 }
 
 async function sendAuth(path, payload, failMsg) {
-  const base = import.meta.env.VITE_STRAPI_URL;
-  if (!base) throw new Error('VITE_STRAPI_URL not set');
-  const url = `${base.replace(/\/$/, '')}${path}`;
+  const url = path;
   const res = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -28,13 +26,9 @@ async function sendAuth(path, payload, failMsg) {
 }
 
 export function login(identifier, password) {
-  return sendAuth('/auth/local', { identifier, password }, 'Login failed');
+  return sendAuth('/api/login', { identifier, password }, 'Login failed');
 }
 
 export function register(username, email, password) {
-  return sendAuth(
-    '/auth/local/register',
-    { username, email, password },
-    'Register failed',
-  );
+  return sendAuth('/api/register', { username, email, password }, 'Register failed');
 }

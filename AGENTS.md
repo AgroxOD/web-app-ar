@@ -38,7 +38,6 @@
 - [pnpm](https://pnpm.io/) — менеджер пакетов
 - [Tailwind CSS](https://tailwindcss.com/) — utility‑first CSS
 - [Visual Studio Code](https://code.visualstudio.com/) — основная IDE
-- _(Опционально)_ [Strapi](https://strapi.io/) — headless CMS
 - [Express](https://expressjs.com/) — API сервер
 - [Vitest](https://vitest.dev/) — тестовый фреймворк
 - _(В перспективе)_ [MongoDB](https://www.mongodb.com/) — хранение пользовательских данных и CRM-метаданных
@@ -59,7 +58,6 @@ project-root/
 │   └── utils/             # Вспомогательные функции (по необходимости)
 ├── server.js             # API сервер на Express
 ├── tests/                # тесты Vitest
-├── strapi/               # директория CMS
 ├── index.html
 ├── vite.config.js
 ├── package.json
@@ -104,7 +102,6 @@ pnpm dev
 
 pnpm build    # production сборка
 pnpm preview  # проверка dist/
-pnpm strapi   # запуск локального Strapi CMS (опционально)
 
 # Открой http://localhost:5173/web-app-ar/ в браузере и нажми кнопку **Start AR** для запуска сцены
 ```
@@ -124,8 +121,6 @@ pnpm strapi   # запуск локального Strapi CMS (опциональ
 6. Для переменных окружения используй `.env` (если потребуются API-ключи).
    - Для отправки аналитики укажи `VITE_ANALYTICS_ENDPOINT=<url>`
    - Для загрузки моделей в R2 задай `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `R2_ENDPOINT` и `R2_BUCKET`
-   - Для доступа к CMS укажи `VITE_STRAPI_URL=http://localhost:1337/api`
-   - Для плагина Strapi users-permissions задай `JWT_SECRET` (создай через `openssl rand -hex 32`)
 7. Перед запуском `pnpm lint` обязательно установи зависимости командой `pnpm install`.
 
 ### Как обновить ветку и разрешить конфликт pnpm-lock.yaml
@@ -159,7 +154,7 @@ pnpm strapi   # запуск локального Strapi CMS (опциональ
 - `pnpm preview` — предпросмотр собранных файлов.
 - `pnpm start` — запуск API-сервера.
 - `pnpm test` — прогон тестов Vitest.
-- `pnpm strapi` — локальный Strapi CMS (опционально).
+
 
 ---
 
@@ -171,9 +166,7 @@ pnpm strapi   # запуск локального Strapi CMS (опциональ
 
 ## CMS {#cms}
 
-Модели управляются через Strapi CMS. Задай переменную окружения `VITE_STRAPI_URL`
-и запусти `pnpm strapi`, чтобы открыть административную панель. Клиентская часть
-загружает список моделей с помощью утилиты `src/utils/models.js`.
+Модели можно хранить в собственной базе данных и загружать через API сервера.
 
 ---
 
@@ -245,7 +238,6 @@ pnpm strapi   # запуск локального Strapi CMS (опциональ
 > Разработка в отдельном агенте/модуле, интеграция по мере готовности.
 
 - **API-интеграция** с [MongoDB Atlas](https://www.mongodb.com/atlas) или своим сервером MongoDB
-- **Strapi CMS** для удобного управления контентом
 - **Логирование** взаимодействия пользователей с маркерами
 - **Привязка данных** (аналитика, контактные формы) к каждому marker target
 - **Хранение .glb** моделей в облаке ([Cloudflare R2](https://www.cloudflare.com/products/r2/))
@@ -261,7 +253,6 @@ pnpm strapi   # запуск локального Strapi CMS (опциональ
 - [x] Локальная разработка
 - [x] Совместимость с GitHub Pages
 - [x] Tailwind CSS
-- [ ] Strapi CMS
 - [ ] Интеграция с MongoDB
 - [ ] Аналитика и логи по маркерам
 - [ ] Интеграция с Cloudflare R2
@@ -277,7 +268,6 @@ pnpm strapi   # запуск локального Strapi CMS (опциональ
 - [Three.js Docs](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene)
 - [Vite Docs](https://vitejs.dev/guide/)
 - [Tailwind CSS](https://tailwindcss.com/docs)
-- [Strapi Docs](https://docs.strapi.io/)
 - [MongoDB Atlas](https://www.mongodb.com/atlas)
 - [Cloudflare R2](https://www.cloudflare.com/products/r2/)
 

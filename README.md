@@ -26,7 +26,6 @@
 - [pnpm](https://pnpm.io/) — менеджер пакетов
 - [Tailwind CSS](https://tailwindcss.com/) — utility‑first CSS
 - [MindAR Marker Compiler](https://hiukim.github.io/mind-ar-js-doc/tools/compile/) — онлайн-конвертер PNG/JPG в `.mind`
-- [Strapi](https://strapi.io/) — headless CMS (опционально)
 - [Express](https://expressjs.com/) — API-сервер
 - [Vitest](https://vitest.dev/) — тестовый фреймворк
 - ESLint + Prettier (flat config `eslint.config.js`)
@@ -47,7 +46,6 @@ project-root/
 │   └── utils/
 ├── server.js           # API сервер на Express
 ├── tests/              # тесты Vitest
-├── strapi/             # директория CMS
 ├── index.html
 ├── vite.config.js
 └── package.json
@@ -60,12 +58,9 @@ project-root/
 ```bash
 git clone <repo-url>
 cd <project-name>
-pnpm install       # установит зависимости клиента и CMS
+pnpm install
 # скопируй пример конфигурации и заполни значения
 cp .env.example .env
-# если планируешь использовать Strapi CMS, скопируй файл и в подкаталог
-cp .env.example strapi/.env
-# перед запуском CMS укажи APP_KEYS, ADMIN_JWT_SECRET и JWT_SECRET (openssl rand -hex 32)
 # при необходимости скачай тяжелые модели
 sh public/assets/download_models.sh
 # пример для Cloudflare R2
@@ -77,38 +72,15 @@ pnpm format # автоформатирование
 pnpm build # production сборка
 pnpm preview # предпросмотр dist/
 pnpm start  # запуск API-сервера (опционально)
-pnpm strapi # запускает Strapi CMS (опционально)
 ```
 
-Этот проект использует **pnpm** как менеджер пакетов. Команда `pnpm install` устанавливает зависимости как для клиента, так и для каталога `strapi`, так как проект настроен как workspace. В репозитории хранится `pnpm-lock.yaml`; файл `package-lock.json` не используется.
+Этот проект использует **pnpm** как менеджер пакетов. В репозитории хранится `pnpm-lock.yaml`; файл `package-lock.json` не используется.
 В `.gitattributes` прописано `pnpm-lock.yaml merge=ours`, поэтому при слияниях предпочтение отдаётся локальному lockfile.
 
 Открой [http://localhost:5173/web-app-ar/](http://localhost:5173/web-app-ar/) в браузере и нажми кнопку **Start AR**, чтобы загрузить сцену.
 
 Скопируй `.env.example` в `.env` и заполни нужные переменные, например `VITE_ANALYTICS_ENDPOINT` для отправки аналитики.
-Если планируешь запускать Strapi, сделай то же в каталоге `strapi`:
-`cp .env.example strapi/.env`
 Для загрузки моделей из внешнего хранилища можно использовать переменную `VITE_MODEL_URL`.
-Для подключения к Strapi укажи `VITE_STRAPI_URL`. В локальной среде значение
-`http://localhost:1337/api` используется по умолчанию и приведено в `.env.example`.
-URL может указывать на объект в Cloudflare R2. Также модель можно передать через параметр `?model=URL` в адресной строке.
-При необходимости укажи `FRONTEND_ORIGINS` — список URL через запятую,
-которым разрешён доступ к Strapi через CORS.
-
-Для загрузки и выбора 3D‑моделей теперь используется Strapi CMS. Перед его запуском укажи `APP_KEYS`, `ADMIN_JWT_SECRET` и `JWT_SECRET` в `.env` (иначе сборка Strapi завершится ошибкой), затем выполни `pnpm strapi` и открой административную панель. Клиентская часть получает список через модуль `src/utils/models.js`.
-
-Для быстрой загрузки файлов предусмотрена страница `cp.html`. Укажи `VITE_STRAPI_URL=https://web-app-ar.onrender.com/api` в конфигурации и войди под учётной записью Strapi. После успешного входа можно отправлять `.glb` модели через форму, а список автоматически обновится после загрузки.
-
-Если файл `.env` отсутствует, Strapi попытается подключиться к Postgres по умолчанию и завершится ошибкой. Скопируй пример конфигурации, сгенерируй секреты и убедись, что выбран SQLite, если не используешь Postgres:
-
-```bash
-cp .env.example .env
-openssl rand -hex 32  # сгенерируй значения для APP_KEYS, ADMIN_JWT_SECRET и JWT_SECRET
-```
-
-В файле `.env` оставь `DATABASE_CLIENT=sqlite` или поменяй на `postgres`, если планируешь использовать Postgres. CMS рекомендуется запускать через скрипт `pnpm strapi`.
-
-Если Strapi подключается к Postgres (`DATABASE_CLIENT=postgres` или используется `DATABASE_URL`), установи пакет `pg` командой `pnpm add -w pg`.
 
 > **Важно:** приложение должно обслуживаться веб-сервером. Запускай его через `pnpm dev` или статический сервер. Простое открытие `dist/index.html` напрямую в браузере не сработает.
 
@@ -202,7 +174,7 @@ openssl rand -hex 32  # сгенерируй значения для APP_KEYS, A
 pnpm start
 
 ````
-Локальный сервер нужен только при использовании собственной базы данных. Ранее для выбора моделей использовался `public/admin.html`, но теперь список формируется через Strapi CMS.
+Локальный сервер нужен только при использовании собственной базы данных. Ранее для выбора моделей использовался `public/admin.html`, но теперь список формируется через API сервера.
 
 ### Сервер API
 
@@ -260,7 +232,6 @@ pnpm install
 - Интеграция с MongoDB Atlas для хранения статистики и лидов
 - Cloudflare R2 — для хранения `.glb` моделей
 - Аналитика взаимодействия с маркерами
-- Strapi как headless CMS для управления контентом
 
 ---
 
@@ -269,7 +240,6 @@ pnpm install
 - [x] Локальная разработка
 - [x] GitHub Pages
 - [x] Tailwind CSS
-- [ ] Strapi CMS
 - [ ] Интеграция с MongoDB
 - [ ] Cloudflare R2
 - [ ] Готовая к продакшену CRM

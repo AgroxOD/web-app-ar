@@ -1,16 +1,10 @@
-import { fetchStrapi } from './strapi.js';
-
 export async function loadModels() {
   try {
-    const res = await fetchStrapi('models');
-    const items = res?.data ?? res;
-    return items.map((m) => ({
-      id: m.id,
-      name: m.attributes?.name || m.name || `model-${m.id}`,
-      url: m.attributes?.url || m.url,
-    }));
+    const res = await fetch('/api/models');
+    if (!res.ok) throw new Error(`API request failed: ${res.status}`);
+    return await res.json();
   } catch (e) {
-    console.error('CMS error', e);
+    console.error('API error', e);
     return [];
   }
 }
