@@ -155,7 +155,6 @@ pnpm preview  # проверка dist/
 - `pnpm start` — запуск API-сервера.
 - `pnpm test` — прогон тестов Vitest.
 
-
 ---
 
 ## Как создать .mind-файл для маркера

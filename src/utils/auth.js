@@ -27,12 +27,10 @@ async function sendAuth(path, payload, failMsg) {
 
 export function login(email, password) {
   return sendAuth('/auth/login', { email, password }, 'Login failed');
-
 }
 
 export function register(username, email, password) {
   return sendAuth(
-
     '/auth/register',
 
     { username, email, password },

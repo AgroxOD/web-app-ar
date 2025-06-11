@@ -18,4 +18,3 @@ describe('GET /api/models', () => {
     expect(res.body).toEqual([{ name: 'm1', url: 'm1.glb' }]);
   });
 });
-
