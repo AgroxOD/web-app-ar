@@ -1,29 +1,21 @@
-import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { loadModels } from '../src/utils/models.js';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import request from 'supertest';
+import { app, Model } from '../server.js';
 
-beforeEach(() => {
-  global.fetch = vi.fn();
-});
-
-afterEach(() => {
-  vi.restoreAllMocks();
-  delete global.fetch;
-});
-
-describe('loadModels', () => {
-  it('returns list from API', async () => {
-    const mockJson = vi.fn().mockResolvedValue([{ name: 'm1', url: 'm1.glb' }]);
-    fetch.mockResolvedValue({ ok: true, json: mockJson });
-
-    const models = await loadModels();
-
-    expect(fetch).toHaveBeenCalledWith('/api/models');
-    expect(models).toEqual([{ name: 'm1', url: 'm1.glb' }]);
+describe('GET /api/models', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
-  it('returns empty array on error', async () => {
-    fetch.mockRejectedValue(new Error('fail'));
-    const models = await loadModels();
-    expect(models).toEqual([]);
+  it('returns list of models', async () => {
+    vi.spyOn(Model, 'find').mockReturnValue({
+      select: vi.fn().mockReturnThis(),
+      lean: vi.fn().mockResolvedValue([{ name: 'm1', url: 'm1.glb' }]),
+    });
+
+    const res = await request(app).get('/api/models');
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual([{ name: 'm1', url: 'm1.glb' }]);
   });
 });
+
