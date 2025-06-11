@@ -21,21 +21,20 @@ beforeEach(() => {
       delete store[k];
     },
   };
-  process.env.VITE_STRAPI_URL = 'http://cms.com/api';
+  
 });
 
 afterEach(() => {
   vi.restoreAllMocks();
-  delete process.env.VITE_STRAPI_URL;
   delete global.localStorage;
 });
 
 describe('login', () => {
-  it('sends POST to auth/local', async () => {
+  it('sends POST to /api/login', async () => {
     fetch.mockResolvedValue({ ok: true, json: vi.fn() });
     await login('user', 'pass');
     expect(fetch).toHaveBeenCalledWith(
-      'http://cms.com/api/auth/local',
+      '/api/login',
       expect.objectContaining({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -51,11 +50,11 @@ describe('login', () => {
 });
 
 describe('register', () => {
-  it('sends POST to auth/local/register', async () => {
+  it('sends POST to /api/register', async () => {
     fetch.mockResolvedValue({ ok: true, json: vi.fn() });
     await register('u', 'e', 'p');
     expect(fetch).toHaveBeenCalledWith(
-      'http://cms.com/api/auth/local/register',
+      '/api/register',
       expect.objectContaining({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

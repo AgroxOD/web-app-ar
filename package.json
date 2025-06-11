@@ -13,8 +13,7 @@
     "format": "prettier --write \"**/*.{js,css,html,json,md}\"",
     "format:check": "prettier --check \"**/*.{js,css,html,json,md}\"",
     "api": "node server.js",
-    "start": "node server.js",
-    "strapi": "pnpm --filter strapi dev"
+    "start": "node server.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.548.0",
