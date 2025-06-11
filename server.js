@@ -18,7 +18,10 @@ import crypto from 'crypto';
 export const app = express();
 app.use(express.json());
 app.use(cors());
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
+});
 
 const s3 = new S3Client({
   credentials: {
@@ -182,7 +185,16 @@ app.get('/api/models', async (req, res) => {
 app.post(
   '/upload',
   authMiddleware,
-  upload.single('model'),
+  (req, res, next) => {
+    upload.single('model')(req, res, (err) => {
+      if (err) {
+        if (err.code === 'LIMIT_FILE_SIZE')
+          return res.status(413).json({ error: 'File too large' });
+        return res.status(400).json({ error: 'Upload failed' });
+      }
+      next();
+    });
+  },
   async (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
     const bucket = process.env.R2_BUCKET;
@@ -191,23 +203,30 @@ app.post(
         .status(500)
         .json({ error: 'R2_BUCKET environment variable not configured' });
     try {
+      const filename = path.basename(req.file.originalname);
+      if (
+        filename !== req.file.originalname ||
+        !/^[\w.-]+$/.test(filename)
+      ) {
+        return res.status(400).json({ error: 'Invalid filename' });
+      }
       const command = new PutObjectCommand({
         Bucket: bucket,
-        Key: req.file.originalname,
+        Key: filename,
         Body: req.file.buffer,
         ContentType: req.file.mimetype,
       });
       await s3.send(command);
       await Model.updateOne(
-        { url: req.file.originalname },
+        { url: filename },
         {
-          name: path.parse(req.file.originalname).name,
-          url: req.file.originalname,
+          name: path.parse(filename).name,
+          url: filename,
           markerIndex: parseInt(req.body.markerIndex ?? '0', 10) || 0,
         },
         { upsert: true },
       );
-      res.json({ key: req.file.originalname });
+      res.json({ key: filename });
     } catch (e) {
       console.error(e);
       res.status(500).json({ error: 'Upload failed' });
