@@ -192,7 +192,7 @@ pnpm start
 - `POST /auth/login` — получение JWT
 - перед запуском задайте переменные `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `R2_ENDPOINT`, `R2_BUCKET` и `JWT_SECRET`
 
-> `JWT_SECRET` является обязательной переменной; если она не указана, защищённые маршруты API вернут статус `500`.
+> `JWT_SECRET` является обязательной переменной; если она не указана, защищённые маршруты API вернут статус `500`. Этот статус можно изменить через переменную `JWT_MISSING_STATUS`.
 
 Пример конфигурации `.env`:
 
@@ -203,6 +203,7 @@ AWS_REGION=auto
 R2_ENDPOINT=https://<account>.r2.cloudflarestorage.com
 R2_BUCKET=my-bucket
 JWT_SECRET=super-secret
+JWT_MISSING_STATUS=
 ````
 
 #### Аутентификация
