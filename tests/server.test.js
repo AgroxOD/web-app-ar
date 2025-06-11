@@ -15,11 +15,13 @@ describe('API endpoints', () => {
   it('GET /api/models returns data', async () => {
     vi.spyOn(Model, 'find').mockReturnValue({
       select: vi.fn().mockReturnThis(),
-      lean: vi.fn().mockResolvedValue([{ name: 'foo', url: 'a.glb' }]),
+      lean: vi.fn().mockResolvedValue([
+        { name: 'foo', url: 'a.glb', markerIndex: 0 },
+      ]),
     });
     const res = await request(app).get('/api/models');
     expect(res.status).toBe(200);
-    expect(res.body).toEqual([{ name: 'foo', url: 'a.glb' }]);
+    expect(res.body).toEqual([{ name: 'foo', url: 'a.glb', markerIndex: 0 }]);
   });
 
   it('GET /model/:file without bucket returns 500', async () => {
@@ -77,13 +79,21 @@ describe('API endpoints', () => {
     process.env.R2_BUCKET = 'b';
     process.env.JWT_SECRET = 's';
     vi.spyOn(S3Client.prototype, 'send').mockResolvedValue({});
-    vi.spyOn(Model, 'updateOne').mockResolvedValue({});
+    const updateSpy = vi
+      .spyOn(Model, 'updateOne')
+      .mockResolvedValue({});
     const token = sign({ id: 1 }, 's');
     const res = await request(app)
       .post('/upload')
       .set('Authorization', `Bearer ${token}`)
+      .field('markerIndex', '2')
       .attach('model', Buffer.from('data'), 'm.glb');
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ key: 'm.glb' });
+    expect(updateSpy).toHaveBeenCalledWith(
+      { url: 'm.glb' },
+      expect.objectContaining({ markerIndex: 2 }),
+      { upsert: true },
+    );
   });
 });

@@ -32,7 +32,7 @@ function hideFrame() {
 }
 
 // Инициализация AR-сцены при загрузке страницы
-export const startAR = async (modelOverride) => {
+export const startAR = async (modelsList) => {
   if (!navigator.mediaDevices?.getUserMedia || !window.WebGLRenderingContext) {
     alert('Ваш браузер не поддерживает AR');
     return false;
@@ -63,55 +63,50 @@ export const startAR = async (modelOverride) => {
 
   // Загрузка модели. Приоритет: параметр ?model=URL, затем VITE_MODEL_URL
   const loader = new GLTFLoader();
-  const urlParam = new URLSearchParams(window.location.search).get('model');
-  const modelUrl =
-    modelOverride ||
-    urlParam ||
-    import.meta.env.VITE_MODEL_URL ||
-    `${base}assets/model.glb`;
-  let model;
+  const unique = {};
+  (modelsList || []).forEach((m) => {
+    if (unique[m.markerIndex] === undefined) unique[m.markerIndex] = m;
+  });
+  const anchors = [];
   try {
-    const gltf = await loader.loadAsync(modelUrl);
-    model = gltf.scene;
-
-    // Подгоняем масштаб модели по bounding box, если возможно
-    const box = new THREE.Box3().setFromObject(model);
-    const size = new THREE.Vector3();
-    box.getSize(size);
-    const maxDim = Math.max(size.x, size.y, size.z);
-
-    const desired = 1; // целевой размер в условных единицах сцены
-    let scale = FALLBACK_MODEL_SCALE;
-    if (Number.isFinite(maxDim) && maxDim > 0) {
-      scale = desired / maxDim;
+    for (const info of Object.values(unique)) {
+      const gltf = await loader.loadAsync(info.url);
+      const model = gltf.scene;
+      const box = new THREE.Box3().setFromObject(model);
+      const size = new THREE.Vector3();
+      box.getSize(size);
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const desired = 1;
+      let scale = FALLBACK_MODEL_SCALE;
+      if (Number.isFinite(maxDim) && maxDim > 0) {
+        scale = desired / maxDim;
+      }
+      model.scale.setScalar(scale);
+      const anchor = mindarThree.addAnchor(info.markerIndex ?? 0);
+      anchor.group.add(model);
+      anchor.group.visible = false;
+      anchor.onTargetFound = () => {
+        anchor.group.visible = true;
+        hideFrame();
+        showControls();
+        setFrameColor('green');
+        logEvent('targetFound');
+      };
+      anchor.onTargetLost = () => {
+        anchor.group.visible = false;
+        showFrame();
+        hideControls();
+        setFrameColor('white');
+        logEvent('targetLost');
+      };
+      anchors.push({ anchor, model });
     }
-
-    model.scale.setScalar(scale);
   } catch (e) {
     console.error(e);
     alert('Ошибка загрузки 3D-модели!');
     logEvent('modelError', { message: e?.message });
     return false;
   }
-
-  const anchor = mindarThree.addAnchor(0);
-  anchor.group.add(model);
-  anchor.group.visible = false;
-
-  anchor.onTargetFound = () => {
-    anchor.group.visible = true;
-    hideFrame();
-    showControls();
-    setFrameColor('green');
-    logEvent('targetFound');
-  };
-  anchor.onTargetLost = () => {
-    anchor.group.visible = false;
-    showFrame();
-    hideControls();
-    setFrameColor('white');
-    logEvent('targetLost');
-  };
 
   try {
     await mindarThree.start();
@@ -155,8 +150,10 @@ export const startAR = async (modelOverride) => {
     return false;
   }
   renderer.setAnimationLoop(() => {
-    model.rotation.y = THREE.MathUtils.degToRad(modelParams.rotationY);
-    model.scale.setScalar(modelParams.scale);
+    anchors.forEach(({ model }) => {
+      model.rotation.y = THREE.MathUtils.degToRad(modelParams.rotationY);
+      model.scale.setScalar(modelParams.scale);
+    });
     renderer.render(scene, camera);
   });
   return true;
