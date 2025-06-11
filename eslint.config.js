@@ -6,9 +6,8 @@ import globals from 'globals';
 
 export default [
   {
-
     ignores: ['node_modules/**'],
-
+  },
   js.configs.recommended,
   // Общие правила для JS-файлов фронта (браузер)
   {
