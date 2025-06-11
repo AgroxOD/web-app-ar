@@ -12,6 +12,7 @@ import {
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import path from 'path';
+import crypto from 'crypto';
 
 export const app = express();
 app.use(express.json());
@@ -34,6 +35,35 @@ const modelSchema = new mongoose.Schema({
   url: String,
 });
 export const Model = mongoose.model('Model', modelSchema);
+
+function verifyJwt(token, secret) {
+  const [header, payload, signature] = token.split('.');
+  if (!header || !payload || !signature) throw new Error('Invalid token');
+  const data = `${header}.${payload}`;
+  const expected = crypto
+    .createHmac('sha256', secret)
+    .update(data)
+    .digest('base64url');
+  if (expected !== signature) throw new Error('Invalid token');
+  const body = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8'));
+  if (body.exp && Date.now() >= body.exp * 1000)
+    throw new Error('Token expired');
+  return body;
+}
+
+function authMiddleware(req, res, next) {
+  const auth = req.get('Authorization');
+  if (!auth || !auth.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  try {
+    const token = auth.slice(7);
+    verifyJwt(token, process.env.JWT_SECRET || '');
+    next();
+  } catch {
+    res.status(401).json({ error: 'Unauthorized' });
+  }
+}
 
 async function syncR2Models() {
   const bucket = process.env.R2_BUCKET;
@@ -70,7 +100,7 @@ app.get('/api/models', async (req, res) => {
   res.json(list);
 });
 
-app.post('/upload', upload.single('model'), async (req, res) => {
+app.post('/upload', authMiddleware, upload.single('model'), async (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
   const bucket = process.env.R2_BUCKET;
   if (!bucket)

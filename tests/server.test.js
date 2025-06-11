@@ -2,6 +2,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import request from 'supertest';
 import { app, Model, main } from '../server.js';
 import mongoose from 'mongoose';
+import crypto from 'crypto';
+import { S3Client } from '@aws-sdk/client-s3';
 
 process.env.NODE_ENV = 'test';
 
@@ -36,5 +38,39 @@ describe('API endpoints', () => {
     });
     await main();
     expect(exitSpy).toHaveBeenCalledWith(1);
+  });
+
+  function sign(payload, secret) {
+    const header = Buffer.from(
+      JSON.stringify({ alg: 'HS256', typ: 'JWT' }),
+    ).toString('base64url');
+    const body = Buffer.from(JSON.stringify(payload)).toString('base64url');
+    const signature = crypto
+      .createHmac('sha256', secret)
+      .update(`${header}.${body}`)
+      .digest('base64url');
+    return `${header}.${body}.${signature}`;
+  }
+
+  it('POST /upload rejects unauthorized', async () => {
+    process.env.R2_BUCKET = 'b';
+    const res = await request(app)
+      .post('/upload')
+      .attach('model', Buffer.from('data'), 'm.glb');
+    expect(res.status).toBe(401);
+  });
+
+  it('POST /upload accepts valid token', async () => {
+    process.env.R2_BUCKET = 'b';
+    process.env.JWT_SECRET = 's';
+    vi.spyOn(S3Client.prototype, 'send').mockResolvedValue({});
+    vi.spyOn(Model, 'updateOne').mockResolvedValue({});
+    const token = sign({ id: 1 }, 's');
+    const res = await request(app)
+      .post('/upload')
+      .set('Authorization', `Bearer ${token}`)
+      .attach('model', Buffer.from('data'), 'm.glb');
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ key: 'm.glb' });
   });
 });
