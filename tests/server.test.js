@@ -31,11 +31,9 @@ describe('API endpoints', () => {
 
   it('exits process when MongoDB connection fails', async () => {
     vi.spyOn(mongoose, 'connect').mockRejectedValue(new Error('fail'));
-    const exitSpy = vi
-      .spyOn(process, 'exit')
-      .mockImplementation(() => {
-        /* no-op for tests */
-      });
+    const exitSpy = vi.spyOn(process, 'exit').mockImplementation(() => {
+      /* no-op for tests */
+    });
     await main();
     expect(exitSpy).toHaveBeenCalledWith(1);
   });

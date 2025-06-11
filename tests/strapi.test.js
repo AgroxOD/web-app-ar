@@ -25,6 +25,8 @@ describe('fetchStrapi', () => {
   it('throws on non-OK response', async () => {
     fetch.mockResolvedValue({ ok: false, status: 500 });
 
-    await expect(fetchStrapi('models')).rejects.toThrow('Strapi request failed: 500');
+    await expect(fetchStrapi('models')).rejects.toThrow(
+      'Strapi request failed: 500',
+    );
   });
 });
