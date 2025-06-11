@@ -59,6 +59,11 @@
       <h1 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.25rem">
         Upload 3D Models
       </h1>
+      <p
+        id="api-warning"
+        class="hidden"
+        style="color: red; margin-bottom: 0.5rem"
+      ></p>
       <div id="auth" style="margin-bottom: 1rem">
         <form id="login-form" class="inline-form">
           <input
@@ -127,17 +132,32 @@
       } from './src/utils/auth.js';
       import { loadModels } from './src/utils/models.js';
 
+      const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+
+      function showWarning(msg) {
+        const el = document.getElementById('api-warning');
+        el.textContent = msg;
+        el.classList.remove('hidden');
+      }
+
+      function clearWarning() {
+        document.getElementById('api-warning').classList.add('hidden');
+      }
+
       async function refreshModels() {
         const list = document.getElementById('model-list');
         list.innerHTML = '';
         try {
           const models = await loadModels();
+          clearWarning();
           models.forEach((m) => {
             const li = document.createElement('li');
             li.textContent = `${m.name} (${m.url})`;
             list.appendChild(li);
           });
-        } catch {}
+        } catch {
+          showWarning('Failed to load models');
+        }
       }
 
       function updateUI() {
@@ -166,8 +186,9 @@
             setToken(jwt);
             updateUI();
             await refreshModels();
+            clearWarning();
           } catch (err) {
-            alert(err.message);
+            showWarning(err.message);
           }
         });
 
@@ -184,8 +205,9 @@
             setToken(jwt);
             updateUI();
             await refreshModels();
+            clearWarning();
           } catch (err) {
-            alert(err.message);
+            showWarning(err.message);
           }
         });
 
@@ -193,6 +215,7 @@
         logout();
         updateUI();
         document.getElementById('model-list').innerHTML = '';
+        clearWarning();
       });
 
       document
@@ -203,7 +226,7 @@
           const form = new FormData();
           if (fileInput.files[0]) form.append('model', fileInput.files[0]);
           try {
-            const res = await fetch('/upload', {
+            const res = await fetch(`${API_BASE}/upload`, {
               method: 'POST',
               headers: {
                 Authorization: `Bearer ${localStorage.getItem('jwt')}`,
@@ -214,7 +237,7 @@
             fileInput.value = '';
             await refreshModels();
           } catch {
-            alert('Upload failed');
+            showWarning('Upload failed');
           }
         });
 
