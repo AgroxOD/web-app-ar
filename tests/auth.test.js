@@ -21,9 +21,7 @@ beforeEach(() => {
       delete store[k];
     },
   };
-  
 });
-
 afterEach(() => {
   vi.restoreAllMocks();
   delete global.localStorage;
