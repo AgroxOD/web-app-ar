@@ -63,7 +63,7 @@ cd <project-name>
 pnpm install       # установит зависимости клиента и CMS
 # скопируй пример конфигурации и заполни значения
 cp .env.example .env
-# перед запуском CMS укажи JWT_SECRET (openssl rand -hex 32)
+# перед запуском CMS укажи APP_KEYS, ADMIN_JWT_SECRET и JWT_SECRET (openssl rand -hex 32)
 # при необходимости скачай тяжелые модели
 sh public/assets/download_models.sh
 # пример для Cloudflare R2
@@ -91,7 +91,7 @@ URL может указывать на объект в Cloudflare R2. Также
 При необходимости укажи `FRONTEND_ORIGINS` — список URL через запятую,
 которым разрешён доступ к Strapi через CORS.
 
-Для загрузки и выбора 3D‑моделей теперь используется Strapi CMS. Перед его запуском укажи `JWT_SECRET` в `.env`, затем выполни `pnpm strapi` и открой административную панель. Клиентская часть получает список через модуль `src/utils/models.js`.
+Для загрузки и выбора 3D‑моделей теперь используется Strapi CMS. Перед его запуском укажи `APP_KEYS`, `ADMIN_JWT_SECRET` и `JWT_SECRET` в `.env`, затем выполни `pnpm strapi` и открой административную панель. Клиентская часть получает список через модуль `src/utils/models.js`.
 
 Если Strapi подключается к Postgres (`DATABASE_CLIENT=postgres` или используется `DATABASE_URL`), установи пакет `pg` командой `pnpm add -w pg`.
 
