@@ -8,10 +8,6 @@ export default [
   {
     ignores: [
       'node_modules/**',
-      'strapi/.strapi/**',
-      'strapi/dist/**',
-      'strapi/**/.strapi/**',
-      'strapi/**/dist/**',
     ],
   },
   js.configs.recommended,
