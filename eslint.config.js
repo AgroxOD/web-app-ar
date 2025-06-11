@@ -6,13 +6,7 @@ import globals from 'globals';
 
 export default [
   {
-    ignores: [
-      'node_modules/**',
-      'strapi/.strapi/**',
-      'strapi/dist/**',
-      'strapi/**/.strapi/**',
-      'strapi/**/dist/**',
-    ],
+    ignores: ['node_modules/**'],
   },
   js.configs.recommended,
   // Общие правила для JS-файлов фронта (браузер)
