@@ -1,0 +1,1 @@
+function r(){return localStorage.getItem("jwt")}function a(t){t&&localStorage.setItem("jwt",t)}function i(){localStorage.removeItem("jwt")}function u(){return!!r()}async function n(t,e,o){throw new Error("VITE_STRAPI_URL not set")}function s(t,e){return n()}function c(t,e,o){return n()}export{r as getToken,u as isAuthenticated,s as login,i as logout,c as register,a as setToken};
