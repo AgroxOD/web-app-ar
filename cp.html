@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Content Manager</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@strapi/design-system@1.14.0/dist/strapi.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@strapi/design-system@1.14.0/dist/strapi.css"
+    />
     <link rel="stylesheet" href="./src/style.css" />
     <style>
       body {
@@ -56,8 +59,10 @@
   </head>
   <body>
     <div class="card">
-      <h1 style="margin-top:0;margin-bottom:1rem;font-size:1.25rem;">Upload 3D Models</h1>
-      <div id="auth" style="margin-bottom:1rem;">
+      <h1 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.25rem">
+        Upload 3D Models
+      </h1>
+      <div id="auth" style="margin-bottom: 1rem">
         <form id="login-form" class="inline-form">
           <input
             id="login-email"
@@ -95,15 +100,13 @@
             placeholder="Password"
             required
           />
-          <button class="button button-primary" type="submit">
-            Register
-          </button>
+          <button class="button button-primary" type="submit">Register</button>
         </form>
         <button id="logout" class="button button-secondary hidden">
           Logout
         </button>
       </div>
-      <form id="upload-form" class="hidden" style="margin-bottom:1rem;">
+      <form id="upload-form" class="hidden" style="margin-bottom: 1rem">
         <input
           type="file"
           id="file"
