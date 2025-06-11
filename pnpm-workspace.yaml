@@ -1,2 +1,11 @@
 packages:
-  - '.'
+  - .
+
+ignoredBuiltDependencies:
+  - '@swc/core'
+  - better-sqlite3
+  - canvas
+  - core-js
+  - core-js-pure
+  - esbuild
+  - sharp
