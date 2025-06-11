@@ -79,7 +79,7 @@ pnpm start  # запуск API-сервера (опционально)
 
 Открой [http://localhost:5173/web-app-ar/](http://localhost:5173/web-app-ar/) в браузере и нажми кнопку **Start AR**, чтобы загрузить сцену.
 
-Скопируй `.env.example` в `.env` и заполни нужные переменные, например `VITE_ANALYTICS_ENDPOINT` для отправки аналитики.
+Скопируй `.env.example` в `.env` и заполни нужные переменные: `JWT_SECRET` для подписи токенов, `VITE_ANALYTICS_ENDPOINT` для отправки аналитики и т.д.
 Для загрузки моделей из внешнего хранилища можно использовать переменную `VITE_MODEL_URL`.
 
 > **Важно:** приложение должно обслуживаться веб-сервером. Запускай его через `pnpm dev` или статический сервер. Простое открытие `dist/index.html` напрямую в браузере не сработает.
@@ -130,8 +130,10 @@ pnpm start  # запуск API-сервера (опционально)
    Root Directory оставь пустым, если `server.js` находится в корне проекта.
 4. Добавь переменные окружения из `.env.example`:
    - `MONGODB_URI` – строка подключения к MongoDB Atlas
+   - `JWT_SECRET` – секретная фраза для подписи JWT
    - `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`
    - `R2_ENDPOINT`, `R2_BUCKET`
+   - `JWT_SECRET` – секрет для подписи JWT
    - `FRONTEND_ORIGINS` – список разрешённых доменов для CORS
    - `PORT` – укажи `10000` (Render запускает приложение на этом порту)
 5. Сохрани настройки и запусти деплой. После успешного билда сервис будет доступен по адресу вида `https://<name>.onrender.com`.
@@ -148,14 +150,16 @@ pnpm start  # запуск API-сервера (опционально)
 
 ### Настройка MongoDB
 
-1. Скопируй `.env.example` в `.env` и задай переменную `MONGODB_URI` со строкой подключения к MongoDB.
+1. Скопируй `.env.example` в `.env` и задай переменные `MONGODB_URI` и `JWT_SECRET`.
    - Linux/macOS:
      ```bash
      export MONGODB_URI="mongodb://localhost:27017/ar"
+     export JWT_SECRET="mysecret"
      ```
    - Windows PowerShell:
      ```powershell
      $env:MONGODB_URI="mongodb://localhost:27017/ar"
+     $env:JWT_SECRET="mysecret"
      ```
 2. Создай базу `ar` и коллекцию `models` через `mongosh`:
    ```bash
@@ -174,7 +178,6 @@ pnpm start  # запуск API-сервера (опционально)
 pnpm start
 
 ````
-Локальный сервер нужен только при использовании собственной базы данных. Ранее для выбора моделей использовался `public/admin.html`, но теперь список формируется через API сервера.
 
 ### Сервер API
 
@@ -185,7 +188,9 @@ pnpm start
 - Примеры роутов:
 - `POST /upload` — загружает файл `model` в бакет
 - `GET /model/:filename` — выдаёт временную ссылку на модель
-- перед запуском задайте переменные `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `R2_ENDPOINT` и `R2_BUCKET`
+- `POST /auth/register` — регистрация пользователя
+- `POST /auth/login` — получение JWT
+- перед запуском задайте переменные `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `R2_ENDPOINT`, `R2_BUCKET` и `JWT_SECRET`
 
 Пример конфигурации `.env`:
 
@@ -195,7 +200,15 @@ AWS_SECRET_ACCESS_KEY=yyyy
 AWS_REGION=auto
 R2_ENDPOINT=https://<account>.r2.cloudflarestorage.com
 R2_BUCKET=my-bucket
+JWT_SECRET=super-secret
 ````
+
+#### Аутентификация
+
+1. Укажи `JWT_SECRET` в `.env` — ключ подписи JWT.
+2. Регистрация: `POST /auth/register` с JSON `{username, email, password}`.
+3. Вход: `POST /auth/login` — в ответ `{ jwt }`.
+4. Защищённые роуты требуют `Authorization: Bearer <jwt>`.
 
 Создайте бакет в панели Cloudflare R2 и укажите его имя в `R2_BUCKET`.
 
