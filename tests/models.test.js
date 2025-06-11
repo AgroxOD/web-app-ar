@@ -10,9 +10,9 @@ describe('GET /api/models', () => {
   it('returns list of models', async () => {
     vi.spyOn(Model, 'find').mockReturnValue({
       select: vi.fn().mockReturnThis(),
-      lean: vi.fn().mockResolvedValue([
-        { name: 'm1', url: 'm1.glb', markerIndex: 0 },
-      ]),
+      lean: vi
+        .fn()
+        .mockResolvedValue([{ name: 'm1', url: 'm1.glb', markerIndex: 0 }]),
     });
 
     const res = await request(app).get('/api/models');
