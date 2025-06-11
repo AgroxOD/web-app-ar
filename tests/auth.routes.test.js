@@ -17,13 +17,20 @@ function sign(payload, secret) {
 }
 
 describe('auth endpoints', () => {
+  let originalR2;
+  let originalSecret;
+
   beforeEach(() => {
     vi.restoreAllMocks();
+    originalR2 = process.env.R2_BUCKET;
+    originalSecret = process.env.JWT_SECRET;
     process.env.JWT_SECRET = 'secret';
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
+    process.env.R2_BUCKET = originalR2;
+    process.env.JWT_SECRET = originalSecret;
   });
 
   it('POST /auth/register creates user', async () => {

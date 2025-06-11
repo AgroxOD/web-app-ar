@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import request from 'supertest';
 import { app, Model, main } from '../server.js';
 import mongoose from 'mongoose';
@@ -8,8 +8,19 @@ import { S3Client } from '@aws-sdk/client-s3';
 process.env.NODE_ENV = 'test';
 
 describe('API endpoints', () => {
+  let originalR2;
+  let originalSecret;
+
   beforeEach(() => {
     vi.restoreAllMocks();
+    originalR2 = process.env.R2_BUCKET;
+    originalSecret = process.env.JWT_SECRET;
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    process.env.R2_BUCKET = originalR2;
+    process.env.JWT_SECRET = originalSecret;
   });
 
   it('GET /api/models returns data', async () => {
