@@ -41,9 +41,13 @@ describe('login', () => {
     );
   });
 
-  it('throws on error status', async () => {
-    fetch.mockResolvedValue({ ok: false, status: 400 });
-    await expect(login('e', 'p')).rejects.toThrow('Login failed: 400');
+  it('throws server error text', async () => {
+    fetch.mockResolvedValue({
+      ok: false,
+      status: 400,
+      json: vi.fn().mockResolvedValue({ error: 'Invalid credentials' }),
+    });
+    await expect(login('e', 'p')).rejects.toThrow('Invalid credentials');
   });
 });
 
@@ -59,6 +63,15 @@ describe('register', () => {
         body: JSON.stringify({ username: 'u', email: 'e', password: 'p' }),
       }),
     );
+  });
+
+  it('throws server error text', async () => {
+    fetch.mockResolvedValue({
+      ok: false,
+      status: 400,
+      json: vi.fn().mockResolvedValue({ error: 'Email exists' }),
+    });
+    await expect(register('u', 'e', 'p')).rejects.toThrow('Email exists');
   });
 });
 

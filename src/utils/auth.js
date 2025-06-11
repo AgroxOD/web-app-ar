@@ -21,8 +21,11 @@ async function sendAuth(path, payload, failMsg) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
-  if (!res.ok) throw new Error(`${failMsg}: ${res.status}`);
-  return res.json();
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(data.error || `${failMsg}: ${res.status}`);
+  }
+  return data;
 }
 
 export function login(email, password) {

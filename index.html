@@ -184,8 +184,8 @@
           );
           setToken(jwt);
           updateMenu();
-        } catch {
-          alert('Login failed');
+        } catch (err) {
+          alert(err.message);
         }
       });
 
@@ -199,8 +199,8 @@
           );
           setToken(jwt);
           updateMenu();
-        } catch {
-          alert('Register failed');
+        } catch (err) {
+          alert(err.message);
         }
       });
 

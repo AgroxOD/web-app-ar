@@ -166,8 +166,8 @@
             setToken(jwt);
             updateUI();
             await refreshModels();
-          } catch {
-            alert('Login failed');
+          } catch (err) {
+            alert(err.message);
           }
         });
 
@@ -184,8 +184,8 @@
             setToken(jwt);
             updateUI();
             await refreshModels();
-          } catch {
-            alert('Register failed');
+          } catch (err) {
+            alert(err.message);
           }
         });
 
