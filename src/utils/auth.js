@@ -25,18 +25,16 @@ async function sendAuth(path, payload, failMsg) {
   return res.json();
 }
 
-export function login(identifier, password) {
-  // prettier-ignore
-  return sendAuth(
-    '/api/login',
-    { identifier, password },
-    'Login failed',
-  );
+export function login(email, password) {
+  return sendAuth('/auth/login', { email, password }, 'Login failed');
+
 }
 
 export function register(username, email, password) {
   return sendAuth(
-    '/api/register',
+
+    '/auth/register',
+
     { username, email, password },
     'Register failed',
   );

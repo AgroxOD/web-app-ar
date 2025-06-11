@@ -4,6 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import multer from 'multer';
+import bcrypt from 'bcryptjs';
 import {
   S3Client,
   PutObjectCommand,
@@ -36,6 +37,13 @@ const modelSchema = new mongoose.Schema({
 });
 export const Model = mongoose.model('Model', modelSchema);
 
+const userSchema = new mongoose.Schema({
+  username: String,
+  email: { type: String, unique: true },
+  passwordHash: String,
+});
+export const User = mongoose.model('User', userSchema);
+
 function verifyJwt(token, secret) {
   const [header, payload, signature] = token.split('.');
   if (!header || !payload || !signature) throw new Error('Invalid token');
@@ -49,6 +57,18 @@ function verifyJwt(token, secret) {
   if (body.exp && Date.now() >= body.exp * 1000)
     throw new Error('Token expired');
   return body;
+}
+
+function signJwt(payload, secret) {
+  const header = Buffer.from(
+    JSON.stringify({ alg: 'HS256', typ: 'JWT' }),
+  ).toString('base64url');
+  const body = Buffer.from(JSON.stringify(payload)).toString('base64url');
+  const signature = crypto
+    .createHmac('sha256', secret)
+    .update(`${header}.${body}`)
+    .digest('base64url');
+  return `${header}.${body}.${signature}`;
 }
 
 function authMiddleware(req, res, next) {
@@ -94,6 +114,40 @@ async function syncR2Models() {
     console.error('R2 sync error', e);
   }
 }
+
+app.post('/auth/register', async (req, res) => {
+  const { username, email, password } = req.body || {};
+  if (!email || !password)
+    return res.status(400).json({ error: 'Missing fields' });
+  try {
+    if (await User.findOne({ email }))
+      return res.status(400).json({ error: 'Email exists' });
+    const passwordHash = await bcrypt.hash(password, 10);
+    const user = await User.create({ username, email, passwordHash });
+    const jwt = signJwt({ id: user._id }, process.env.JWT_SECRET || '');
+    res.json({ jwt });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Register failed' });
+  }
+});
+
+app.post('/auth/login', async (req, res) => {
+  const { email, password } = req.body || {};
+  if (!email || !password)
+    return res.status(400).json({ error: 'Missing fields' });
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).json({ error: 'Invalid credentials' });
+    const ok = await bcrypt.compare(password, user.passwordHash);
+    if (!ok) return res.status(400).json({ error: 'Invalid credentials' });
+    const jwt = signJwt({ id: user._id }, process.env.JWT_SECRET || '');
+    res.json({ jwt });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Login failed' });
+  }
+});
 
 app.get('/api/models', async (req, res) => {
   const list = await Model.find().select('name url -_id').lean();
