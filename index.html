@@ -184,7 +184,9 @@
             });
         };
         populate(markers[0]);
-        markerSelect.addEventListener('change', (e) => populate(e.target.value));
+        markerSelect.addEventListener('change', (e) =>
+          populate(e.target.value),
+        );
       } catch {}
 
       let showRegister = false;
@@ -239,12 +241,10 @@
         updateMenu();
       });
 
-      document
-        .getElementById('show-register')
-        .addEventListener('click', () => {
-          showRegister = true;
-          updateMenu();
-        });
+      document.getElementById('show-register').addEventListener('click', () => {
+        showRegister = true;
+        updateMenu();
+      });
 
       document.getElementById('show-login').addEventListener('click', () => {
         showRegister = false;
