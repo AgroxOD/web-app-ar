@@ -60,6 +60,19 @@ describe('API endpoints', () => {
     expect(res.status).toBe(401);
   });
 
+  it('POST /upload fails when JWT_SECRET missing', async () => {
+    process.env.R2_BUCKET = 'b';
+    delete process.env.JWT_SECRET;
+    const res = await request(app)
+      .post('/upload')
+      .set('Authorization', 'Bearer token')
+      .attach('model', Buffer.from('data'), 'm.glb');
+    expect(res.status).toBe(500);
+    expect(res.body).toEqual({
+      error: 'JWT_SECRET environment variable not configured',
+    });
+  });
+
   it('POST /upload accepts valid token', async () => {
     process.env.R2_BUCKET = 'b';
     process.env.JWT_SECRET = 's';
