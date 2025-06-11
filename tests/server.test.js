@@ -56,7 +56,8 @@ describe('API endpoints', () => {
 
   it('POST /upload rejects unauthorized', async () => {
     process.env.R2_BUCKET = 'b';
-    process.env.JWT_SECRET = 'dummy';
+    // set secret so auth middleware doesn't return 500
+    process.env.JWT_SECRET = 'dummy-secret';
     const res = await request(app)
       .post('/upload')
       .attach('model', Buffer.from('data'), 'm.glb');
