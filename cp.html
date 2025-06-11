@@ -10,28 +10,73 @@
     <h1 class="text-xl mb-4">Upload 3D Models</h1>
     <div id="auth" class="mb-4 space-x-2">
       <form id="login-form" class="space-x-1 inline">
-        <input id="login-email" class="border px-1" placeholder="Email" required />
-        <input id="login-password" type="password" class="border px-1" placeholder="Password" required />
+        <input
+          id="login-email"
+          class="border px-1"
+          placeholder="Email"
+          required
+        />
+        <input
+          id="login-password"
+          type="password"
+          class="border px-1"
+          placeholder="Password"
+          required
+        />
         <button class="bg-blue-500 text-white px-2" type="submit">Login</button>
       </form>
       <form id="register-form" class="space-x-1 inline">
-        <input id="reg-username" class="border px-1" placeholder="Username" required />
-        <input id="reg-email" type="email" class="border px-1" placeholder="Email" required />
-        <input id="reg-password" type="password" class="border px-1" placeholder="Password" required />
-        <button class="bg-green-500 text-white px-2" type="submit">Register</button>
+        <input
+          id="reg-username"
+          class="border px-1"
+          placeholder="Username"
+          required
+        />
+        <input
+          id="reg-email"
+          type="email"
+          class="border px-1"
+          placeholder="Email"
+          required
+        />
+        <input
+          id="reg-password"
+          type="password"
+          class="border px-1"
+          placeholder="Password"
+          required
+        />
+        <button class="bg-green-500 text-white px-2" type="submit">
+          Register
+        </button>
       </form>
-      <button id="logout" class="bg-gray-600 text-white px-2 hidden">Logout</button>
+      <button id="logout" class="bg-gray-600 text-white px-2 hidden">
+        Logout
+      </button>
     </div>
 
     <form id="upload-form" class="mb-4 hidden">
-      <input type="file" id="file" name="model" class="mb-2" accept=".glb" required />
+      <input
+        type="file"
+        id="file"
+        name="model"
+        class="mb-2"
+        accept=".glb"
+        required
+      />
       <button class="bg-blue-600 text-white px-2" type="submit">Upload</button>
     </form>
 
     <ul id="model-list" class="list-disc pl-5"></ul>
 
     <script type="module">
-      import { login, register, logout, isAuthenticated, setToken } from './src/utils/auth.js';
+      import {
+        login,
+        register,
+        logout,
+        isAuthenticated,
+        setToken,
+      } from './src/utils/auth.js';
       import { loadModels } from './src/utils/models.js';
 
       async function refreshModels() {
@@ -49,42 +94,52 @@
 
       function updateUI() {
         const logged = isAuthenticated();
-        document.getElementById('login-form').style.display = logged ? 'none' : 'inline';
-        document.getElementById('register-form').style.display = logged ? 'none' : 'inline';
+        document.getElementById('login-form').style.display = logged
+          ? 'none'
+          : 'inline';
+        document.getElementById('register-form').style.display = logged
+          ? 'none'
+          : 'inline';
         document.getElementById('logout').classList.toggle('hidden', !logged);
-        document.getElementById('upload-form').classList.toggle('hidden', !logged);
+        document
+          .getElementById('upload-form')
+          .classList.toggle('hidden', !logged);
       }
 
-      document.getElementById('login-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        try {
-          const { jwt } = await login(
-            document.getElementById('login-email').value,
-            document.getElementById('login-password').value,
-          );
-          setToken(jwt);
-          updateUI();
-          await refreshModels();
-        } catch {
-          alert('Login failed');
-        }
-      });
+      document
+        .getElementById('login-form')
+        .addEventListener('submit', async (e) => {
+          e.preventDefault();
+          try {
+            const { jwt } = await login(
+              document.getElementById('login-email').value,
+              document.getElementById('login-password').value,
+            );
+            setToken(jwt);
+            updateUI();
+            await refreshModels();
+          } catch {
+            alert('Login failed');
+          }
+        });
 
-      document.getElementById('register-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        try {
-          const { jwt } = await register(
-            document.getElementById('reg-username').value,
-            document.getElementById('reg-email').value,
-            document.getElementById('reg-password').value,
-          );
-          setToken(jwt);
-          updateUI();
-          await refreshModels();
-        } catch {
-          alert('Register failed');
-        }
-      });
+      document
+        .getElementById('register-form')
+        .addEventListener('submit', async (e) => {
+          e.preventDefault();
+          try {
+            const { jwt } = await register(
+              document.getElementById('reg-username').value,
+              document.getElementById('reg-email').value,
+              document.getElementById('reg-password').value,
+            );
+            setToken(jwt);
+            updateUI();
+            await refreshModels();
+          } catch {
+            alert('Register failed');
+          }
+        });
 
       document.getElementById('logout').addEventListener('click', () => {
         logout();
@@ -92,24 +147,28 @@
         document.getElementById('model-list').innerHTML = '';
       });
 
-      document.getElementById('upload-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const fileInput = document.getElementById('file');
-        const form = new FormData();
-        if (fileInput.files[0]) form.append('model', fileInput.files[0]);
-        try {
-          const res = await fetch('/upload', {
-            method: 'POST',
-            headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` },
-            body: form,
-          });
-          if (!res.ok) throw new Error('upload failed');
-          fileInput.value = '';
-          await refreshModels();
-        } catch {
-          alert('Upload failed');
-        }
-      });
+      document
+        .getElementById('upload-form')
+        .addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const fileInput = document.getElementById('file');
+          const form = new FormData();
+          if (fileInput.files[0]) form.append('model', fileInput.files[0]);
+          try {
+            const res = await fetch('/upload', {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+              },
+              body: form,
+            });
+            if (!res.ok) throw new Error('upload failed');
+            fileInput.value = '';
+            await refreshModels();
+          } catch {
+            alert('Upload failed');
+          }
+        });
 
       updateUI();
       if (isAuthenticated()) refreshModels();
