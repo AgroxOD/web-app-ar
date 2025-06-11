@@ -63,6 +63,8 @@ cd <project-name>
 pnpm install       # установит зависимости клиента и CMS
 # скопируй пример конфигурации и заполни значения
 cp .env.example .env
+# если планируешь использовать Strapi CMS, скопируй файл и в подкаталог
+cp .env.example strapi/.env
 # перед запуском CMS укажи APP_KEYS, ADMIN_JWT_SECRET и JWT_SECRET (openssl rand -hex 32)
 # при необходимости скачай тяжелые модели
 sh public/assets/download_models.sh
@@ -84,6 +86,8 @@ pnpm strapi # запускает Strapi CMS (опционально)
 Открой [http://localhost:5173/web-app-ar/](http://localhost:5173/web-app-ar/) в браузере и нажми кнопку **Start AR**, чтобы загрузить сцену.
 
 Скопируй `.env.example` в `.env` и заполни нужные переменные, например `VITE_ANALYTICS_ENDPOINT` для отправки аналитики.
+Если планируешь запускать Strapi, сделай то же в каталоге `strapi`:
+`cp .env.example strapi/.env`
 Для загрузки моделей из внешнего хранилища можно использовать переменную `VITE_MODEL_URL`.
 Для подключения к Strapi укажи `VITE_STRAPI_URL`. В локальной среде значение
 `http://localhost:1337/api` используется по умолчанию и приведено в `.env.example`.
@@ -91,7 +95,7 @@ URL может указывать на объект в Cloudflare R2. Также
 При необходимости укажи `FRONTEND_ORIGINS` — список URL через запятую,
 которым разрешён доступ к Strapi через CORS.
 
-Для загрузки и выбора 3D‑моделей теперь используется Strapi CMS. Перед его запуском укажи `APP_KEYS`, `ADMIN_JWT_SECRET` и `JWT_SECRET` в `.env`, затем выполни `pnpm strapi` и открой административную панель. Клиентская часть получает список через модуль `src/utils/models.js`.
+Для загрузки и выбора 3D‑моделей теперь используется Strapi CMS. Перед его запуском укажи `APP_KEYS`, `ADMIN_JWT_SECRET` и `JWT_SECRET` в `.env` (иначе сборка Strapi завершится ошибкой), затем выполни `pnpm strapi` и открой административную панель. Клиентская часть получает список через модуль `src/utils/models.js`.
 
 Если файл `.env` отсутствует, Strapi попытается подключиться к Postgres по умолчанию и завершится ошибкой. Скопируй пример конфигурации, сгенерируй секреты и убедись, что выбран SQLite, если не используешь Postgres:
 
