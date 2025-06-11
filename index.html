@@ -127,6 +127,7 @@
     <div id="ar-container"></div>
     <div id="ar-frame"></div>
     <div id="ar-overlay">
+      <select id="marker-select"></select>
       <select id="model-select"></select>
       <button id="start-ar">Start AR</button>
     </div>
@@ -147,6 +148,7 @@
     <script type="module">
       const overlay = document.getElementById('ar-overlay');
       const startButton = document.getElementById('start-ar');
+      const markerSelect = document.getElementById('marker-select');
       const select = document.getElementById('model-select');
       const instructions = document.getElementById('instructions');
       const loginForm = document.getElementById('login-form');
@@ -157,14 +159,30 @@
       const { login, register, logout, isAuthenticated, setToken } =
         await import('./src/utils/auth.js');
 
+      let list = [];
       try {
-        const list = await loadModels();
-        list.forEach((m) => {
+        list = await loadModels();
+        const markers = [...new Set(list.map((m) => m.markerIndex))];
+        markers.forEach((idx) => {
           const opt = document.createElement('option');
-          opt.value = m.url;
-          opt.textContent = m.name;
-          select.appendChild(opt);
+          opt.value = idx;
+          opt.textContent = `Marker ${idx}`;
+          markerSelect.appendChild(opt);
         });
+
+        const populate = (idx) => {
+          select.innerHTML = '';
+          list
+            .filter((m) => m.markerIndex === parseInt(idx, 10))
+            .forEach((m) => {
+              const opt = document.createElement('option');
+              opt.value = m.url;
+              opt.textContent = m.name;
+              select.appendChild(opt);
+            });
+        };
+        populate(markers[0]);
+        markerSelect.addEventListener('change', (e) => populate(e.target.value));
       } catch {}
 
       function updateMenu() {
@@ -220,7 +238,7 @@
       bind('rot-y', 'rotationY');
       bind('scale', 'scale');
       startButton.addEventListener('click', async () => {
-        const started = await startAR(select.value);
+        const started = await startAR(list);
         if (started) {
           overlay.style.display = 'none';
           instructions.style.display = 'block';

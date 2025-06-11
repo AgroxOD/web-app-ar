@@ -34,6 +34,7 @@ const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/ar';
 const modelSchema = new mongoose.Schema({
   name: String,
   url: String,
+  markerIndex: { type: Number, default: 0 },
 });
 export const Model = mongoose.model('Model', modelSchema);
 
@@ -115,7 +116,7 @@ async function syncR2Models() {
     const existingSet = new Set(existing.map((m) => m.url));
     const docs = keys
       .filter((k) => !existingSet.has(k))
-      .map((k) => ({ name: path.parse(k).name, url: k }));
+      .map((k) => ({ name: path.parse(k).name, url: k, markerIndex: 0 }));
     if (docs.length) await Model.insertMany(docs);
   } catch (e) {
     console.error('R2 sync error', e);
@@ -170,7 +171,7 @@ app.post('/auth/login', async (req, res) => {
 
 app.get('/api/models', async (req, res) => {
   try {
-    const list = await Model.find().select('name url -_id').lean();
+    const list = await Model.find().select('name url markerIndex -_id').lean();
     res.json(list);
   } catch (e) {
     console.error(e);
@@ -202,6 +203,7 @@ app.post(
         {
           name: path.parse(req.file.originalname).name,
           url: req.file.originalname,
+          markerIndex: parseInt(req.body.markerIndex ?? '0', 10) || 0,
         },
         { upsert: true },
       );
