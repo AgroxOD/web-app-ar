@@ -1,5 +1,11 @@
 // import type { Core } from '@strapi/strapi';
 
+const nodeMajor = Number(process.versions.node.split('.')[0]);
+if (nodeMajor >= 22) {
+  console.error('Node.js 22 is not supported. Please use Node.js 18 or 20.');
+  process.exit(1);
+}
+
 export function ensureEnv(): void {
   const requiredVars = [
     'APP_KEYS',
