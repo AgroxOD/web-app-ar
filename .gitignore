@@ -10,3 +10,4 @@ package-lock.json
 
 strapi/.strapi/
 strapi/dist/
+.env
