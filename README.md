@@ -132,6 +132,7 @@ pnpm start  # запуск API-сервера (опционально)
    - `MONGODB_URI` – строка подключения к MongoDB Atlas
    - `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`
    - `R2_ENDPOINT`, `R2_BUCKET`
+   - `JWT_SECRET` – секрет для подписи JWT
    - `FRONTEND_ORIGINS` – список разрешённых доменов для CORS
    - `PORT` – укажи `10000` (Render запускает приложение на этом порту)
 5. Сохрани настройки и запусти деплой. После успешного билда сервис будет доступен по адресу вида `https://<name>.onrender.com`.
@@ -174,7 +175,6 @@ pnpm start  # запуск API-сервера (опционально)
 pnpm start
 
 ````
-Локальный сервер нужен только при использовании собственной базы данных. Ранее для выбора моделей использовался `public/admin.html`, но теперь список формируется через API сервера.
 
 ### Сервер API
 
@@ -196,6 +196,13 @@ AWS_REGION=auto
 R2_ENDPOINT=https://<account>.r2.cloudflarestorage.com
 R2_BUCKET=my-bucket
 ````
+
+#### Аутентификация
+
+1. Укажи `JWT_SECRET` в `.env` — ключ подписи JWT.
+2. Регистрация: `POST /auth/register` с JSON `{username, email, password}`.
+3. Вход: `POST /auth/login` — в ответ `{ jwt }`.
+4. Защищённые роуты требуют `Authorization: Bearer <jwt>`.
 
 Создайте бакет в панели Cloudflare R2 и укажите его имя в `R2_BUCKET`.
 
