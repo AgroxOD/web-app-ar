@@ -110,6 +110,7 @@
           required
         />
         <button type="submit">Login</button>
+        <button type="button" id="show-register">Register</button>
       </form>
       <form id="register-form" style="display: none">
         <input id="register-username" placeholder="Username" required />
@@ -121,6 +122,7 @@
           required
         />
         <button type="submit">Register</button>
+        <button type="button" id="show-login">Back</button>
       </form>
       <button id="logout" style="display: none">Logout</button>
     </div>
@@ -185,10 +187,20 @@
         markerSelect.addEventListener('change', (e) => populate(e.target.value));
       } catch {}
 
+      let showRegister = false;
+
       function updateMenu() {
         const logged = isAuthenticated();
-        loginForm.style.display = logged ? 'none' : 'block';
-        registerForm.style.display = logged ? 'none' : 'block';
+        if (logged) {
+          loginForm.style.display = 'none';
+          registerForm.style.display = 'none';
+        } else if (showRegister) {
+          loginForm.style.display = 'none';
+          registerForm.style.display = 'block';
+        } else {
+          loginForm.style.display = 'block';
+          registerForm.style.display = 'none';
+        }
         logoutBtn.style.display = logged ? 'block' : 'none';
         overlay.style.display = logged ? 'block' : 'none';
       }
@@ -224,6 +236,18 @@
 
       logoutBtn.addEventListener('click', () => {
         logout();
+        updateMenu();
+      });
+
+      document
+        .getElementById('show-register')
+        .addEventListener('click', () => {
+          showRegister = true;
+          updateMenu();
+        });
+
+      document.getElementById('show-login').addEventListener('click', () => {
+        showRegister = false;
         updateMenu();
       });
 

@@ -80,8 +80,9 @@
             required
           />
           <button class="button button-primary" type="submit">Login</button>
+          <button class="button" type="button" id="show-register">Register</button>
         </form>
-        <form id="register-form" class="inline-form">
+        <form id="register-form" class="inline-form" style="display: none">
           <input
             id="reg-username"
             class="text-input"
@@ -103,6 +104,7 @@
             required
           />
           <button class="button button-primary" type="submit">Register</button>
+          <button class="button" type="button" id="show-login">Back</button>
         </form>
         <button id="logout" class="button button-secondary hidden">
           Logout
@@ -166,14 +168,22 @@
         }
       }
 
+      let showRegister = false;
+
       function updateUI() {
         const logged = isAuthenticated();
-        document.getElementById('login-form').style.display = logged
-          ? 'none'
-          : 'flex';
-        document.getElementById('register-form').style.display = logged
-          ? 'none'
-          : 'flex';
+        const loginFormEl = document.getElementById('login-form');
+        const regFormEl = document.getElementById('register-form');
+        if (logged) {
+          loginFormEl.style.display = 'none';
+          regFormEl.style.display = 'none';
+        } else if (showRegister) {
+          loginFormEl.style.display = 'none';
+          regFormEl.style.display = 'flex';
+        } else {
+          loginFormEl.style.display = 'flex';
+          regFormEl.style.display = 'none';
+        }
         document.getElementById('logout').classList.toggle('hidden', !logged);
         document
           .getElementById('upload-form')
@@ -224,6 +234,18 @@
             showWarning(err.message);
           }
         });
+
+      document
+        .getElementById('show-register')
+        .addEventListener('click', () => {
+          showRegister = true;
+          updateUI();
+        });
+
+      document.getElementById('show-login').addEventListener('click', () => {
+        showRegister = false;
+        updateUI();
+      });
 
       document.getElementById('logout').addEventListener('click', () => {
         logout();
