@@ -107,4 +107,28 @@ describe('API endpoints', () => {
       { upsert: true },
     );
   });
+
+  it('POST /upload rejects oversized file', async () => {
+    process.env.R2_BUCKET = 'b';
+    process.env.JWT_SECRET = 's';
+    const token = sign({ id: 1 }, 's');
+    const big = Buffer.alloc(11 * 1024 * 1024, 'a');
+    const res = await request(app)
+      .post('/upload')
+      .set('Authorization', `Bearer ${token}`)
+      .attach('model', big, 'big.glb');
+    expect(res.status).toBe(413);
+  });
+
+  it('POST /upload rejects invalid filename', async () => {
+    process.env.R2_BUCKET = 'b';
+    process.env.JWT_SECRET = 's';
+    const token = sign({ id: 1 }, 's');
+    const res = await request(app)
+      .post('/upload')
+      .set('Authorization', `Bearer ${token}`)
+      .attach('model', Buffer.from('data'), '../evil.glb');
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ error: 'Invalid filename' });
+  });
 });
