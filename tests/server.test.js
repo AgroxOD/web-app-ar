@@ -15,9 +15,9 @@ describe('API endpoints', () => {
   it('GET /api/models returns data', async () => {
     vi.spyOn(Model, 'find').mockReturnValue({
       select: vi.fn().mockReturnThis(),
-      lean: vi.fn().mockResolvedValue([
-        { name: 'foo', url: 'a.glb', markerIndex: 0 },
-      ]),
+      lean: vi
+        .fn()
+        .mockResolvedValue([{ name: 'foo', url: 'a.glb', markerIndex: 0 }]),
     });
     const res = await request(app).get('/api/models');
     expect(res.status).toBe(200);
@@ -79,9 +79,7 @@ describe('API endpoints', () => {
     process.env.R2_BUCKET = 'b';
     process.env.JWT_SECRET = 's';
     vi.spyOn(S3Client.prototype, 'send').mockResolvedValue({});
-    const updateSpy = vi
-      .spyOn(Model, 'updateOne')
-      .mockResolvedValue({});
+    const updateSpy = vi.spyOn(Model, 'updateOne').mockResolvedValue({});
     const token = sign({ id: 1 }, 's');
     const res = await request(app)
       .post('/upload')

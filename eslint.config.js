@@ -33,7 +33,7 @@ export default [
   },
   // Node.js/Backend
   {
-    files: ['server.js'],
+    files: ['server.js', 'vite.config.js', 'vitest.config.js'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
