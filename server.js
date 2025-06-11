@@ -120,13 +120,41 @@ app.get('/model/:filename', async (req, res) => {
 });
 
 async function main() {
-  await mongoose.connect(mongoUri);
+  try {
+    await mongoose.connect(mongoUri);
+  } catch (err) {
+    console.error(
+      'Failed to connect to MongoDB. Please ensure the database is running and MONGODB_URI is correct.',
+    );
+    console.error(err);
+    process.exit(1);
+    return;
+  }
+
   await syncR2Models();
 
   const port = process.env.PORT || 3000;
-  app.listen(port, () => {
+  const server = app.listen(port, () => {
     console.log(`API server running on port ${port}`);
   });
+
+  const graceful = async (signal) => {
+    console.log(`Received ${signal}. Closing MongoDB connection...`);
+    try {
+      await mongoose.connection.close();
+      server.close(() => {
+        process.exit(0);
+      });
+    } catch (e) {
+      console.error('Error closing MongoDB connection', e);
+      process.exit(1);
+    }
+  };
+
+  process.on('SIGINT', () => graceful('SIGINT'));
+  process.on('SIGTERM', () => graceful('SIGTERM'));
+
+  return server;
 }
 
 if (process.env.NODE_ENV !== 'test') {

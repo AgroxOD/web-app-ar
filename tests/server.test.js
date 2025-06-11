@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import request from 'supertest';
-import { app, Model } from '../server.js';
+import { app, Model, main } from '../server.js';
+import mongoose from 'mongoose';
 
 process.env.NODE_ENV = 'test';
 
@@ -26,5 +27,16 @@ describe('API endpoints', () => {
     expect(res.body).toEqual({
       error: 'R2_BUCKET environment variable not configured',
     });
+  });
+
+  it('exits process when MongoDB connection fails', async () => {
+    vi.spyOn(mongoose, 'connect').mockRejectedValue(new Error('fail'));
+    const exitSpy = vi
+      .spyOn(process, 'exit')
+      .mockImplementation(() => {
+        /* no-op for tests */
+      });
+    await main();
+    expect(exitSpy).toHaveBeenCalledWith(1);
   });
 });
