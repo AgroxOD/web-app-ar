@@ -126,6 +126,12 @@ app.post('/auth/register', async (req, res) => {
   const { username, email, password } = req.body || {};
   if (!email || !password)
     return res.status(400).json({ error: 'Missing fields' });
+  if (!process.env.JWT_SECRET) {
+    const status = parseInt(process.env.JWT_MISSING_STATUS ?? '500', 10);
+    return res
+      .status(status)
+      .json({ error: 'JWT_SECRET environment variable not configured' });
+  }
   try {
     if (await User.findOne({ email }))
       return res.status(400).json({ error: 'Email exists' });
@@ -143,6 +149,12 @@ app.post('/auth/login', async (req, res) => {
   const { email, password } = req.body || {};
   if (!email || !password)
     return res.status(400).json({ error: 'Missing fields' });
+  if (!process.env.JWT_SECRET) {
+    const status = parseInt(process.env.JWT_MISSING_STATUS ?? '500', 10);
+    return res
+      .status(status)
+      .json({ error: 'JWT_SECRET environment variable not configured' });
+  }
   try {
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ error: 'Invalid credentials' });
@@ -157,8 +169,13 @@ app.post('/auth/login', async (req, res) => {
 });
 
 app.get('/api/models', async (req, res) => {
-  const list = await Model.find().select('name url -_id').lean();
-  res.json(list);
+  try {
+    const list = await Model.find().select('name url -_id').lean();
+    res.json(list);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Failed to fetch models' });
+  }
 });
 
 app.post(
