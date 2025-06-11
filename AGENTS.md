@@ -68,7 +68,7 @@ project-root/
 
 ## Требования
 
- - **Node.js**: 18–20 (рекомендуется Node.js 20 LTS; Node.js 22 не поддерживается)
+- **Node.js**: 18–20 (рекомендуется Node.js 20 LTS; Node.js 22 не поддерживается)
 - **pnpm**: 9.x или новее
 - В репозитории хранится `pnpm-lock.yaml`; `package-lock.json` не используется.
 - В `.gitattributes` указано `pnpm-lock.yaml merge=ours`, локальный lockfile сохраняется при слияниях.
