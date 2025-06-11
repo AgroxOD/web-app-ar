@@ -14,8 +14,10 @@ export function isAuthenticated() {
   return Boolean(getToken());
 }
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+
 async function sendAuth(path, payload, failMsg) {
-  const url = path;
+  const url = API_BASE + path;
   const res = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

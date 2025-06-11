@@ -101,9 +101,9 @@ pnpm start  # запуск API-сервера (опционально)
    > ⚠️ Значение `base` должно совпадать с названием репозитория на GitHub.
    > Обязательно укажите `build.target = 'esnext'`, иначе топ-левел `await` не
    > будет работать на GitHub Pages.
-2. Сборка и деплой:
+2. Укажи URL бэкенда через `VITE_API_BASE_URL`, чтобы `cp.html` мог обращаться к API:
    ```bash
-   pnpm build
+   VITE_API_BASE_URL=https://example.com pnpm build
    ```
 
 # Затем залей содержимое папки dist/ в ветку gh-pages (см. AGENTS.md для подробностей)
