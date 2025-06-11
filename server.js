@@ -72,13 +72,20 @@ function signJwt(payload, secret) {
 }
 
 function authMiddleware(req, res, next) {
+  if (!process.env.JWT_SECRET) {
+    const status = parseInt(process.env.JWT_MISSING_STATUS ?? '500', 10);
+    return res
+      .status(status)
+      .json({ error: 'JWT_SECRET environment variable not configured' });
+  }
+
   const auth = req.get('Authorization');
   if (!auth || !auth.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
   try {
     const token = auth.slice(7);
-    verifyJwt(token, process.env.JWT_SECRET || '');
+    verifyJwt(token, process.env.JWT_SECRET);
     next();
   } catch {
     res.status(401).json({ error: 'Unauthorized' });
