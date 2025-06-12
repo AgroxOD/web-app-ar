@@ -1,86 +1,81 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Content Manager</title>
-
-    <script type="module" crossorigin src="/web-app-ar/assets/cp-CZPtAHO4.js"></script>
-    <link rel="modulepreload" crossorigin href="/web-app-ar/assets/style-BU8mkVOw.js">
-    <link rel="modulepreload" crossorigin href="/web-app-ar/assets/auth-5C6X5tix.js">
-    <link rel="modulepreload" crossorigin href="/web-app-ar/assets/models-BPT0YZdd.js">
-    <link rel="stylesheet" crossorigin href="/web-app-ar/assets/style-Cvu9Gdti.css">
-  </head>
-  <body
-    class="bg-gray-100 min-h-screen flex items-center justify-center font-sans"
-  >
-    <div class="card">
-      <h1 class="mt-0 mb-4 text-xl font-semibold">Upload 3D Models</h1>
-      <p id="api-message" class="hidden mb-2"></p>
-      <div id="auth" class="mb-4">
-        <form id="login-form" class="inline-form">
-          <input
-            id="login-email"
-            class="text-input"
-            placeholder="Email"
-            required
-          />
-          <input
-            id="login-password"
-            type="password"
-            class="text-input"
-            placeholder="Password"
-            required
-          />
-          <button class="button button-primary" type="submit">Login</button>
-          <button class="button" type="button" id="show-register">
-            Register
-          </button>
-        </form>
-        <form id="register-form" class="inline-form hidden">
-          <input
-            id="reg-username"
-            class="text-input"
-            placeholder="Username"
-            required
-          />
-          <input
-            id="reg-email"
-            type="email"
-            class="text-input"
-            placeholder="Email"
-            required
-          />
-          <input
-            id="reg-password"
-            type="password"
-            class="text-input"
-            placeholder="Password"
-            required
-          />
-          <button class="button button-primary" type="submit">Register</button>
-          <button class="button" type="button" id="show-login">Back</button>
-        </form>
-        <button id="logout" class="button button-secondary hidden">
-          Logout
-        </button>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Control Panel — AgroxOD</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="icon" href="favicon.ico" />
+</head>
+<body class="bg-gray-100 font-sans min-h-screen">
+  <div class="flex">
+    <aside class="bg-white w-64 shadow-lg min-h-screen px-6 py-8 flex flex-col">
+      <div class="mb-8">
+        <h1 class="text-2xl font-bold text-blue-600">AgroxOD CMS</h1>
       </div>
-      <form id="upload-form" class="hidden mb-4">
-        <input
-          type="file"
-          id="file"
-          name="model"
-          class="text-input"
-          accept=".glb"
-          required
-        />
-        <button class="button button-primary" type="submit">Upload</button>
-      </form>
-      <p id="upload-message" class="mb-4 text-gray-600 hidden">
-        Login required to upload models
-      </p>
-      <ul id="model-list" class="pl-4 space-y-2"></ul>
-    </div>
-
-  </body>
+      <nav class="flex-1">
+        <ul class="space-y-4">
+          <li><a href="#" class="flex items-center text-gray-700 hover:text-blue-600 font-medium"><span class="material-icons mr-2">dashboard</span>Главная</a></li>
+          <li><a href="#" class="flex items-center text-gray-700 hover:text-blue-600 font-medium"><span class="material-icons mr-2">people</span>Пользователи</a></li>
+          <li><a href="#" class="flex items-center text-gray-700 hover:text-blue-600 font-medium"><span class="material-icons mr-2">folder</span>Файлы</a></li>
+          <li><a href="#" class="flex items-center text-gray-700 hover:text-blue-600 font-medium"><span class="material-icons mr-2">settings</span>Настройки</a></li>
+        </ul>
+      </nav>
+      <div class="mt-8">
+        <button class="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Выйти</button>
+      </div>
+    </aside>
+    <main class="flex-1 p-10">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-3xl font-semibold">Панель управления</h2>
+        <div class="flex items-center space-x-4">
+          <span class="text-gray-600">Krishna</span>
+          <img src="https://api.dicebear.com/7.x/identicon/svg?seed=krishna" alt="Avatar" class="w-10 h-10 rounded-full border-2 border-blue-400">
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-xl transition">
+          <h3 class="text-lg font-bold mb-2">Всего пользователей</h3>
+          <p class="text-3xl font-semibold text-blue-600">12</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-xl transition">
+          <h3 class="text-lg font-bold mb-2">Загружено файлов</h3>
+          <p class="text-3xl font-semibold text-green-600">48</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-xl transition">
+          <h3 class="text-lg font-bold mb-2">Активных сессий</h3>
+          <p class="text-3xl font-semibold text-orange-600">3</p>
+        </div>
+      </div>
+      <div class="mt-10 bg-white rounded-xl shadow p-6">
+        <h4 class="text-xl font-semibold mb-4">Последние действия</h4>
+        <table class="w-full text-left">
+          <thead>
+            <tr>
+              <th class="py-2">Дата</th>
+              <th class="py-2">Пользователь</th>
+              <th class="py-2">Событие</th>
+              <th class="py-2">Статус</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="py-2">2025-06-12</td>
+              <td class="py-2">Krishna</td>
+              <td class="py-2">Добавлен файл</td>
+              <td class="py-2"><span class="inline-block px-2 py-1 bg-green-100 text-green-800 rounded">Успешно</span></td>
+            </tr>
+            <tr>
+              <td class="py-2">2025-06-12</td>
+              <td class="py-2">Ivan</td>
+              <td class="py-2">Удалён пользователь</td>
+              <td class="py-2"><span class="inline-block px-2 py-1 bg-red-100 text-red-800 rounded">Ошибка</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</body>
 </html>

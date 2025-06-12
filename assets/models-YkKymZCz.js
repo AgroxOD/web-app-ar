@@ -1,0 +1,1 @@
+const e="";async function o(){try{const r=await fetch(`${e}/api/models`);if(!r.ok)throw new Error(`API request failed: ${r.status}`);return await r.json()}catch(r){return console.error("API error",r),[]}}export{o as loadModels};
