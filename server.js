@@ -204,10 +204,7 @@ app.post(
         .json({ error: 'R2_BUCKET environment variable not configured' });
     try {
       const filename = path.basename(req.file.originalname);
-      if (
-        filename !== req.file.originalname ||
-        !/^[\w.-]+$/.test(filename)
-      ) {
+      if (filename !== req.file.originalname || !/^[\w.-]+$/.test(filename)) {
         return res.status(400).json({ error: 'Invalid filename' });
       }
       const command = new PutObjectCommand({
