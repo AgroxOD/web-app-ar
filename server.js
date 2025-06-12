@@ -37,7 +37,8 @@ const upload = multer({
   limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
   preservePath: true,
   fileFilter(req, file, cb) {
-    if (!isValidFilename(file.originalname)) {
+    const name = req.rawFilename || file.originalname;
+    if (!isValidFilename(name)) {
       const err = new multer.MulterError('INVALID_FILENAME');
       return cb(err);
     }
@@ -94,6 +95,34 @@ function isValidFilename(name) {
     !name.includes('\\') &&
     !name.includes('..')
   );
+}
+
+function parseRawFilename(req, res, next) {
+  const ct = req.headers['content-type'] || '';
+  if (!ct.startsWith('multipart/form-data')) return next();
+
+  let buf = Buffer.alloc(0);
+  function onData(chunk) {
+    buf = Buffer.concat([buf, chunk]);
+    const idx = buf.indexOf('\r\n\r\n');
+    if (idx === -1 && buf.length < 8192) return; // wait for more
+
+    req.off('data', onData);
+    req.unshift(buf);
+    const header = buf.slice(0, idx === -1 ? buf.length : idx).toString('latin1');
+    const match = header.match(/filename="([^"\\]+)"/i);
+    if (match) {
+      req.rawFilename = match[1];
+      if (/[\\/]/.test(req.rawFilename) || req.rawFilename.includes('..')) {
+        res.status(400).json({ error: 'Invalid filename' });
+        req.resume();
+        return;
+      }
+    }
+    next();
+  }
+
+  req.on('data', onData);
 }
 
 export function requireRole(role) {
@@ -299,6 +328,7 @@ app.post(
   '/upload',
   limiter,
   requireRole('admin'),
+  parseRawFilename,
   (req, res, next) => {
     upload.single('model')(req, res, (err) => {
       if (err) {
@@ -313,7 +343,8 @@ app.post(
   },
   async (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-    if (!isValidFilename(req.file.originalname)) {
+    const name = req.rawFilename || req.file.originalname;
+    if (!isValidFilename(name)) {
       return res.status(400).json({ error: 'Invalid filename' });
     }
     const bucket = process.env.R2_BUCKET;
@@ -322,7 +353,7 @@ app.post(
         .status(500)
         .json({ error: 'R2_BUCKET environment variable not configured' });
     try {
-      const filename = path.basename(req.file.originalname);
+      const filename = path.basename(name);
       const command = new PutObjectCommand({
         Bucket: bucket,
         Key: filename,
