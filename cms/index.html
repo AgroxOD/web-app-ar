@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMS</title>
+    <link rel="stylesheet" href="../src/style.css" />
+  </head>
+  <body class="p-4 space-y-4">
+    <div id="message" class=""></div>
+    <div id="auth">
+      <form id="login-form" class="card inline-form">
+        <input
+          id="login-email"
+          type="email"
+          placeholder="Email"
+          class="text-input"
+          required
+        />
+        <input
+          id="login-password"
+          type="password"
+          placeholder="Password"
+          class="text-input"
+          required
+        />
+        <button type="submit" class="button button-primary">Login</button>
+        <button type="button" id="show-register" class="button">
+          Register
+        </button>
+      </form>
+      <form id="register-form" class="card inline-form" style="display: none">
+        <input
+          id="register-username"
+          placeholder="Username"
+          class="text-input"
+          required
+        />
+        <input
+          id="register-email"
+          type="email"
+          placeholder="Email"
+          class="text-input"
+          required
+        />
+        <input
+          id="register-password"
+          type="password"
+          placeholder="Password"
+          class="text-input"
+          required
+        />
+        <button type="submit" class="button button-primary">Register</button>
+        <button type="button" id="show-login" class="button">Login</button>
+      </form>
+      <button id="logout" class="button button-secondary" style="display: none">
+        Logout
+      </button>
+    </div>
+
+    <div id="upload-section" style="display: none">
+      <form id="upload-form" class="inline-form card">
+        <input
+          id="upload-file"
+          type="file"
+          accept=".glb"
+          class="text-input"
+          required
+        />
+        <input
+          id="upload-marker"
+          type="number"
+          value="0"
+          class="text-input"
+          required
+        />
+        <button type="submit" class="button button-primary">Upload</button>
+      </form>
+    </div>
+
+    <ul id="models-list" class="space-y-2"></ul>
+
+    <script type="module" src="../src/cp.js"></script>
+  </body>
+</html>
