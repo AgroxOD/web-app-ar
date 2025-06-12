@@ -2,20 +2,14 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
-
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+The project is in active development and security updates are provided only for
+the latest release from the `main` branch. Older versions and tags are not
+maintained.
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
-
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+Please report suspected vulnerabilities by
+[opening an issue](https://github.com/AgroxOD/web-app-ar/issues) or by sending an
+email to **security@agroxod.dev**. Include a description of the problem and, if
+possible, steps to reproduce. We aim to acknowledge reports within 48 hours and
+will keep you informed of the resolution status.
