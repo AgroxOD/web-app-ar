@@ -22,14 +22,16 @@ describe('model routes', () => {
   it('GET /api/models returns list', async () => {
     vi.spyOn(Model, 'find').mockReturnValue({
       select: vi.fn().mockReturnThis(),
-      lean: vi
-        .fn()
-        .mockResolvedValue([{ name: 'm1', url: 'm1.glb', markerIndex: 0 }]),
+      lean: vi.fn().mockResolvedValue([
+        { _id: '1', name: 'm1', url: 'm1.glb', markerIndex: 0 },
+      ]),
     });
 
     const res = await request(app).get('/api/models');
     expect(res.status).toBe(200);
-    expect(res.body).toEqual([{ name: 'm1', url: 'm1.glb', markerIndex: 0 }]);
+    expect(res.body).toEqual([
+      { _id: '1', name: 'm1', url: 'm1.glb', markerIndex: 0 },
+    ]);
   });
 
   it('GET /api/models/:id returns single model', async () => {

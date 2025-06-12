@@ -124,14 +124,17 @@ function renderModels(list) {
   modelsList.innerHTML = '';
   const admin = getRole() === 'admin';
   list.forEach((m) => {
-    const id = m._id || m.id;
+    const id = m._id;
     const li = document.createElement('li');
+    if (id) li.dataset.id = id;
     li.textContent = `${m.name} (${m.url}) - marker ${m.markerIndex}`;
     if (admin && id) {
       const editBtn = document.createElement('button');
       editBtn.textContent = 'Edit';
       editBtn.className = 'button button-primary ml-2';
-      editBtn.addEventListener('click', () => showEditForm(li, id, m, editBtn));
+      editBtn.addEventListener('click', () =>
+        showEditForm(li, li.dataset.id, m, editBtn),
+      );
       li.appendChild(editBtn);
 
       const delBtn = document.createElement('button');
@@ -140,7 +143,7 @@ function renderModels(list) {
       delBtn.addEventListener('click', async () => {
         if (!confirm('Delete this model?')) return;
         try {
-          await deleteModel(id);
+          await deleteModel(li.dataset.id);
           showMessage('Model deleted');
           await refreshModels();
         } catch (err) {
