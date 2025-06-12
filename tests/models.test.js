@@ -42,10 +42,12 @@ describe('model routes', () => {
   });
 
   it('GET /api/models/:id returns single model', async () => {
-    vi.spyOn(Model, 'findById').mockResolvedValue({
-      name: 'm',
-      url: 'm.glb',
-      markerIndex: 1,
+    vi.spyOn(Model, 'findById').mockReturnValue({
+      lean: vi.fn().mockResolvedValue({
+        name: 'm',
+        url: 'm.glb',
+        markerIndex: 1,
+      }),
     });
 
     const res = await request(app).get('/api/models/123');
@@ -56,9 +58,13 @@ describe('model routes', () => {
   it('PUT /api/models/:id updates model', async () => {
     process.env.JWT_SECRET = 's';
     const token = sign({ id: 1 }, 's');
-    const spy = vi
-      .spyOn(Model, 'findByIdAndUpdate')
-      .mockResolvedValue({ name: 'x', url: 'x.glb', markerIndex: 2 });
+    const spy = vi.spyOn(Model, 'findByIdAndUpdate').mockReturnValue({
+      lean: vi.fn().mockResolvedValue({
+        name: 'x',
+        url: 'x.glb',
+        markerIndex: 2,
+      }),
+    });
 
     const res = await request(app)
       .put('/api/models/123')
@@ -76,7 +82,9 @@ describe('model routes', () => {
   it('DELETE /api/models/:id removes model', async () => {
     process.env.JWT_SECRET = 's';
     const token = sign({ id: 1 }, 's');
-    const spy = vi.spyOn(Model, 'findByIdAndDelete').mockResolvedValue({});
+    const spy = vi.spyOn(Model, 'findByIdAndDelete').mockReturnValue({
+      lean: vi.fn().mockResolvedValue({}),
+    });
 
     const res = await request(app)
       .delete('/api/models/123')
