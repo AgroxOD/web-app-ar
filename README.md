@@ -141,6 +141,7 @@ pnpm start  # запуск API-сервера (опционально)
    - `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`
    - `R2_ENDPOINT`, `R2_BUCKET`
    - `FRONTEND_ORIGINS` – список разрешённых доменов для CORS
+   - `RATE_LIMIT_MAX` – максимальное число запросов за 15 минут (по умолчанию 100)
    - `PORT` – укажи `10000` (Render запускает приложение на этом порту)
 5. Сохрани настройки и запусти деплой. После успешного билда сервис будет доступен по адресу вида `https://<name>.onrender.com`.
 
@@ -211,6 +212,7 @@ R2_BUCKET=my-bucket
 JWT_SECRET=super-secret
 JWT_MISSING_STATUS=
 FRONTEND_ORIGINS=
+RATE_LIMIT_MAX=
 ````
 
 #### Аутентификация
@@ -222,8 +224,9 @@ FRONTEND_ORIGINS=
 4. Защищённые роуты требуют `Authorization: Bearer <jwt>`. Админские маршруты
    (`PUT /api/models/:id`, `DELETE /api/models/:id`, `POST /upload`) доступны
    только пользователям с ролью `admin`.
-   На эти маршруты также накладывается ограничение скорости
-   (100 запросов за 15 минут) через `express-rate-limit`.
+  На эти маршруты также накладывается ограничение скорости
+  через `express-rate-limit` (по умолчанию 100 запросов за 15 минут,
+  значение можно изменить через `RATE_LIMIT_MAX`).
 
 Создайте бакет в панели Cloudflare R2 и укажите его имя в `R2_BUCKET`.
 

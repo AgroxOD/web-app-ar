@@ -28,10 +28,8 @@ if (allowedOrigins && allowedOrigins.length > 0) {
 } else {
   app.use(cors());
 }
-export const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-});
+const max = parseInt(process.env.RATE_LIMIT_MAX, 10) || 100;
+export const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max });
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
