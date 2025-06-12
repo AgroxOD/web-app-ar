@@ -76,6 +76,20 @@ describe('API endpoints', () => {
     });
   });
 
+  it('POST /upload fails when R2_BUCKET missing', async () => {
+    process.env.JWT_SECRET = 's';
+    delete process.env.R2_BUCKET;
+    const token = sign({ id: 1 }, 's');
+    const res = await request(app)
+      .post('/upload')
+      .set('Authorization', `Bearer ${token}`)
+      .attach('model', Buffer.from('data'), 'm.glb');
+    expect(res.status).toBe(500);
+    expect(res.body).toEqual({
+      error: 'R2_BUCKET environment variable not configured',
+    });
+  });
+
   it('POST /upload accepts valid token', async () => {
     process.env.R2_BUCKET = 'b';
     process.env.JWT_SECRET = 's';
