@@ -42,6 +42,15 @@ export default [
       },
     },
   },
+  // Node utility scripts
+  {
+    files: ['scripts/**/*.js'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: { ...globals.node },
+    },
+  },
   // Тесты на Vitest
   {
     files: ['tests/**/*.js'],
