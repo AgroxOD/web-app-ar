@@ -18,7 +18,9 @@ import crypto from 'crypto';
 export const app = express();
 app.use(express.json());
 const allowedOrigins = process.env.FRONTEND_ORIGINS
-  ? process.env.FRONTEND_ORIGINS.split(',').map((o) => o.trim()).filter(Boolean)
+  ? process.env.FRONTEND_ORIGINS.split(',')
+      .map((o) => o.trim())
+      .filter(Boolean)
   : undefined;
 if (allowedOrigins && allowedOrigins.length > 0) {
   app.use(cors({ origin: allowedOrigins }));
