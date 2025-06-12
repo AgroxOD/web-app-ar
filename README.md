@@ -81,6 +81,7 @@ pnpm start  # запуск API-сервера (опционально)
 
 Скопируй `.env.example` в `.env` и заполни нужные переменные: `JWT_SECRET` для подписи токенов, `VITE_ANALYTICS_ENDPOINT` для отправки аналитики и т.д.
 Для загрузки моделей из внешнего хранилища можно использовать переменную `VITE_MODEL_URL`.
+Для ограничения CORS задай переменную `FRONTEND_ORIGINS` со списком доменов через запятую.
 
 > **Важно:** приложение должно обслуживаться веб-сервером. Запускай его через `pnpm dev` или статический сервер. Простое открытие `dist/index.html` напрямую в браузере не сработает.
 
@@ -204,6 +205,7 @@ R2_ENDPOINT=https://<account>.r2.cloudflarestorage.com
 R2_BUCKET=my-bucket
 JWT_SECRET=super-secret
 JWT_MISSING_STATUS=
+FRONTEND_ORIGINS=
 ````
 
 #### Аутентификация
