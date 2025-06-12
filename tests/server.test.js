@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'test';
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import request from 'supertest';
-import { app, Model, main, User } from '../server.js';
+import { app, Model, main, User, requireRole } from '../server.js';
 import mongoose from 'mongoose';
 import { sign } from './helpers/sign.js';
 import { S3Client } from '@aws-sdk/client-s3';
@@ -150,5 +150,22 @@ describe('API endpoints', () => {
       .set('Authorization', `Bearer ${token}`)
       .attach('model', Buffer.from('data'), 'm.glb');
     expect(res.status).toBe(403);
+  });
+
+  it('auth middleware sets req.user', async () => {
+    process.env.JWT_SECRET = 's';
+    const user = { _id: 1, role: 'admin' };
+    vi.spyOn(User, 'findById').mockResolvedValue(user);
+    const token = sign({ id: 1 }, 's');
+    app.get('/test/me', requireRole('admin'), (req, res) => {
+      res.json(req.user);
+    });
+
+    const res = await request(app)
+      .get('/test/me')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual(JSON.parse(JSON.stringify(user)));
   });
 });
