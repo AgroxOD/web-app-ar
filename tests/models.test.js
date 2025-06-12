@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'test';
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import request from 'supertest';
-import { app, Model } from '../server.js';
+import { app, Model, User } from '../server.js';
 
 import { sign } from './helpers/sign.js';
 
@@ -49,6 +49,7 @@ describe('model routes', () => {
   it('PUT /api/models/:id updates model', async () => {
     process.env.JWT_SECRET = 's';
     const token = sign({ id: 1 }, 's');
+    vi.spyOn(User, 'findById').mockResolvedValue({ role: 'admin' });
     const spy = vi.spyOn(Model, 'findByIdAndUpdate').mockReturnValue({
       lean: vi.fn().mockResolvedValue({
         name: 'x',
@@ -84,9 +85,27 @@ describe('model routes', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
+  it('PUT /api/models/:id with non-admin returns 403', async () => {
+    process.env.JWT_SECRET = 's';
+    const token = sign({ id: 1 }, 's');
+    vi.spyOn(User, 'findById').mockResolvedValue({ role: 'user' });
+    const spy = vi
+      .spyOn(Model, 'findByIdAndUpdate')
+      .mockReturnValue({ lean: vi.fn() });
+
+    const res = await request(app)
+      .put('/api/models/123')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: 'x', url: 'x.glb', markerIndex: 0 });
+
+    expect(res.status).toBe(403);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
   it('DELETE /api/models/:id removes model', async () => {
     process.env.JWT_SECRET = 's';
     const token = sign({ id: 1 }, 's');
+    vi.spyOn(User, 'findById').mockResolvedValue({ role: 'admin' });
     const spy = vi.spyOn(Model, 'findByIdAndDelete').mockReturnValue({
       lean: vi.fn().mockResolvedValue({}),
     });
@@ -109,6 +128,22 @@ describe('model routes', () => {
     const res = await request(app).delete('/api/models/123');
 
     expect(res.status).toBe(401);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('DELETE /api/models/:id with non-admin returns 403', async () => {
+    process.env.JWT_SECRET = 's';
+    const token = sign({ id: 1 }, 's');
+    vi.spyOn(User, 'findById').mockResolvedValue({ role: 'user' });
+    const spy = vi
+      .spyOn(Model, 'findByIdAndDelete')
+      .mockReturnValue({ lean: vi.fn() });
+
+    const res = await request(app)
+      .delete('/api/models/123')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toBe(403);
     expect(spy).not.toHaveBeenCalled();
   });
 });

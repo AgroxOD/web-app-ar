@@ -134,7 +134,8 @@
         register,
         logout,
         isAuthenticated,
-        setToken,
+        setAuth,
+        getRole,
       } from './src/utils/auth.js';
       import {
         loadModels,
@@ -160,6 +161,7 @@
       async function refreshModels() {
         const list = document.getElementById('model-list');
         list.innerHTML = '';
+        const admin = getRole() === 'admin';
         try {
           const models = await loadModels();
           clearMessage();
@@ -169,18 +171,20 @@
             const info = document.createElement('span');
             info.textContent = `${m.name} (${m.url}) marker: ${m.markerIndex}`;
             li.appendChild(info);
-            const editBtn = document.createElement('button');
-            editBtn.textContent = 'Edit';
-            editBtn.className = 'button button-secondary';
-            const delBtn = document.createElement('button');
-            delBtn.textContent = 'Delete';
-            delBtn.className = 'button';
-            li.append(' ', editBtn, ' ', delBtn);
+            if (admin) {
+              const editBtn = document.createElement('button');
+              editBtn.textContent = 'Edit';
+              editBtn.className = 'button button-secondary';
+              const delBtn = document.createElement('button');
+              delBtn.textContent = 'Delete';
+              delBtn.className = 'button';
+              li.append(' ', editBtn, ' ', delBtn);
 
-            editBtn.addEventListener('click', () =>
-              showEditForm(li, modelId, m, editBtn),
-            );
-            delBtn.addEventListener('click', () => handleDelete(modelId));
+              editBtn.addEventListener('click', () =>
+                showEditForm(li, modelId, m, editBtn),
+              );
+              delBtn.addEventListener('click', () => handleDelete(modelId));
+            }
 
             list.appendChild(li);
           });
@@ -205,6 +209,7 @@
 
       function updateUI() {
         const logged = isAuthenticated();
+        const admin = logged && getRole() === 'admin';
         const loginFormEl = document.getElementById('login-form');
         const regFormEl = document.getElementById('register-form');
         if (logged) {
@@ -220,11 +225,14 @@
         document.getElementById('logout').classList.toggle('hidden', !logged);
         document
           .getElementById('upload-form')
-          .classList.toggle('hidden', !logged);
+          .classList.toggle('hidden', !admin);
         const msg = document.getElementById('upload-message');
-        if (logged) {
+        if (admin) {
           msg.style.display = 'none';
           msg.textContent = '';
+        } else if (logged) {
+          msg.textContent = 'Admin privileges required';
+          msg.style.display = 'block';
         } else {
           msg.textContent = 'Login required to upload models';
           msg.style.display = 'block';
@@ -236,11 +244,11 @@
         .addEventListener('submit', async (e) => {
           e.preventDefault();
           try {
-            const { jwt } = await login(
+            const { jwt, role } = await login(
               document.getElementById('login-email').value,
               document.getElementById('login-password').value,
             );
-            setToken(jwt);
+            setAuth(jwt, role);
             updateUI();
             await refreshModels();
             clearMessage();
@@ -254,12 +262,12 @@
         .addEventListener('submit', async (e) => {
           e.preventDefault();
           try {
-            const { jwt } = await register(
+            const { jwt, role } = await register(
               document.getElementById('reg-username').value,
               document.getElementById('reg-email').value,
               document.getElementById('reg-password').value,
             );
-            setToken(jwt);
+            setAuth(jwt, role);
             updateUI();
             await refreshModels();
             clearMessage();

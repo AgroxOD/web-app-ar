@@ -62,6 +62,7 @@ const userSchema = new mongoose.Schema({
   username: String,
   email: { type: String, unique: true },
   passwordHash: String,
+  role: { type: String, enum: ['admin', 'user'], default: 'user' },
 });
 export const User = mongoose.model('User', userSchema);
 
@@ -125,6 +126,34 @@ function authMiddleware(req, res, next) {
   }
 }
 
+export function requireRole(role) {
+  return async (req, res, next) => {
+    if (!process.env.JWT_SECRET) {
+      const parsed = parseInt(process.env.JWT_MISSING_STATUS, 10);
+      const status = Number.isFinite(parsed) ? parsed : 500;
+      return res
+        .status(status)
+        .json({ error: 'JWT_SECRET environment variable not configured' });
+    }
+
+    const auth = req.get('Authorization');
+    if (!auth || !auth.startsWith('Bearer '))
+      return res.status(401).json({ error: 'Unauthorized' });
+    try {
+      const token = auth.slice(7);
+      const payload = verifyJwt(token, process.env.JWT_SECRET);
+      const user = await User.findById(payload.id).lean();
+      if (!user) return res.status(401).json({ error: 'Unauthorized' });
+      if (user.role !== role)
+        return res.status(403).json({ error: 'Forbidden' });
+      req.user = user;
+      next();
+    } catch {
+      res.status(401).json({ error: 'Unauthorized' });
+    }
+  };
+}
+
 async function syncR2Models() {
   const bucket = process.env.R2_BUCKET;
   if (!bucket) return;
@@ -156,7 +185,7 @@ async function syncR2Models() {
 }
 
 app.post('/auth/register', async (req, res) => {
-  const { username, email, password } = req.body || {};
+  const { username, email, password, role = 'user' } = req.body || {};
   if (!email || !password)
     return res.status(400).json({ error: 'Missing fields' });
   if (!process.env.JWT_SECRET) {
@@ -170,9 +199,9 @@ app.post('/auth/register', async (req, res) => {
     if (await User.findOne({ email }))
       return res.status(400).json({ error: 'Email exists' });
     const passwordHash = await bcrypt.hash(password, 10);
-    const user = await User.create({ username, email, passwordHash });
+    const user = await User.create({ username, email, passwordHash, role });
     const jwt = signJwt({ id: user._id }, process.env.JWT_SECRET || '');
-    res.json({ jwt });
+    res.json({ jwt, role: user.role });
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: 'Register failed' });
@@ -196,7 +225,7 @@ app.post('/auth/login', async (req, res) => {
     const ok = await bcrypt.compare(password, user.passwordHash);
     if (!ok) return res.status(400).json({ error: 'Invalid credentials' });
     const jwt = signJwt({ id: user._id }, process.env.JWT_SECRET || '');
-    res.json({ jwt });
+    res.json({ jwt, role: user.role });
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: 'Login failed' });
@@ -255,12 +284,12 @@ export async function deleteModel(req, res) {
 }
 
 app.get('/api/models/:id', getModelById);
-app.put('/api/models/:id', authMiddleware, updateModel);
-app.delete('/api/models/:id', authMiddleware, deleteModel);
+app.put('/api/models/:id', requireRole('admin'), updateModel);
+app.delete('/api/models/:id', requireRole('admin'), deleteModel);
 
 app.post(
   '/upload',
-  authMiddleware,
+  requireRole('admin'),
   (req, res, next) => {
     upload.single('model')(req, res, (err) => {
       if (err) {

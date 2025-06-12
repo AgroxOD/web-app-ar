@@ -104,6 +104,7 @@ pnpm build    # production сборка
 pnpm preview  # проверка dist/
 
 # Открой http://localhost:5173/web-app-ar/ в браузере и нажми кнопку **Start AR** для запуска сцены
+# Для управления моделями зарегистрируй аккаунт с `role: 'admin'` через `/auth/register`
 ```
 
 ---
@@ -168,9 +169,9 @@ pnpm preview  # проверка dist/
 API сервера поддерживает регистрацию и вход пользователей.
 
 1. Задай `JWT_SECRET` в файле `.env`.
-2. `POST /auth/register` — регистрация пользователя `{username, email, password}`.
-3. `POST /auth/login` — получение токена `{ jwt }`.
-4. Для защищённых роутов отправляй заголовок `Authorization: Bearer <jwt>`.
+2. `POST /auth/register` — регистрация пользователя `{username, email, password, role}`. По умолчанию `role` = `user`.
+3. `POST /auth/login` — получение токена `{ jwt, role }`.
+4. Для защищённых роутов отправляй заголовок `Authorization: Bearer <jwt>`. Маршруты `PUT /api/models/:id`, `DELETE /api/models/:id` и `POST /upload` требуют роль `admin`.
 
 ---
 

@@ -6,8 +6,22 @@ export function setToken(token) {
   if (token) localStorage.setItem('jwt', token);
 }
 
+export function getRole() {
+  return localStorage.getItem('role') || 'user';
+}
+
+export function setRole(role) {
+  if (role) localStorage.setItem('role', role);
+}
+
+export function setAuth(token, role) {
+  setToken(token);
+  setRole(role);
+}
+
 export function logout() {
   localStorage.removeItem('jwt');
+  localStorage.removeItem('role');
 }
 
 export function isAuthenticated() {
