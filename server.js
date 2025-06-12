@@ -345,7 +345,7 @@ async function main() {
   return server;
 }
 
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== 'test' && !process.env.VITEST) {
   main().catch((err) => {
     console.error(err);
     process.exit(1);
