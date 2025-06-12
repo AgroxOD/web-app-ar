@@ -59,11 +59,7 @@
       <h1 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.25rem">
         Upload 3D Models
       </h1>
-      <p
-        id="api-warning"
-        class="hidden"
-        style="color: red; margin-bottom: 0.5rem"
-      ></p>
+      <p id="api-message" class="hidden" style="margin-bottom: 0.5rem"></p>
       <div id="auth" style="margin-bottom: 1rem">
         <form id="login-form" class="inline-form">
           <input
@@ -140,18 +136,19 @@
         isAuthenticated,
         setToken,
       } from './src/utils/auth.js';
-      import { loadModels } from './src/utils/models.js';
+      import { loadModels, updateModel, deleteModel } from './src/utils/models.js';
 
       const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
-      function showWarning(msg) {
-        const el = document.getElementById('api-warning');
+      function showMessage(msg, error = false) {
+        const el = document.getElementById('api-message');
+        el.style.color = error ? 'red' : 'green';
         el.textContent = msg;
         el.classList.remove('hidden');
       }
 
-      function clearWarning() {
-        document.getElementById('api-warning').classList.add('hidden');
+      function clearMessage() {
+        document.getElementById('api-message').classList.add('hidden');
       }
 
       async function refreshModels() {
@@ -159,15 +156,70 @@
         list.innerHTML = '';
         try {
           const models = await loadModels();
-          clearWarning();
+          clearMessage();
           models.forEach((m) => {
             const li = document.createElement('li');
-            li.textContent = `${m.name} (${m.url})`;
+            const info = document.createElement('span');
+            info.textContent = `${m.name} (${m.url}) marker: ${m.markerIndex}`;
+            li.appendChild(info);
+            const editBtn = document.createElement('button');
+            editBtn.textContent = 'Edit';
+            editBtn.className = 'button button-secondary';
+            const delBtn = document.createElement('button');
+            delBtn.textContent = 'Delete';
+            delBtn.className = 'button';
+            li.append(' ', editBtn, ' ', delBtn);
+
+            editBtn.addEventListener('click', () => showEditForm(li, m, editBtn));
+            delBtn.addEventListener('click', () => handleDelete(m));
+
             list.appendChild(li);
           });
         } catch {
-          showWarning('Failed to load models');
+          showMessage('Failed to load models', true);
         }
+      }
+
+      async function handleDelete(m) {
+        if (!confirm('Delete this model?')) return;
+        try {
+          await deleteModel(m.url);
+          showMessage('Model deleted');
+          await refreshModels();
+        } catch {
+          showMessage('Delete failed', true);
+        }
+      }
+
+      function showEditForm(li, m, btn) {
+        const form = document.createElement('form');
+        form.className = 'inline-form';
+        form.innerHTML = `
+          <input class="text-input" name="name" value="${m.name}" required />
+          <input class="text-input" name="markerIndex" type="number" value="${m.markerIndex}" required />
+          <button class="button button-primary" type="submit">Save</button>
+          <button class="button" type="button">Cancel</button>
+        `;
+        const cancel = form.querySelector('button[type="button"]');
+        cancel.addEventListener('click', () => {
+          form.remove();
+          btn.disabled = false;
+        });
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          try {
+            await updateModel(m.url, {
+              name: form.name.value,
+              markerIndex: parseInt(form.markerIndex.value, 10) || 0,
+            });
+            showMessage('Model updated');
+            await refreshModels();
+          } catch {
+            showMessage('Update failed', true);
+          }
+        });
+        btn.disabled = true;
+        li.appendChild(form);
       }
 
       let showRegister = false;
@@ -212,9 +264,9 @@
             setToken(jwt);
             updateUI();
             await refreshModels();
-            clearWarning();
+            clearMessage();
           } catch (err) {
-            showWarning(err.message);
+            showMessage(err.message, true);
           }
         });
 
@@ -231,9 +283,9 @@
             setToken(jwt);
             updateUI();
             await refreshModels();
-            clearWarning();
+            clearMessage();
           } catch (err) {
-            showWarning(err.message);
+            showMessage(err.message, true);
           }
         });
 
@@ -251,7 +303,7 @@
         logout();
         updateUI();
         document.getElementById('model-list').innerHTML = '';
-        clearWarning();
+        clearMessage();
       });
 
       document
@@ -273,8 +325,9 @@
             if (!res.ok) throw new Error('upload failed');
             fileInput.value = '';
             await refreshModels();
+            showMessage('Upload successful');
           } catch {
-            showWarning('Upload failed');
+            showMessage('Upload failed', true);
           }
         });
 
