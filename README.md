@@ -73,6 +73,8 @@ sh public/assets/download_models.sh
 pnpm dev
 pnpm lint # проверка стиля (требует предварительного pnpm install)
 pnpm test  # запуск тестов
+# для тестов используется jsdom, он устанавливается вместе с зависимостями
+# (pnpm install) и нужен Vitest для проверки DOM-функций
 pnpm format # автоформатирование
 pnpm build # production сборка
 pnpm preview # предпросмотр dist/
