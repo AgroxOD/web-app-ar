@@ -3,6 +3,7 @@ import request from 'supertest';
 import { app, Model, main } from '../server.js';
 import mongoose from 'mongoose';
 import { sign } from './helpers/sign.js';
+import { S3Client } from '@aws-sdk/client-s3';
 
 process.env.NODE_ENV = 'test';
 
