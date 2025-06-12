@@ -5,6 +5,8 @@
   "repository": "https://github.com/AgroxOD/web-app-ar",
   "type": "module",
   "scripts": {
+    "prestart": "node scripts/check-node.js",
+    "preinstall": "node scripts/check-node.js",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
