@@ -234,7 +234,9 @@ app.post('/auth/login', async (req, res) => {
 
 app.get('/api/models', async (req, res) => {
   try {
-    const list = await Model.find().select('name url markerIndex -_id').lean();
+    const list = await Model.find()
+      .select('name url markerIndex')
+      .lean();
     res.json(list);
   } catch (e) {
     console.error(e);
