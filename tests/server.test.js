@@ -54,7 +54,6 @@ describe('API endpoints', () => {
     expect(exitSpy).toHaveBeenCalledWith(1);
   });
 
-
   it('POST /upload rejects unauthorized', async () => {
     process.env.R2_BUCKET = 'b';
     // set secret so auth middleware doesn't return 500
