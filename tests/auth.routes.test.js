@@ -5,7 +5,6 @@ import bcrypt from 'bcryptjs';
 
 import { sign } from './helpers/sign.js';
 
-
 describe('auth endpoints', () => {
   let originalR2;
   let originalSecret;

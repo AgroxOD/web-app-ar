@@ -4,7 +4,6 @@ import { app, Model } from '../server.js';
 
 import { sign } from './helpers/sign.js';
 
-
 describe('model routes', () => {
   let originalSecret;
 
