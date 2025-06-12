@@ -270,8 +270,10 @@ app.post(
       if (err) {
         if (err.code === 'LIMIT_FILE_SIZE')
           return res.status(413).json({ error: 'File too large' });
-        if (err.code === 'INVALID_FILENAME')
-          return res.status(400).json({ error: 'Invalid filename' });
+        if (err.code === 'INVALID_FILENAME') {
+          res.status(400).json({ error: 'Invalid filename' });
+          return res.end();
+        }
         return res.status(400).json({ error: 'Upload failed' });
       }
       next();
