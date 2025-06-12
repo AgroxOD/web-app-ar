@@ -127,7 +127,7 @@ describe('API endpoints', () => {
     const res = await request(app)
       .post('/upload')
       .set('Authorization', `Bearer ${token}`)
-      .attach('model', Buffer.from('data'), '../evil.glb');
+      .attach('model', Buffer.from('data'), { filename: '../evil.glb' });
     expect(res.status).toBe(400);
     expect(res.body).toEqual({ error: 'Invalid filename' });
   });
