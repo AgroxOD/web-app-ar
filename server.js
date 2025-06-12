@@ -102,8 +102,11 @@ export function requireRole(role) {
 
     try {
       const token = auth.slice(7);
-      const { id } = verifyJwt(token, process.env.JWT_SECRET);
-      const user = await User.findById(id);
+      const payload = verifyJwt(token, process.env.JWT_SECRET);
+      if (typeof payload.id !== 'string') {
+        return res.status(400).json({ error: 'Invalid token payload' });
+      }
+      const user = await User.findOne({ _id: { $eq: payload.id } });
       if (!user) return res.status(401).json({ error: 'Unauthorized' });
       if (user.role !== role) {
         return res.status(403).json({ error: 'Forbidden' });

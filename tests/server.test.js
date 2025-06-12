@@ -80,8 +80,8 @@ describe('API endpoints', () => {
   it('POST /upload fails when R2_BUCKET missing', async () => {
     process.env.JWT_SECRET = 's';
     delete process.env.R2_BUCKET;
-    vi.spyOn(User, 'findById').mockResolvedValue({ role: 'admin' });
-    const token = sign({ id: 1, role: 'admin' }, 's');
+    vi.spyOn(User, 'findOne').mockResolvedValue({ role: 'admin' });
+    const token = sign({ id: '1', role: 'admin' }, 's');
     const res = await request(app)
       .post('/upload')
       .set('Authorization', `Bearer ${token}`)
@@ -96,9 +96,9 @@ describe('API endpoints', () => {
     process.env.R2_BUCKET = 'b';
     process.env.JWT_SECRET = 's';
     vi.spyOn(S3Client.prototype, 'send').mockResolvedValue({});
-    vi.spyOn(User, 'findById').mockResolvedValue({ role: 'admin' });
+    vi.spyOn(User, 'findOne').mockResolvedValue({ role: 'admin' });
     const updateSpy = vi.spyOn(Model, 'updateOne').mockResolvedValue({});
-    const token = sign({ id: 1, role: 'admin' }, 's');
+    const token = sign({ id: '1', role: 'admin' }, 's');
     const res = await request(app)
       .post('/upload')
       .set('Authorization', `Bearer ${token}`)
@@ -116,8 +116,8 @@ describe('API endpoints', () => {
   it('POST /upload rejects oversized file', async () => {
     process.env.R2_BUCKET = 'b';
     process.env.JWT_SECRET = 's';
-    vi.spyOn(User, 'findById').mockResolvedValue({ role: 'admin' });
-    const token = sign({ id: 1, role: 'admin' }, 's');
+    vi.spyOn(User, 'findOne').mockResolvedValue({ role: 'admin' });
+    const token = sign({ id: '1', role: 'admin' }, 's');
     const big = Buffer.alloc(11 * 1024 * 1024, 'a');
     const res = await request(app)
       .post('/upload')
@@ -130,8 +130,8 @@ describe('API endpoints', () => {
     process.env.R2_BUCKET = 'b';
     process.env.JWT_SECRET = 's';
     const sendSpy = vi.spyOn(S3Client.prototype, 'send').mockResolvedValue({});
-    vi.spyOn(User, 'findById').mockResolvedValue({ role: 'admin' });
-    const token = sign({ id: 1, role: 'user' }, 's');
+    vi.spyOn(User, 'findOne').mockResolvedValue({ role: 'admin' });
+    const token = sign({ id: '1', role: 'user' }, 's');
     const res = await request(app)
       .post('/upload')
       .set('Authorization', `Bearer ${token}`)
@@ -144,8 +144,8 @@ describe('API endpoints', () => {
   it('POST /upload with non-admin returns 403', async () => {
     process.env.R2_BUCKET = 'b';
     process.env.JWT_SECRET = 's';
-    vi.spyOn(User, 'findById').mockResolvedValue({ role: 'user' });
-    const token = sign({ id: 1, role: 'user' }, 's');
+    vi.spyOn(User, 'findOne').mockResolvedValue({ role: 'user' });
+    const token = sign({ id: '1', role: 'user' }, 's');
     const res = await request(app)
       .post('/upload')
       .set('Authorization', `Bearer ${token}`)
@@ -156,8 +156,8 @@ describe('API endpoints', () => {
   it('auth middleware sets req.user', async () => {
     process.env.JWT_SECRET = 's';
     const user = { _id: 1, role: 'admin' };
-    vi.spyOn(User, 'findById').mockResolvedValue(user);
-    vi.spyOn(jwt, 'verify').mockReturnValue({ id: 1 });
+    vi.spyOn(User, 'findOne').mockResolvedValue(user);
+    vi.spyOn(jwt, 'verify').mockReturnValue({ id: '1' });
     const token = 'token';
     app.get('/test/me', requireRole('admin'), (req, res) => {
       res.json(req.user);
@@ -170,5 +170,20 @@ describe('API endpoints', () => {
     expect(res.status).toBe(200);
     expect(res.body).toEqual(JSON.parse(JSON.stringify(user)));
     expect(jwt.verify).toHaveBeenCalledWith('token', 's');
+  });
+
+  it('auth middleware rejects non-string id with 400', async () => {
+    process.env.JWT_SECRET = 's';
+    vi.spyOn(jwt, 'verify').mockReturnValue({ id: 1 });
+    const token = 'bad';
+    app.get('/test/bad', requireRole('admin'), (req, res) => {
+      res.json({});
+    });
+
+    const res = await request(app)
+      .get('/test/bad')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toBe(400);
   });
 });
