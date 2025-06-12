@@ -104,7 +104,7 @@ function isValidFilename(name) {
   );
 }
 
-function authMiddleware(req, res, next) {
+async function authMiddleware(req, res, next) {
   if (!process.env.JWT_SECRET) {
     const parsed = parseInt(process.env.JWT_MISSING_STATUS, 10);
     const status = Number.isFinite(parsed) ? parsed : 500;
@@ -119,7 +119,10 @@ function authMiddleware(req, res, next) {
   }
   try {
     const token = auth.slice(7);
-    verifyJwt(token, process.env.JWT_SECRET);
+    const { id } = verifyJwt(token, process.env.JWT_SECRET);
+    const user = await User.findById(id);
+    if (!user) return res.status(401).json({ error: 'Unauthorized' });
+    req.user = user;
     next();
   } catch {
     res.status(401).json({ error: 'Unauthorized' });
@@ -127,30 +130,14 @@ function authMiddleware(req, res, next) {
 }
 
 export function requireRole(role) {
-  return async (req, res, next) => {
-    if (!process.env.JWT_SECRET) {
-      const parsed = parseInt(process.env.JWT_MISSING_STATUS, 10);
-      const status = Number.isFinite(parsed) ? parsed : 500;
-      return res
-        .status(status)
-        .json({ error: 'JWT_SECRET environment variable not configured' });
-    }
-
-    const auth = req.get('Authorization');
-    if (!auth || !auth.startsWith('Bearer '))
-      return res.status(401).json({ error: 'Unauthorized' });
-    try {
-      const token = auth.slice(7);
-      const payload = verifyJwt(token, process.env.JWT_SECRET);
-      const user = await User.findById(payload.id).lean();
-      if (!user) return res.status(401).json({ error: 'Unauthorized' });
-      if (user.role !== role)
+  return (req, res, next) => {
+    authMiddleware(req, res, () => {
+      if (!req.user) return;
+      if (req.user.role !== role) {
         return res.status(403).json({ error: 'Forbidden' });
-      req.user = user;
+      }
       next();
-    } catch {
-      res.status(401).json({ error: 'Unauthorized' });
-    }
+    });
   };
 }
 
