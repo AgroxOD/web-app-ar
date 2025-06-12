@@ -29,7 +29,7 @@ const s3 = new S3Client({
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? '',
   },
   endpoint: process.env.R2_ENDPOINT,
-  region: process.env.AWS_REGION,
+  region: process.env.AWS_REGION || 'us-east-1',
 });
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/ar';
