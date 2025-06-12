@@ -111,6 +111,7 @@ describe('API endpoints', () => {
   it('POST /upload rejects invalid filename', async () => {
     process.env.R2_BUCKET = 'b';
     process.env.JWT_SECRET = 's';
+    const sendSpy = vi.spyOn(S3Client.prototype, 'send').mockResolvedValue({});
     const token = sign({ id: 1 }, 's');
     const res = await request(app)
       .post('/upload')
@@ -118,5 +119,6 @@ describe('API endpoints', () => {
       .attach('model', Buffer.from('data'), { filename: '../evil.glb' });
     expect(res.status).toBe(400);
     expect(res.body).toEqual({ error: 'Invalid filename' });
+    expect(sendSpy).not.toHaveBeenCalled();
   });
 });
