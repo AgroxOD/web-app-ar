@@ -4,74 +4,133 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Content Manager</title>
-    <script type="module" crossorigin src="/web-app-ar/assets/cp-BQziq65x.js"></script>
-    <link rel="modulepreload" crossorigin href="/web-app-ar/assets/style-D_zl4slf.js">
-    <link rel="modulepreload" crossorigin href="/web-app-ar/assets/auth-CFXlDKj2.js">
-    <link rel="modulepreload" crossorigin href="/web-app-ar/assets/models-DtFjBj2Q.js">
-    <link rel="stylesheet" crossorigin href="/web-app-ar/assets/style-C6G_3qQV.css">
+
+    <style>
+      body {
+        background: #f6f6f9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        font-family: sans-serif;
+      }
+      .card {
+        width: 420px;
+        background: #fff;
+        border: 1px solid #eaeaef;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+      }
+      .inline-form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+      .text-input {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #dcdce4;
+        border-radius: 4px;
+      }
+      .button {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .button-primary {
+        background: #4945ff;
+        color: #fff;
+      }
+      .button-secondary {
+        background: #666;
+        color: #fff;
+      }
+      ul {
+        padding-left: 1rem;
+      }
+    </style>
+    <script type="module" crossorigin src="/web-app-ar/assets/cp-DsqgMb3f.js"></script>
+    <link rel="modulepreload" crossorigin href="/web-app-ar/assets/style-DBLwl-Ec.js">
+    <link rel="modulepreload" crossorigin href="/web-app-ar/assets/auth-BvfLdpt4.js">
+    <link rel="modulepreload" crossorigin href="/web-app-ar/assets/models-VtKfwujZ.js">
+    <link rel="stylesheet" crossorigin href="/web-app-ar/assets/style-Due-NcM6.css">
   </head>
-  <body class="p-4 font-sans">
-    <h1 class="text-xl mb-4">Upload 3D Models</h1>
-    <div id="auth" class="mb-4 space-x-2">
-      <form id="login-form" class="space-x-1 inline">
-        <input
-          id="login-email"
-          class="border px-1"
-          placeholder="Email"
-          required
-        />
-        <input
-          id="login-password"
-          type="password"
-          class="border px-1"
-          placeholder="Password"
-          required
-        />
-        <button class="bg-blue-500 text-white px-2" type="submit">Login</button>
-      </form>
-      <form id="register-form" class="space-x-1 inline">
-        <input
-          id="reg-username"
-          class="border px-1"
-          placeholder="Username"
-          required
-        />
-        <input
-          id="reg-email"
-          type="email"
-          class="border px-1"
-          placeholder="Email"
-          required
-        />
-        <input
-          id="reg-password"
-          type="password"
-          class="border px-1"
-          placeholder="Password"
-          required
-        />
-        <button class="bg-green-500 text-white px-2" type="submit">
-          Register
+  <body>
+    <div class="card">
+      <h1 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.25rem">
+        Upload 3D Models
+      </h1>
+      <p id="api-message" class="hidden" style="margin-bottom: 0.5rem"></p>
+      <div id="auth" style="margin-bottom: 1rem">
+        <form id="login-form" class="inline-form">
+          <input
+            id="login-email"
+            class="text-input"
+            placeholder="Email"
+            required
+          />
+          <input
+            id="login-password"
+            type="password"
+            class="text-input"
+            placeholder="Password"
+            required
+          />
+          <button class="button button-primary" type="submit">Login</button>
+          <button class="button" type="button" id="show-register">
+            Register
+          </button>
+        </form>
+        <form id="register-form" class="inline-form" style="display: none">
+          <input
+            id="reg-username"
+            class="text-input"
+            placeholder="Username"
+            required
+          />
+          <input
+            id="reg-email"
+            type="email"
+            class="text-input"
+            placeholder="Email"
+            required
+          />
+          <input
+            id="reg-password"
+            type="password"
+            class="text-input"
+            placeholder="Password"
+            required
+          />
+          <button class="button button-primary" type="submit">Register</button>
+          <button class="button" type="button" id="show-login">Back</button>
+        </form>
+        <button id="logout" class="button button-secondary hidden">
+          Logout
         </button>
+      </div>
+      <form id="upload-form" class="hidden" style="margin-bottom: 1rem">
+        <input
+          type="file"
+          id="file"
+          name="model"
+          class="text-input"
+          accept=".glb"
+          required
+        />
+        <button class="button button-primary" type="submit">Upload</button>
       </form>
-      <button id="logout" class="bg-gray-600 text-white px-2 hidden">
-        Logout
-      </button>
+      <p
+        id="upload-message"
+        style="margin-bottom: 1rem; color: #666; display: none"
+      >
+        Login required to upload models
+      </p>
+      <ul id="model-list" class="model-list"></ul>
     </div>
-
-    <form id="upload-form" class="mb-4 hidden">
-      <input
-        type="file"
-        id="file"
-        name="model"
-        class="mb-2"
-        accept=".glb"
-        required
-      />
-      <button class="bg-blue-600 text-white px-2" type="submit">Upload</button>
-    </form>
-
-    <ul id="model-list" class="list-disc pl-5"></ul>
 
   </body>
 </html>

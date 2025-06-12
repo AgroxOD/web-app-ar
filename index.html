@@ -95,16 +95,16 @@
         margin-right: 4px;
       }
     </style>
-    <script type="module" crossorigin src="/web-app-ar/assets/main-_OQOqM1N.js"></script>
-    <link rel="modulepreload" crossorigin href="/web-app-ar/assets/style-D_zl4slf.js">
-    <link rel="stylesheet" crossorigin href="/web-app-ar/assets/style-C6G_3qQV.css">
+    <script type="module" crossorigin src="/web-app-ar/assets/main-DQBvDw9X.js"></script>
+    <link rel="modulepreload" crossorigin href="/web-app-ar/assets/style-DBLwl-Ec.js">
+    <link rel="stylesheet" crossorigin href="/web-app-ar/assets/style-Due-NcM6.css">
     <link rel="stylesheet" crossorigin href="/web-app-ar/assets/main-xlxoJ07g.css">
   </head>
 
   <body>
     <div id="menu">
       <form id="login-form">
-        <input id="login-identifier" placeholder="Email" required />
+        <input id="login-email" placeholder="Email" required />
         <input
           id="login-password"
           type="password"
@@ -112,6 +112,7 @@
           required
         />
         <button type="submit">Login</button>
+        <button type="button" id="show-register">Register</button>
       </form>
       <form id="register-form" style="display: none">
         <input id="register-username" placeholder="Username" required />
@@ -123,12 +124,14 @@
           required
         />
         <button type="submit">Register</button>
+        <button type="button" id="show-login">Back</button>
       </form>
       <button id="logout" style="display: none">Logout</button>
     </div>
     <div id="ar-container"></div>
     <div id="ar-frame"></div>
     <div id="ar-overlay">
+      <select id="marker-select"></select>
       <select id="model-select"></select>
       <button id="start-ar">Start AR</button>
     </div>
