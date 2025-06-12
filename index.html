@@ -158,7 +158,7 @@
       const logoutBtn = document.getElementById('logout');
       const { startAR, modelParams } = await import('./src/ar-scene.js');
       const { loadModels } = await import('./src/utils/models.js');
-      const { login, register, logout, isAuthenticated, setToken } =
+      const { login, register, logout, isAuthenticated, setAuth } =
         await import('./src/utils/auth.js');
 
       let list = [];
@@ -214,7 +214,7 @@
             document.getElementById('login-email').value,
             document.getElementById('login-password').value,
           );
-          setToken(jwt);
+          setAuth(jwt);
           updateMenu();
         } catch (err) {
           alert(err.message);
@@ -229,7 +229,7 @@
             document.getElementById('register-email').value,
             document.getElementById('register-password').value,
           );
-          setToken(jwt);
+          setAuth(jwt);
           updateMenu();
         } catch (err) {
           alert(err.message);

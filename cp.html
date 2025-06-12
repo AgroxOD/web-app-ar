@@ -200,8 +200,10 @@
           await deleteModel(id);
           showMessage('Model deleted');
           await refreshModels();
-        } catch {
-          showMessage('Delete failed', true);
+        } catch (err) {
+          const msg =
+            err.message === 'Forbidden' ? 'Permission denied' : err.message;
+          showMessage(msg || 'Delete failed', true);
         }
       }
 
@@ -244,11 +246,11 @@
         .addEventListener('submit', async (e) => {
           e.preventDefault();
           try {
-            const { jwt, role } = await login(
+            const { jwt } = await login(
               document.getElementById('login-email').value,
               document.getElementById('login-password').value,
             );
-            setAuth(jwt, role);
+            setAuth(jwt);
             updateUI();
             await refreshModels();
             clearMessage();
@@ -262,12 +264,12 @@
         .addEventListener('submit', async (e) => {
           e.preventDefault();
           try {
-            const { jwt, role } = await register(
+            const { jwt } = await register(
               document.getElementById('reg-username').value,
               document.getElementById('reg-email').value,
               document.getElementById('reg-password').value,
             );
-            setAuth(jwt, role);
+            setAuth(jwt);
             updateUI();
             await refreshModels();
             clearMessage();
@@ -314,12 +316,15 @@
               headers,
               body: form,
             });
-            if (!res.ok) throw new Error('upload failed');
+            if (res.status === 403) throw new Error('Forbidden');
+            if (!res.ok) throw new Error('Upload failed');
             fileInput.value = '';
             await refreshModels();
             showMessage('Upload successful');
-          } catch {
-            showMessage('Upload failed', true);
+          } catch (err) {
+            const msg =
+              err.message === 'Forbidden' ? 'Permission denied' : err.message;
+            showMessage(msg || 'Upload failed', true);
           }
         });
 
