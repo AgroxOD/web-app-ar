@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'test';
+
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import request from 'supertest';
 import { app, User } from '../server.js';
