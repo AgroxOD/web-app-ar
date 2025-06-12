@@ -109,16 +109,24 @@ function parseRawFilename(req, res, next) {
 
     req.off('data', onData);
     req.unshift(buf);
-    const header = buf.slice(0, idx === -1 ? buf.length : idx).toString('latin1');
-    const match = header.match(/filename="([^"\\]+)"/i);
+    const header = buf
+      .slice(0, idx === -1 ? buf.length : idx)
+      .toString('latin1');
+
+    const match = header.match(
+      /filename[^=]*=\s*(?:"([^"\\]*)"|([^;\r\n]*))/i,
+    );
     if (match) {
-      req.rawFilename = match[1];
-      if (/[\\/]/.test(req.rawFilename) || req.rawFilename.includes('..')) {
-        res.status(400).json({ error: 'Invalid filename' });
-        req.resume();
-        return;
-      }
+      req.rawFilename = match[1] ?? match[2];
     }
+
+    const nameForCheck = req.rawFilename || header;
+    if (/[\\/]/.test(nameForCheck) || nameForCheck.includes('..')) {
+      res.status(400).json({ error: 'Invalid filename' });
+      req.resume();
+      return;
+    }
+
     next();
   }
 
