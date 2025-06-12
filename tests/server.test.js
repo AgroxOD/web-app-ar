@@ -106,6 +106,7 @@ describe('API endpoints', () => {
       .attach('model', Buffer.from('data'), 'm.glb');
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ key: 'm.glb' });
+    expect(updateSpy).toHaveBeenCalledTimes(1);
     expect(updateSpy).toHaveBeenCalledWith(
       { url: 'm.glb' },
       expect.objectContaining({ markerIndex: 2 }),

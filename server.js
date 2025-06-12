@@ -330,7 +330,7 @@ app.post(
         ContentType: req.file.mimetype,
       });
       await s3.send(command);
-      if (mongoose.connection.readyState === 1) {
+      try {
         await Model.updateOne(
           { url: filename },
           {
@@ -340,6 +340,8 @@ app.post(
           },
           { upsert: true },
         );
+      } catch (err) {
+        console.error('Failed to update database', err);
       }
       res.json({ key: filename });
     } catch (e) {
