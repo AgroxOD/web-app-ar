@@ -5,6 +5,7 @@ import request from 'supertest';
 import { app, Model, main, User, requireRole } from '../server.js';
 import mongoose from 'mongoose';
 import { sign } from './helpers/sign.js';
+import jwt from 'jsonwebtoken';
 import { S3Client } from '@aws-sdk/client-s3';
 
 describe('API endpoints', () => {
@@ -156,7 +157,8 @@ describe('API endpoints', () => {
     process.env.JWT_SECRET = 's';
     const user = { _id: 1, role: 'admin' };
     vi.spyOn(User, 'findById').mockResolvedValue(user);
-    const token = sign({ id: 1 }, 's');
+    vi.spyOn(jwt, 'verify').mockReturnValue({ id: 1 });
+    const token = 'token';
     app.get('/test/me', requireRole('admin'), (req, res) => {
       res.json(req.user);
     });
@@ -167,5 +169,6 @@ describe('API endpoints', () => {
 
     expect(res.status).toBe(200);
     expect(res.body).toEqual(JSON.parse(JSON.stringify(user)));
+    expect(jwt.verify).toHaveBeenCalledWith('token', 's');
   });
 });

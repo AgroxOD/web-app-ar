@@ -13,7 +13,7 @@ import {
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import path from 'path';
-import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
 
 export const app = express();
 app.use(express.json());
@@ -67,30 +67,11 @@ const userSchema = new mongoose.Schema({
 export const User = mongoose.model('User', userSchema);
 
 function verifyJwt(token, secret) {
-  const [header, payload, signature] = token.split('.');
-  if (!header || !payload || !signature) throw new Error('Invalid token');
-  const data = `${header}.${payload}`;
-  const expected = crypto
-    .createHmac('sha256', secret)
-    .update(data)
-    .digest('base64url');
-  if (expected !== signature) throw new Error('Invalid token');
-  const body = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8'));
-  if (body.exp && Date.now() >= body.exp * 1000)
-    throw new Error('Token expired');
-  return body;
+  return jwt.verify(token, secret);
 }
 
 function signJwt(payload, secret) {
-  const header = Buffer.from(
-    JSON.stringify({ alg: 'HS256', typ: 'JWT' }),
-  ).toString('base64url');
-  const body = Buffer.from(JSON.stringify(payload)).toString('base64url');
-  const signature = crypto
-    .createHmac('sha256', secret)
-    .update(`${header}.${body}`)
-    .digest('base64url');
-  return `${header}.${body}.${signature}`;
+  return jwt.sign(payload, secret, { noTimestamp: true });
 }
 
 function isValidFilename(name) {

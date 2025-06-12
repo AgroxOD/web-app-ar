@@ -27,6 +27,7 @@
     "mongoose": "^8.3.0",
     "multer": "^2.0.1",
     "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
     "three": "0.152.2",
     "vite": "5.4.19"
   },
