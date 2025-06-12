@@ -130,6 +130,7 @@ describe('API endpoints', () => {
     process.env.R2_BUCKET = 'b';
     process.env.JWT_SECRET = 's';
     const sendSpy = vi.spyOn(S3Client.prototype, 'send').mockResolvedValue({});
+    vi.spyOn(Model, 'updateOne').mockResolvedValue({});
     vi.spyOn(User, 'findOne').mockResolvedValue({ role: 'admin' });
     const token = sign({ id: '1', role: 'user' }, 's');
     const res = await request(app)
@@ -195,8 +196,9 @@ describe('API endpoints', () => {
     process.env.RATE_LIMIT_MAX = '2';
     process.env.R2_BUCKET = 'b';
     process.env.JWT_SECRET = 's';
-    const { app: rlApp, User: RLUser } = await import('../server.js');
+    const { app: rlApp, User: RLUser, Model: RLModel } = await import('../server.js');
     vi.spyOn(S3Client.prototype, 'send').mockResolvedValue({});
+    vi.spyOn(RLModel, 'updateOne').mockResolvedValue({});
     vi.spyOn(RLUser, 'findOne').mockResolvedValue({ role: 'admin' });
     const token = sign({ id: '1', role: 'admin' }, 's');
     await request(rlApp)
