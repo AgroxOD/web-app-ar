@@ -2,8 +2,9 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import request from 'supertest';
 import { app, Model, main } from '../server.js';
 import mongoose from 'mongoose';
-import { S3Client } from '@aws-sdk/client-s3';
-import { sign } from './helpers/sign.js';
+
+=======
+import { sign } from './helpers.js';
 
 process.env.NODE_ENV = 'test';
 
