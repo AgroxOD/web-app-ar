@@ -59,7 +59,8 @@ const modelSchema = new mongoose.Schema({
   url: String,
   markerIndex: { type: Number, default: 0 },
 });
-export const Model = mongoose.model('Model', modelSchema);
+export const Model = mongoose.models.Model ||
+  mongoose.model('Model', modelSchema);
 
 const userSchema = new mongoose.Schema({
   username: String,
@@ -67,7 +68,8 @@ const userSchema = new mongoose.Schema({
   passwordHash: String,
   role: { type: String, enum: ['admin', 'user'], default: 'user' },
 });
-export const User = mongoose.model('User', userSchema);
+export const User = mongoose.models.User ||
+  mongoose.model('User', userSchema);
 
 function verifyJwt(token, secret) {
   return jwt.verify(token, secret);
@@ -270,10 +272,8 @@ app.post(
       if (err) {
         if (err.code === 'LIMIT_FILE_SIZE')
           return res.status(413).json({ error: 'File too large' });
-        if (err.code === 'INVALID_FILENAME') {
-          res.status(400).json({ error: 'Invalid filename' });
-          return res.end();
-        }
+        if (err.code === 'INVALID_FILENAME')
+          return res.status(400).json({ error: 'Invalid filename' });
         return res.status(400).json({ error: 'Upload failed' });
       }
       next();
