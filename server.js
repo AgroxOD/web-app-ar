@@ -31,6 +31,13 @@ const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
   preservePath: true,
+  fileFilter(req, file, cb) {
+    if (!isValidFilename(file.originalname)) {
+      const err = new multer.MulterError('INVALID_FILENAME');
+      return cb(err);
+    }
+    cb(null, true);
+  },
 });
 
 const s3 = new S3Client({
@@ -256,6 +263,8 @@ app.post(
       if (err) {
         if (err.code === 'LIMIT_FILE_SIZE')
           return res.status(413).json({ error: 'File too large' });
+        if (err.code === 'INVALID_FILENAME')
+          return res.status(400).json({ error: 'Invalid filename' });
         return res.status(400).json({ error: 'Upload failed' });
       }
       next();
