@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import request from 'supertest';
 import { app, Model, main } from '../server.js';
 import mongoose from 'mongoose';
-import { sign } from './helpers.js';
+import { sign } from './helpers/sign.js';
 
 process.env.NODE_ENV = 'test';
 
