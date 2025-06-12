@@ -81,6 +81,10 @@ function signJwt(payload, secret) {
   return jwt.sign(payload, secret, { noTimestamp: true });
 }
 
+// Multer sanitizes `file.originalname` using `path.basename` before our
+// `fileFilter` runs. `isValidFilename` therefore checks the already sanitized
+// value. This means paths like "../model.glb" become "model.glb" and are
+// considered valid unless additional validation is done.
 function isValidFilename(name) {
   return (
     typeof name === 'string' &&
