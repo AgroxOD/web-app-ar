@@ -59,6 +59,9 @@ project-root/
 ```bash
 git clone <repo-url>
 cd <project-name>
+nvm install  # установит Node.js из .nvmrc (проект требует Node.js 18–21)
+nvm use
+sh scripts/setup-node.sh # убедись в поддерживаемой версии перед pnpm install
 pnpm install
 # скопируй пример конфигурации и заполни значения
 cp .env.example .env
