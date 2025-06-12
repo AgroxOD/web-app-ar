@@ -67,6 +67,20 @@ describe('model routes', () => {
     );
   });
 
+  it('PUT /api/models/:id without Authorization returns 401', async () => {
+    process.env.JWT_SECRET = 's';
+    const spy = vi
+      .spyOn(Model, 'findByIdAndUpdate')
+      .mockReturnValue({ lean: vi.fn() });
+
+    const res = await request(app)
+      .put('/api/models/123')
+      .send({ name: 'x', url: 'x.glb', markerIndex: 2 });
+
+    expect(res.status).toBe(401);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
   it('DELETE /api/models/:id removes model', async () => {
     process.env.JWT_SECRET = 's';
     const token = sign({ id: 1 }, 's');
@@ -81,5 +95,17 @@ describe('model routes', () => {
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ success: true });
     expect(spy).toHaveBeenCalledWith('123');
+  });
+
+  it('DELETE /api/models/:id without Authorization returns 401', async () => {
+    process.env.JWT_SECRET = 's';
+    const spy = vi
+      .spyOn(Model, 'findByIdAndDelete')
+      .mockReturnValue({ lean: vi.fn() });
+
+    const res = await request(app).delete('/api/models/123');
+
+    expect(res.status).toBe(401);
+    expect(spy).not.toHaveBeenCalled();
   });
 });
