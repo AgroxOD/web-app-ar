@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
 import cors from 'cors';
-import mongoose from 'mongoose';
+import mongoose, { isValidObjectId } from 'mongoose';
 mongoose.set('bufferCommands', false);
 mongoose.set('bufferTimeoutMS', 0);
 import multer from 'multer';
@@ -288,6 +288,9 @@ app.get('/api/models', async (req, res) => {
 });
 
 export async function getModelById(req, res) {
+  if (!isValidObjectId(req.params.id)) {
+    return res.status(400).json({ error: 'Invalid ID' });
+  }
   try {
     const model = await Model.findById(req.params.id).lean();
     if (!model) return res.status(404).json({ error: 'Model not found' });
@@ -302,6 +305,9 @@ export async function updateModel(req, res) {
   const { name, url, markerIndex } = req.body || {};
   if (!name || !url || typeof markerIndex !== 'number') {
     return res.status(400).json({ error: 'Missing fields' });
+  }
+  if (!isValidObjectId(req.params.id)) {
+    return res.status(400).json({ error: 'Invalid ID' });
   }
   try {
     const updated = await Model.findByIdAndUpdate(
@@ -318,6 +324,9 @@ export async function updateModel(req, res) {
 }
 
 export async function deleteModel(req, res) {
+  if (!isValidObjectId(req.params.id)) {
+    return res.status(400).json({ error: 'Invalid ID' });
+  }
   try {
     const doc = await Model.findByIdAndDelete(req.params.id).lean();
     if (!doc) return res.status(404).json({ error: 'Model not found' });

@@ -48,6 +48,14 @@ describe('model routes', () => {
     expect(res.body).toEqual({ name: 'm', url: 'm.glb', markerIndex: 1 });
   });
 
+  it('GET /api/models/:id with invalid id returns 400', async () => {
+    const spy = vi.spyOn(Model, 'findById');
+    const res = await request(app).get('/api/models/bad');
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ error: 'Invalid ID' });
+    expect(spy).not.toHaveBeenCalled();
+  });
+
   it('PUT /api/models/:id updates model', async () => {
     process.env.JWT_SECRET = 's';
     const token = sign({ id: '1', role: 'admin' }, 's');
@@ -104,6 +112,24 @@ describe('model routes', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
+  it('PUT /api/models/:id with invalid id returns 400', async () => {
+    process.env.JWT_SECRET = 's';
+    const token = sign({ id: '1', role: 'admin' }, 's');
+    vi.spyOn(User, 'findOne').mockResolvedValue({ role: 'admin' });
+    const spy = vi
+      .spyOn(Model, 'findByIdAndUpdate')
+      .mockReturnValue({ lean: vi.fn() });
+
+    const res = await request(app)
+      .put('/api/models/bad')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: 'x', url: 'x.glb', markerIndex: 2 });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ error: 'Invalid ID' });
+    expect(spy).not.toHaveBeenCalled();
+  });
+
   it('DELETE /api/models/:id removes model', async () => {
     process.env.JWT_SECRET = 's';
     const token = sign({ id: '1', role: 'admin' }, 's');
@@ -146,6 +172,23 @@ describe('model routes', () => {
       .set('Authorization', `Bearer ${token}`);
 
     expect(res.status).toBe(403);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('DELETE /api/models/:id with invalid id returns 400', async () => {
+    process.env.JWT_SECRET = 's';
+    const token = sign({ id: '1', role: 'admin' }, 's');
+    vi.spyOn(User, 'findOne').mockResolvedValue({ role: 'admin' });
+    const spy = vi
+      .spyOn(Model, 'findByIdAndDelete')
+      .mockReturnValue({ lean: vi.fn() });
+
+    const res = await request(app)
+      .delete('/api/models/bad')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ error: 'Invalid ID' });
     expect(spy).not.toHaveBeenCalled();
   });
 });
