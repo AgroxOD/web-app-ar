@@ -190,7 +190,7 @@ pnpm start
 - `GET /model/:filename` — выдаёт временную ссылку на модель
 - `POST /auth/register` — регистрация пользователя
 - `POST /auth/login` — получение JWT
-- перед запуском задайте переменные `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `R2_ENDPOINT`, `R2_BUCKET` и `JWT_SECRET`
+- перед запуском задайте переменные `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION` (по умолчанию `us-east-1`), `R2_ENDPOINT`, `R2_BUCKET` и `JWT_SECRET`
 
 > `JWT_SECRET` является обязательной переменной. Если она не указана, защищённые маршруты API вернут код `500`. Задайте `JWT_MISSING_STATUS`, чтобы изменить этот код.
 
