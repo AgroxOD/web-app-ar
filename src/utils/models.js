@@ -25,7 +25,12 @@ export async function updateModel(id, data) {
     headers: authHeaders(true),
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error('Update failed');
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    const msg =
+      data.error || (res.status === 403 ? 'Forbidden' : 'Update failed');
+    throw new Error(msg);
+  }
   return res.json().catch(() => ({}));
 }
 
@@ -34,6 +39,11 @@ export async function deleteModel(id) {
     method: 'DELETE',
     headers: authHeaders(),
   });
-  if (!res.ok) throw new Error('Delete failed');
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    const msg =
+      data.error || (res.status === 403 ? 'Forbidden' : 'Delete failed');
+    throw new Error(msg);
+  }
   return res.json().catch(() => ({}));
 }

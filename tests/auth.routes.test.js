@@ -34,7 +34,10 @@ describe('auth endpoints', () => {
       .send({ username: 'u', email: 'e', password: 'p' });
 
     expect(res.status).toBe(200);
-    expect(res.body).toEqual({ jwt: sign({ id: 1 }, 'secret'), role: 'user' });
+    expect(res.body).toEqual({
+      jwt: sign({ id: 1, role: 'user' }, 'secret'),
+      role: 'user',
+    });
   });
 
   it('POST /auth/login returns token', async () => {
@@ -50,6 +53,9 @@ describe('auth endpoints', () => {
       .send({ email: 'e', password: 'p' });
 
     expect(res.status).toBe(200);
-    expect(res.body).toEqual({ jwt: sign({ id: 1 }, 'secret'), role: 'user' });
+    expect(res.body).toEqual({
+      jwt: sign({ id: 1, role: 'user' }, 'secret'),
+      role: 'user',
+    });
   });
 });

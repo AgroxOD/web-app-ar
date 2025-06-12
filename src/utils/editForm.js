@@ -42,8 +42,12 @@ export function showEditForm(li, id, m, btn) {
       });
       if (window.showMessage) window.showMessage('Model updated');
       if (window.refreshModels) await window.refreshModels();
-    } catch {
-      if (window.showMessage) window.showMessage('Update failed', true);
+    } catch (err) {
+      if (window.showMessage) {
+        const msg =
+          err.message === 'Forbidden' ? 'Permission denied' : err.message;
+        window.showMessage(msg || 'Update failed', true);
+      }
     }
   });
   btn.disabled = true;

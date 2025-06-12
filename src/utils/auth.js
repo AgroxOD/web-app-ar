@@ -2,12 +2,33 @@ export function getToken() {
   return localStorage.getItem('jwt');
 }
 
+export function decodeJwt(token) {
+  try {
+    const [, payload] = token.split('.');
+    if (!payload) return {};
+    const json = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+    return JSON.parse(json);
+  } catch {
+    return {};
+  }
+}
+
 export function setToken(token) {
   if (token) localStorage.setItem('jwt', token);
 }
 
 export function getRole() {
-  return localStorage.getItem('role') || 'user';
+  const stored = localStorage.getItem('role');
+  if (stored) return stored;
+  const token = getToken();
+  if (token) {
+    const { role } = decodeJwt(token);
+    if (role) {
+      localStorage.setItem('role', role);
+      return role;
+    }
+  }
+  return 'user';
 }
 
 export function setRole(role) {
@@ -16,7 +37,11 @@ export function setRole(role) {
 
 export function setAuth(token, role) {
   setToken(token);
-  setRole(role);
+  if (role) setRole(role);
+  else {
+    const { role: decoded } = decodeJwt(token);
+    if (decoded) setRole(decoded);
+  }
 }
 
 export function logout() {

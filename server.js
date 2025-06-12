@@ -168,7 +168,10 @@ app.post('/auth/register', async (req, res) => {
       return res.status(400).json({ error: 'Email exists' });
     const passwordHash = await bcrypt.hash(password, 10);
     const user = await User.create({ username, email, passwordHash, role });
-    const jwt = signJwt({ id: user._id }, process.env.JWT_SECRET || '');
+    const jwt = signJwt(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET || '',
+    );
     res.json({ jwt, role: user.role });
   } catch (e) {
     console.error(e);
@@ -192,7 +195,10 @@ app.post('/auth/login', async (req, res) => {
     if (!user) return res.status(400).json({ error: 'Invalid credentials' });
     const ok = await bcrypt.compare(password, user.passwordHash);
     if (!ok) return res.status(400).json({ error: 'Invalid credentials' });
-    const jwt = signJwt({ id: user._id }, process.env.JWT_SECRET || '');
+    const jwt = signJwt(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET || '',
+    );
     res.json({ jwt, role: user.role });
   } catch (e) {
     console.error(e);

@@ -48,7 +48,7 @@ describe('model routes', () => {
 
   it('PUT /api/models/:id updates model', async () => {
     process.env.JWT_SECRET = 's';
-    const token = sign({ id: 1 }, 's');
+    const token = sign({ id: 1, role: 'admin' }, 's');
     vi.spyOn(User, 'findById').mockResolvedValue({ role: 'admin' });
     const spy = vi.spyOn(Model, 'findByIdAndUpdate').mockReturnValue({
       lean: vi.fn().mockResolvedValue({
@@ -87,7 +87,7 @@ describe('model routes', () => {
 
   it('PUT /api/models/:id with non-admin returns 403', async () => {
     process.env.JWT_SECRET = 's';
-    const token = sign({ id: 1 }, 's');
+    const token = sign({ id: 1, role: 'user' }, 's');
     vi.spyOn(User, 'findById').mockResolvedValue({ role: 'user' });
     const spy = vi
       .spyOn(Model, 'findByIdAndUpdate')
@@ -104,7 +104,7 @@ describe('model routes', () => {
 
   it('DELETE /api/models/:id removes model', async () => {
     process.env.JWT_SECRET = 's';
-    const token = sign({ id: 1 }, 's');
+    const token = sign({ id: 1, role: 'admin' }, 's');
     vi.spyOn(User, 'findById').mockResolvedValue({ role: 'admin' });
     const spy = vi.spyOn(Model, 'findByIdAndDelete').mockReturnValue({
       lean: vi.fn().mockResolvedValue({}),
@@ -133,7 +133,7 @@ describe('model routes', () => {
 
   it('DELETE /api/models/:id with non-admin returns 403', async () => {
     process.env.JWT_SECRET = 's';
-    const token = sign({ id: 1 }, 's');
+    const token = sign({ id: 1, role: 'user' }, 's');
     vi.spyOn(User, 'findById').mockResolvedValue({ role: 'user' });
     const spy = vi
       .spyOn(Model, 'findByIdAndDelete')
