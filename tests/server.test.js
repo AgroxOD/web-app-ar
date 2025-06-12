@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'test';
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import request from 'supertest';
-import { app, Model, main } from '../server.js';
+import { app, Model, main, User } from '../server.js';
 import mongoose from 'mongoose';
 import { sign } from './helpers/sign.js';
 import { S3Client } from '@aws-sdk/client-s3';
@@ -79,6 +79,7 @@ describe('API endpoints', () => {
   it('POST /upload fails when R2_BUCKET missing', async () => {
     process.env.JWT_SECRET = 's';
     delete process.env.R2_BUCKET;
+    vi.spyOn(User, 'findById').mockResolvedValue({ role: 'admin' });
     const token = sign({ id: 1 }, 's');
     const res = await request(app)
       .post('/upload')
@@ -94,6 +95,7 @@ describe('API endpoints', () => {
     process.env.R2_BUCKET = 'b';
     process.env.JWT_SECRET = 's';
     vi.spyOn(S3Client.prototype, 'send').mockResolvedValue({});
+    vi.spyOn(User, 'findById').mockResolvedValue({ role: 'admin' });
     const updateSpy = vi.spyOn(Model, 'updateOne').mockResolvedValue({});
     const token = sign({ id: 1 }, 's');
     const res = await request(app)
@@ -113,6 +115,7 @@ describe('API endpoints', () => {
   it('POST /upload rejects oversized file', async () => {
     process.env.R2_BUCKET = 'b';
     process.env.JWT_SECRET = 's';
+    vi.spyOn(User, 'findById').mockResolvedValue({ role: 'admin' });
     const token = sign({ id: 1 }, 's');
     const big = Buffer.alloc(11 * 1024 * 1024, 'a');
     const res = await request(app)
@@ -126,6 +129,7 @@ describe('API endpoints', () => {
     process.env.R2_BUCKET = 'b';
     process.env.JWT_SECRET = 's';
     const sendSpy = vi.spyOn(S3Client.prototype, 'send').mockResolvedValue({});
+    vi.spyOn(User, 'findById').mockResolvedValue({ role: 'admin' });
     const token = sign({ id: 1 }, 's');
     const res = await request(app)
       .post('/upload')
@@ -134,5 +138,17 @@ describe('API endpoints', () => {
     expect(res.status).toBe(400);
     expect(res.body).toEqual({ error: 'Invalid filename' });
     expect(sendSpy).not.toHaveBeenCalled();
+  });
+
+  it('POST /upload with non-admin returns 403', async () => {
+    process.env.R2_BUCKET = 'b';
+    process.env.JWT_SECRET = 's';
+    vi.spyOn(User, 'findById').mockResolvedValue({ role: 'user' });
+    const token = sign({ id: 1 }, 's');
+    const res = await request(app)
+      .post('/upload')
+      .set('Authorization', `Bearer ${token}`)
+      .attach('model', Buffer.from('data'), 'm.glb');
+    expect(res.status).toBe(403);
   });
 });

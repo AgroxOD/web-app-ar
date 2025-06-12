@@ -215,9 +215,12 @@ FRONTEND_ORIGINS=
 #### Аутентификация
 
 1. Укажи `JWT_SECRET` в `.env` — ключ подписи JWT.
-2. Регистрация: `POST /auth/register` с JSON `{username, email, password}`.
-3. Вход: `POST /auth/login` — в ответ `{ jwt }`.
-4. Защищённые роуты требуют `Authorization: Bearer <jwt>`.
+2. Регистрация: `POST /auth/register` с JSON `{username, email, password, role}`.
+   Если `role` не указан, используется `user`.
+3. Вход: `POST /auth/login` — в ответ `{ jwt, role }`.
+4. Защищённые роуты требуют `Authorization: Bearer <jwt>`. Админские маршруты
+   (`PUT /api/models/:id`, `DELETE /api/models/:id`, `POST /upload`) доступны
+   только пользователям с ролью `admin`.
 
 Создайте бакет в панели Cloudflare R2 и укажите его имя в `R2_BUCKET`.
 
@@ -234,7 +237,7 @@ pnpm format
 2. Перейди по адресу `http://localhost:5173/web-app-ar/cp.html`.
 3. Укажи `VITE_API_BASE_URL` в `.env` (например, `http://localhost:3000`) и запусти API (`pnpm api`).
 
-После авторизации (регистрация и вход выполняются через форму страницы) доступны операции:
+После авторизации (регистрация и вход выполняются через форму страницы) доступны операции для пользователей с ролью `admin`:
 
 - **Upload** — отправка `.glb` файла на сервер (`POST /upload`).
 - **Edit** — изменение имени и индекса маркера (`PUT /api/models/:id`).

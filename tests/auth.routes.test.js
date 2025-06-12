@@ -27,18 +27,22 @@ describe('auth endpoints', () => {
   it('POST /auth/register creates user', async () => {
     vi.spyOn(User, 'findOne').mockResolvedValue(null);
     vi.spyOn(bcrypt, 'hash').mockResolvedValue('h');
-    vi.spyOn(User, 'create').mockResolvedValue({ _id: 1 });
+    vi.spyOn(User, 'create').mockResolvedValue({ _id: 1, role: 'user' });
 
     const res = await request(app)
       .post('/auth/register')
       .send({ username: 'u', email: 'e', password: 'p' });
 
     expect(res.status).toBe(200);
-    expect(res.body).toEqual({ jwt: sign({ id: 1 }, 'secret') });
+    expect(res.body).toEqual({ jwt: sign({ id: 1 }, 'secret'), role: 'user' });
   });
 
   it('POST /auth/login returns token', async () => {
-    vi.spyOn(User, 'findOne').mockResolvedValue({ _id: 1, passwordHash: 'h' });
+    vi.spyOn(User, 'findOne').mockResolvedValue({
+      _id: 1,
+      passwordHash: 'h',
+      role: 'user',
+    });
     vi.spyOn(bcrypt, 'compare').mockResolvedValue(true);
 
     const res = await request(app)
@@ -46,6 +50,6 @@ describe('auth endpoints', () => {
       .send({ email: 'e', password: 'p' });
 
     expect(res.status).toBe(200);
-    expect(res.body).toEqual({ jwt: sign({ id: 1 }, 'secret') });
+    expect(res.body).toEqual({ jwt: sign({ id: 1 }, 'secret'), role: 'user' });
   });
 });
