@@ -154,6 +154,30 @@ async function syncR2Models() {
   }
 }
 
+async function validateMongoSchema() {
+  const collections = await mongoose.connection.db.listCollections().toArray();
+  const names = collections.map((c) => c.name);
+  const required = ['models', 'users'];
+  const missing = required.filter((n) => !names.includes(n));
+  if (missing.length) {
+    throw new Error(`Missing MongoDB collections: ${missing.join(', ')}`);
+  }
+
+  const checks = [
+    { model: Model, fields: ['name', 'url', 'markerIndex'] },
+    { model: User, fields: ['username', 'email', 'passwordHash', 'role'] },
+  ];
+  for (const { model, fields } of checks) {
+    const schemaFields = Object.keys(model.schema.paths);
+    const absent = fields.filter((f) => !schemaFields.includes(f));
+    if (absent.length) {
+      console.warn(
+        `Model ${model.modelName} missing expected fields: ${absent.join(', ')}`,
+      );
+    }
+  }
+}
+
 app.post('/auth/register', async (req, res) => {
   const { username, email, password, role = 'user' } = req.body || {};
   if (!email || !password)
@@ -337,9 +361,10 @@ app.get('/model/:filename', async (req, res) => {
 async function main() {
   try {
     await mongoose.connect(mongoUri);
+    await validateMongoSchema();
   } catch (err) {
     console.error(
-      'Failed to connect to MongoDB. Please ensure the database is running and MONGODB_URI is correct.',
+      'Failed to connect to MongoDB or schema validation error. Please ensure the database is running and MONGODB_URI is correct.',
     );
     console.error(err);
     process.exit(1);
