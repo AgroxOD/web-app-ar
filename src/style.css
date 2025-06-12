@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.card {
+  @apply w-[420px] bg-white border border-gray-200 rounded shadow p-8;
+}
+
+.inline-form {
+  @apply flex flex-wrap gap-2 mb-4;
+}
+
+.text-input {
+  @apply w-full p-2 border border-gray-300 rounded;
+}
+
+.button {
+  @apply px-4 py-2 rounded cursor-pointer;
+}
+
+.button-primary {
+  @apply bg-indigo-600 text-white;
+}
+
+.button-secondary {
+  @apply bg-gray-600 text-white;
+}

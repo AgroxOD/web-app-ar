@@ -6,61 +6,14 @@
     <title>Content Manager</title>
 
     <link rel="stylesheet" href="./src/style.css" />
-    <style>
-      body {
-        background: #f6f6f9;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        font-family: sans-serif;
-      }
-      .card {
-        width: 420px;
-        background: #fff;
-        border: 1px solid #eaeaef;
-        border-radius: 4px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        padding: 2rem;
-      }
-      .inline-form {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
-      }
-      .text-input {
-        width: 100%;
-        padding: 0.5rem;
-        border: 1px solid #dcdce4;
-        border-radius: 4px;
-      }
-      .button {
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-      .button-primary {
-        background: #4945ff;
-        color: #fff;
-      }
-      .button-secondary {
-        background: #666;
-        color: #fff;
-      }
-      ul {
-        padding-left: 1rem;
-      }
-    </style>
   </head>
-  <body>
+  <body
+    class="bg-gray-100 min-h-screen flex items-center justify-center font-sans"
+  >
     <div class="card">
-      <h1 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.25rem">
-        Upload 3D Models
-      </h1>
-      <p id="api-message" class="hidden" style="margin-bottom: 0.5rem"></p>
-      <div id="auth" style="margin-bottom: 1rem">
+      <h1 class="mt-0 mb-4 text-xl font-semibold">Upload 3D Models</h1>
+      <p id="api-message" class="hidden mb-2"></p>
+      <div id="auth" class="mb-4">
         <form id="login-form" class="inline-form">
           <input
             id="login-email"
@@ -80,7 +33,7 @@
             Register
           </button>
         </form>
-        <form id="register-form" class="inline-form" style="display: none">
+        <form id="register-form" class="inline-form hidden">
           <input
             id="reg-username"
             class="text-input"
@@ -108,7 +61,7 @@
           Logout
         </button>
       </div>
-      <form id="upload-form" class="hidden" style="margin-bottom: 1rem">
+      <form id="upload-form" class="hidden mb-4">
         <input
           type="file"
           id="file"
@@ -119,13 +72,10 @@
         />
         <button class="button button-primary" type="submit">Upload</button>
       </form>
-      <p
-        id="upload-message"
-        style="margin-bottom: 1rem; color: #666; display: none"
-      >
+      <p id="upload-message" class="mb-4 text-gray-600 hidden">
         Login required to upload models
       </p>
-      <ul id="model-list" class="model-list"></ul>
+      <ul id="model-list" class="pl-4 space-y-2"></ul>
     </div>
 
     <script type="module">
@@ -215,14 +165,14 @@
         const loginFormEl = document.getElementById('login-form');
         const regFormEl = document.getElementById('register-form');
         if (logged) {
-          loginFormEl.style.display = 'none';
-          regFormEl.style.display = 'none';
+          loginFormEl.classList.add('hidden');
+          regFormEl.classList.add('hidden');
         } else if (showRegister) {
-          loginFormEl.style.display = 'none';
-          regFormEl.style.display = 'flex';
+          loginFormEl.classList.add('hidden');
+          regFormEl.classList.remove('hidden');
         } else {
-          loginFormEl.style.display = 'flex';
-          regFormEl.style.display = 'none';
+          loginFormEl.classList.remove('hidden');
+          regFormEl.classList.add('hidden');
         }
         document.getElementById('logout').classList.toggle('hidden', !logged);
         document
@@ -230,14 +180,14 @@
           .classList.toggle('hidden', !admin);
         const msg = document.getElementById('upload-message');
         if (admin) {
-          msg.style.display = 'none';
+          msg.classList.add('hidden');
           msg.textContent = '';
         } else if (logged) {
           msg.textContent = 'Admin privileges required';
-          msg.style.display = 'block';
+          msg.classList.remove('hidden');
         } else {
           msg.textContent = 'Login required to upload models';
-          msg.style.display = 'block';
+          msg.classList.remove('hidden');
         }
       }
 
