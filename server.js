@@ -21,6 +21,7 @@ app.use(cors());
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
+  preservePath: true,
 });
 
 const s3 = new S3Client({
