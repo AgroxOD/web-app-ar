@@ -141,6 +141,7 @@
         updateModel,
         deleteModel,
       } from './src/utils/models.js';
+      import { showEditForm } from './src/utils/editForm.js';
 
       const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
@@ -150,6 +151,7 @@
         el.textContent = msg;
         el.classList.remove('hidden');
       }
+      window.showMessage = showMessage;
 
       function clearMessage() {
         document.getElementById('api-message').classList.add('hidden');
@@ -186,6 +188,7 @@
           showMessage('Failed to load models', true);
         }
       }
+      window.refreshModels = refreshModels;
 
       async function handleDelete(id) {
         if (!confirm('Delete this model?')) return;
@@ -198,55 +201,6 @@
         }
       }
 
-      function showEditForm(li, id, m, btn) {
-        const form = document.createElement('form');
-        form.className = 'inline-form';
-
-        const nameInput = document.createElement('input');
-        nameInput.className = 'text-input';
-        nameInput.name = 'name';
-        nameInput.required = true;
-        nameInput.value = m.name;
-
-        const markerInput = document.createElement('input');
-        markerInput.className = 'text-input';
-        markerInput.name = 'markerIndex';
-        markerInput.type = 'number';
-        markerInput.required = true;
-        markerInput.value = m.markerIndex;
-
-        const saveBtn = document.createElement('button');
-        saveBtn.className = 'button button-primary';
-        saveBtn.type = 'submit';
-        saveBtn.textContent = 'Save';
-
-        const cancelBtn = document.createElement('button');
-        cancelBtn.className = 'button';
-        cancelBtn.type = 'button';
-        cancelBtn.textContent = 'Cancel';
-
-        form.append(nameInput, markerInput, saveBtn, cancelBtn);
-
-        cancelBtn.addEventListener('click', () => {
-          form.remove();
-          btn.disabled = false;
-        });
-        form.addEventListener('submit', async (e) => {
-          e.preventDefault();
-          try {
-            await updateModel(id, {
-              name: form.name.value,
-              markerIndex: parseInt(form.markerIndex.value, 10) || 0,
-            });
-            showMessage('Model updated');
-            await refreshModels();
-          } catch {
-            showMessage('Update failed', true);
-          }
-        });
-        btn.disabled = true;
-        li.appendChild(form);
-      }
 
       let showRegister = false;
 
