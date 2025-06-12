@@ -193,6 +193,51 @@ app.get('/api/models', async (req, res) => {
   }
 });
 
+export async function getModelById(req, res) {
+  try {
+    const model = await Model.findById(req.params.id).lean();
+    if (!model) return res.status(404).json({ error: 'Model not found' });
+    res.json(model);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Failed to fetch model' });
+  }
+}
+
+export async function updateModel(req, res) {
+  const { name, url, markerIndex } = req.body || {};
+  if (!name || !url || typeof markerIndex !== 'number') {
+    return res.status(400).json({ error: 'Missing fields' });
+  }
+  try {
+    const updated = await Model.findByIdAndUpdate(
+      req.params.id,
+      { name, url, markerIndex },
+      { new: true },
+    ).lean();
+    if (!updated) return res.status(404).json({ error: 'Model not found' });
+    res.json(updated);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Failed to update model' });
+  }
+}
+
+export async function deleteModel(req, res) {
+  try {
+    const doc = await Model.findByIdAndDelete(req.params.id).lean();
+    if (!doc) return res.status(404).json({ error: 'Model not found' });
+    res.json({ success: true });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Failed to delete model' });
+  }
+}
+
+app.get('/api/models/:id', getModelById);
+app.put('/api/models/:id', authMiddleware, updateModel);
+app.delete('/api/models/:id', authMiddleware, deleteModel);
+
 app.post(
   '/upload',
   authMiddleware,
