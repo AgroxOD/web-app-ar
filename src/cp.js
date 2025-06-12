@@ -10,7 +10,12 @@ const showLoginBtn = document.getElementById('show-login');
 const uploadForm = document.getElementById('upload-form');
 const uploadSection = document.getElementById('upload-section');
 const modelsList = document.getElementById('models-list');
-const messageEl = document.getElementById('message');
+let messageEl = document.getElementById('message');
+if (!messageEl) {
+  messageEl = document.createElement('div');
+  messageEl.id = 'message';
+  document.body.prepend(messageEl);
+}
 
 let showRegister = false;
 
@@ -20,10 +25,13 @@ function showMessage(msg, error = false) {
   messageEl.className = error
     ? 'p-2 bg-red-200 text-red-800'
     : 'p-2 bg-green-200 text-green-800';
+  messageEl.style.display = 'block';
+  clearTimeout(messageEl._hideTimer);
   if (msg) {
-    setTimeout(() => {
+    messageEl._hideTimer = setTimeout(() => {
       messageEl.textContent = '';
       messageEl.className = '';
+      messageEl.style.display = 'none';
     }, 4000);
   }
 }
@@ -157,10 +165,12 @@ function renderModels(list) {
 }
 
 export async function refreshModels() {
+  modelsList.innerHTML = '<li>Loading...</li>';
   try {
     const list = await loadModels();
     renderModels(list);
   } catch (err) {
+    modelsList.innerHTML = '';
     showMessage(err.message || 'Failed to load models', true);
   }
 }
