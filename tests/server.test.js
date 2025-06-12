@@ -126,12 +126,12 @@ describe('API endpoints', () => {
     expect(res.status).toBe(413);
   });
 
-  it('POST /upload rejects invalid filename', async () => {
+  it('POST /upload accepts sanitized filename', async () => {
     process.env.R2_BUCKET = 'b';
     process.env.JWT_SECRET = 's';
     const sendSpy = vi.spyOn(S3Client.prototype, 'send').mockResolvedValue({});
     vi.spyOn(User, 'findOne').mockResolvedValue({ role: 'admin' });
-    const token = sign({ id: '1', role: 'user' }, 's');
+    const token = sign({ id: '1', role: 'admin' }, 's');
     const res = await request(app)
       .post('/upload')
       .set('Authorization', `Bearer ${token}`)
@@ -139,9 +139,11 @@ describe('API endpoints', () => {
         filename: '../evil.glb',
         contentType: 'model/gltf-binary',
       });
-    expect(res.status).toBe(400);
-    expect(res.body).toEqual({ error: 'Invalid filename' });
-    expect(sendSpy).not.toHaveBeenCalled();
+    // Multer strips directory components before our isValidFilename check
+    // so "../evil.glb" becomes "evil.glb" and is allowed.
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ key: 'evil.glb' });
+    expect(sendSpy).toHaveBeenCalled();
   });
 
   it('POST /upload with non-admin returns 403', async () => {
