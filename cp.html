@@ -201,14 +201,33 @@
       function showEditForm(li, id, m, btn) {
         const form = document.createElement('form');
         form.className = 'inline-form';
-        form.innerHTML = `
-          <input class="text-input" name="name" value="${m.name}" required />
-          <input class="text-input" name="markerIndex" type="number" value="${m.markerIndex}" required />
-          <button class="button button-primary" type="submit">Save</button>
-          <button class="button" type="button">Cancel</button>
-        `;
-        const cancel = form.querySelector('button[type="button"]');
-        cancel.addEventListener('click', () => {
+
+        const nameInput = document.createElement('input');
+        nameInput.className = 'text-input';
+        nameInput.name = 'name';
+        nameInput.required = true;
+        nameInput.value = m.name;
+
+        const markerInput = document.createElement('input');
+        markerInput.className = 'text-input';
+        markerInput.name = 'markerIndex';
+        markerInput.type = 'number';
+        markerInput.required = true;
+        markerInput.value = m.markerIndex;
+
+        const saveBtn = document.createElement('button');
+        saveBtn.className = 'button button-primary';
+        saveBtn.type = 'submit';
+        saveBtn.textContent = 'Save';
+
+        const cancelBtn = document.createElement('button');
+        cancelBtn.className = 'button';
+        cancelBtn.type = 'button';
+        cancelBtn.textContent = 'Cancel';
+
+        form.append(nameInput, markerInput, saveBtn, cancelBtn);
+
+        cancelBtn.addEventListener('click', () => {
           form.remove();
           btn.disabled = false;
         });
