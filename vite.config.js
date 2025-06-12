@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         input: {
           main: 'index.html',
-          cp: 'cp.html',
+          cms: 'cms/index.html',
         },
       },
     },
