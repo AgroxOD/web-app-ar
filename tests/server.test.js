@@ -2,8 +2,8 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import request from 'supertest';
 import { app, Model, main } from '../server.js';
 import mongoose from 'mongoose';
-import crypto from 'crypto';
 import { S3Client } from '@aws-sdk/client-s3';
+import { sign } from './helpers/sign.js';
 
 process.env.NODE_ENV = 'test';
 
@@ -53,17 +53,6 @@ describe('API endpoints', () => {
     expect(exitSpy).toHaveBeenCalledWith(1);
   });
 
-  function sign(payload, secret) {
-    const header = Buffer.from(
-      JSON.stringify({ alg: 'HS256', typ: 'JWT' }),
-    ).toString('base64url');
-    const body = Buffer.from(JSON.stringify(payload)).toString('base64url');
-    const signature = crypto
-      .createHmac('sha256', secret)
-      .update(`${header}.${body}`)
-      .digest('base64url');
-    return `${header}.${body}.${signature}`;
-  }
 
   it('POST /upload rejects unauthorized', async () => {
     process.env.R2_BUCKET = 'b';
