@@ -1,7 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import request from 'supertest';
 import { app, Model } from '../server.js';
-import { sign } from './helpers.js';
+
+import { sign } from './helpers/sign.js';
+
 
 describe('model routes', () => {
   let originalSecret;

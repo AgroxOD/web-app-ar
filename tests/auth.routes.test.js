@@ -2,7 +2,9 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import request from 'supertest';
 import { app, User } from '../server.js';
 import bcrypt from 'bcryptjs';
-import { sign } from './helpers.js';
+
+import { sign } from './helpers/sign.js';
+
 
 describe('auth endpoints', () => {
   let originalR2;
