@@ -3,6 +3,8 @@ dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
+mongoose.set('bufferCommands', false);
+mongoose.set('bufferTimeoutMS', 0);
 import multer from 'multer';
 import bcrypt from 'bcryptjs';
 import {
@@ -324,15 +326,17 @@ app.post(
         ContentType: req.file.mimetype,
       });
       await s3.send(command);
-      await Model.updateOne(
-        { url: filename },
-        {
-          name: path.parse(filename).name,
-          url: filename,
-          markerIndex: parseInt(req.body.markerIndex ?? '0', 10) || 0,
-        },
-        { upsert: true },
-      );
+      if (mongoose.connection.readyState === 1) {
+        await Model.updateOne(
+          { url: filename },
+          {
+            name: path.parse(filename).name,
+            url: filename,
+            markerIndex: parseInt(req.body.markerIndex ?? '0', 10) || 0,
+          },
+          { upsert: true },
+        );
+      }
       res.json({ key: filename });
     } catch (e) {
       console.error(e);
