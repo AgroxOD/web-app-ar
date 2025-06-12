@@ -39,6 +39,7 @@
 - [Tailwind CSS](https://tailwindcss.com/) — utility‑first CSS
 - [Visual Studio Code](https://code.visualstudio.com/) — основная IDE
 - [Express](https://expressjs.com/) — API сервер
+- [express-rate-limit](https://www.npmjs.com/package/express-rate-limit) — ограничение количества запросов
 - [Vitest](https://vitest.dev/) — тестовый фреймворк
 - _(В перспективе)_ [MongoDB](https://www.mongodb.com/) — хранение пользовательских данных и CRM-метаданных
 - _(Планируется)_ [Cloudflare R2](https://www.cloudflare.com/products/r2/) — для хранения `.glb`-моделей
@@ -172,6 +173,7 @@ API сервера поддерживает регистрацию и вход �
 2. `POST /auth/register` — регистрация пользователя `{username, email, password, role}`. По умолчанию `role` = `user`.
 3. `POST /auth/login` — получение токена `{ jwt, role }`.
 4. Для защищённых роутов отправляй заголовок `Authorization: Bearer <jwt>`. Маршруты `PUT /api/models/:id`, `DELETE /api/models/:id` и `POST /upload` требуют роль `admin`.
+5. Эти же маршруты ограничены по скорости через `express-rate-limit` (100 запросов за 15 минут).
 
 ---
 

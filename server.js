@@ -14,6 +14,7 @@ import {
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import path from 'path';
 import jwt from 'jsonwebtoken';
+import rateLimit from 'express-rate-limit';
 
 export const app = express();
 app.use(express.json());
@@ -27,6 +28,10 @@ if (allowedOrigins && allowedOrigins.length > 0) {
 } else {
   app.use(cors());
 }
+export const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+});
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
@@ -255,11 +260,12 @@ export async function deleteModel(req, res) {
 }
 
 app.get('/api/models/:id', getModelById);
-app.put('/api/models/:id', requireRole('admin'), updateModel);
-app.delete('/api/models/:id', requireRole('admin'), deleteModel);
+app.put('/api/models/:id', limiter, requireRole('admin'), updateModel);
+app.delete('/api/models/:id', limiter, requireRole('admin'), deleteModel);
 
 app.post(
   '/upload',
+  limiter,
   requireRole('admin'),
   (req, res, next) => {
     upload.single('model')(req, res, (err) => {

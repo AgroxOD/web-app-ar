@@ -186,4 +186,29 @@ describe('API endpoints', () => {
 
     expect(res.status).toBe(400);
   });
+
+  it('rate limits POST /upload', async () => {
+    vi.resetModules();
+    process.env.RATE_LIMIT_MAX = '2';
+    process.env.R2_BUCKET = 'b';
+    process.env.JWT_SECRET = 's';
+    const { app: rlApp, User: RLUser } = await import('../server.js');
+    vi.spyOn(S3Client.prototype, 'send').mockResolvedValue({});
+    vi.spyOn(RLUser, 'findOne').mockResolvedValue({ role: 'admin' });
+    const token = sign({ id: '1', role: 'admin' }, 's');
+    await request(rlApp)
+      .post('/upload')
+      .set('Authorization', `Bearer ${token}`)
+      .attach('model', Buffer.from('d'), '1.glb');
+    await request(rlApp)
+      .post('/upload')
+      .set('Authorization', `Bearer ${token}`)
+      .attach('model', Buffer.from('d'), '2.glb');
+    const res = await request(rlApp)
+      .post('/upload')
+      .set('Authorization', `Bearer ${token}`)
+      .attach('model', Buffer.from('d'), '3.glb');
+    expect(res.status).toBe(429);
+    delete process.env.RATE_LIMIT_MAX;
+  });
 });

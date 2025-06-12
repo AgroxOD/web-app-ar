@@ -28,6 +28,7 @@
 - [Tailwind CSS](https://tailwindcss.com/) — utility‑first CSS
 - [MindAR Marker Compiler](https://hiukim.github.io/mind-ar-js-doc/tools/compile/) — онлайн-конвертер PNG/JPG в `.mind`
 - [Express](https://expressjs.com/) — API-сервер
+- [express-rate-limit](https://www.npmjs.com/package/express-rate-limit) — ограничение числа запросов
 - [Vitest](https://vitest.dev/) — тестовый фреймворк
 - ESLint + Prettier (flat config `eslint.config.js`)
 - _(опционально)_ [MongoDB Atlas](https://www.mongodb.com/atlas), [Cloudflare R2](https://www.cloudflare.com/products/r2/)
@@ -221,6 +222,8 @@ FRONTEND_ORIGINS=
 4. Защищённые роуты требуют `Authorization: Bearer <jwt>`. Админские маршруты
    (`PUT /api/models/:id`, `DELETE /api/models/:id`, `POST /upload`) доступны
    только пользователям с ролью `admin`.
+   На эти маршруты также накладывается ограничение скорости
+   (100 запросов за 15 минут) через `express-rate-limit`.
 
 Создайте бакет в панели Cloudflare R2 и укажите его имя в `R2_BUCKET`.
 

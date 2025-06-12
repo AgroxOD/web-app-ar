@@ -29,7 +29,8 @@
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
     "three": "0.152.2",
-    "vite": "5.4.19"
+    "vite": "5.4.19",
+    "express-rate-limit": "file:lib/express-rate-limit"
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",
