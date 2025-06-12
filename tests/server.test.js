@@ -143,6 +143,30 @@ describe('API endpoints', () => {
     expect(res.body).toEqual({ error: 'Invalid filename' });
   });
 
+  it('POST /upload rejects path traversal filename without quotes', async () => {
+    process.env.R2_BUCKET = 'b';
+    process.env.JWT_SECRET = 's';
+    vi.spyOn(User, 'findOne').mockResolvedValue({ role: 'admin' });
+    const token = sign({ id: '1', role: 'admin' }, 's');
+
+    const boundary = 'test-boundary';
+    const body =
+      `--${boundary}\r\n` +
+      `Content-Disposition: form-data; name="model"; filename=../evil.glb\r\n` +
+      `Content-Type: model/gltf-binary\r\n\r\n` +
+      `data\r\n` +
+      `--${boundary}--\r\n`;
+
+    const res = await request(app)
+      .post('/upload')
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', `multipart/form-data; boundary=${boundary}`)
+      .send(body);
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ error: 'Invalid filename' });
+  });
+
   it('POST /upload with non-admin returns 403', async () => {
     process.env.R2_BUCKET = 'b';
     process.env.JWT_SECRET = 's';
