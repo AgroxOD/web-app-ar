@@ -75,6 +75,17 @@ function signJwt(payload, secret) {
   return `${header}.${body}.${signature}`;
 }
 
+function isValidFilename(name) {
+  return (
+    typeof name === 'string' &&
+    name === path.basename(name) &&
+    /^[\w.-]+$/.test(name) &&
+    !name.includes('/') &&
+    !name.includes('\\') &&
+    !name.includes('..')
+  );
+}
+
 function authMiddleware(req, res, next) {
   if (!process.env.JWT_SECRET) {
     const status = parseInt(process.env.JWT_MISSING_STATUS ?? '500', 10);
@@ -197,6 +208,9 @@ app.post(
   },
   async (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+    if (!isValidFilename(req.file.originalname)) {
+      return res.status(400).json({ error: 'Invalid filename' });
+    }
     const bucket = process.env.R2_BUCKET;
     if (!bucket)
       return res
@@ -204,9 +218,6 @@ app.post(
         .json({ error: 'R2_BUCKET environment variable not configured' });
     try {
       const filename = path.basename(req.file.originalname);
-      if (filename !== req.file.originalname || !/^[\w.-]+$/.test(filename)) {
-        return res.status(400).json({ error: 'Invalid filename' });
-      }
       const command = new PutObjectCommand({
         Bucket: bucket,
         Key: filename,
