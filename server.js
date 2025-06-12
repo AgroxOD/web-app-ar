@@ -105,7 +105,8 @@ function isValidFilename(name) {
 
 function authMiddleware(req, res, next) {
   if (!process.env.JWT_SECRET) {
-    const status = parseInt(process.env.JWT_MISSING_STATUS ?? '500', 10);
+    const parsed = parseInt(process.env.JWT_MISSING_STATUS, 10);
+    const status = Number.isFinite(parsed) ? parsed : 500;
     return res
       .status(status)
       .json({ error: 'JWT_SECRET environment variable not configured' });
@@ -159,7 +160,8 @@ app.post('/auth/register', async (req, res) => {
   if (!email || !password)
     return res.status(400).json({ error: 'Missing fields' });
   if (!process.env.JWT_SECRET) {
-    const status = parseInt(process.env.JWT_MISSING_STATUS ?? '500', 10);
+    const parsed = parseInt(process.env.JWT_MISSING_STATUS, 10);
+    const status = Number.isFinite(parsed) ? parsed : 500;
     return res
       .status(status)
       .json({ error: 'JWT_SECRET environment variable not configured' });
@@ -182,7 +184,8 @@ app.post('/auth/login', async (req, res) => {
   if (!email || !password)
     return res.status(400).json({ error: 'Missing fields' });
   if (!process.env.JWT_SECRET) {
-    const status = parseInt(process.env.JWT_MISSING_STATUS ?? '500', 10);
+    const parsed = parseInt(process.env.JWT_MISSING_STATUS, 10);
+    const status = Number.isFinite(parsed) ? parsed : 500;
     return res
       .status(status)
       .json({ error: 'JWT_SECRET environment variable not configured' });

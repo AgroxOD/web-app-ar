@@ -132,7 +132,7 @@ pnpm start  # запуск API-сервера (опционально)
 4. Добавь переменные окружения из `.env.example`:
    - `MONGODB_URI` – строка подключения к MongoDB Atlas
    - `JWT_SECRET` – секретная фраза для подписи JWT
-   - `JWT_MISSING_STATUS` – код статуса, если `JWT_SECRET` не задан (по умолчанию 500)
+   - `JWT_MISSING_STATUS` – код статуса, если `JWT_SECRET` не задан; некорректные значения приводят к 500
    - `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`
    - `R2_ENDPOINT`, `R2_BUCKET`
    - `FRONTEND_ORIGINS` – список разрешённых доменов для CORS
@@ -193,7 +193,7 @@ pnpm start
 - `POST /auth/login` — получение JWT
 - перед запуском задайте переменные `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION` (по умолчанию `us-east-1`), `R2_ENDPOINT`, `R2_BUCKET` и `JWT_SECRET`
 
-> `JWT_SECRET` является обязательной переменной. Если она не указана, защищённые маршруты API вернут код `500`. Задайте `JWT_MISSING_STATUS`, чтобы изменить этот код.
+> `JWT_SECRET` является обязательной переменной. Если она не указана, защищённые маршруты API вернут код `500` или значение `JWT_MISSING_STATUS`, если оно представляет собой число.
 
 Пример конфигурации `.env`:
 
