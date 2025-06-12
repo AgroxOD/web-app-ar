@@ -1,81 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Control Panel — AgroxOD</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="icon" href="favicon.ico" />
-</head>
-<body class="bg-gray-100 font-sans min-h-screen">
-  <div class="flex">
-    <aside class="bg-white w-64 shadow-lg min-h-screen px-6 py-8 flex flex-col">
-      <div class="mb-8">
-        <h1 class="text-2xl font-bold text-blue-600">AgroxOD CMS</h1>
-      </div>
-      <nav class="flex-1">
-        <ul class="space-y-4">
-          <li><a href="#" class="flex items-center text-gray-700 hover:text-blue-600 font-medium"><span class="material-icons mr-2">dashboard</span>Главная</a></li>
-          <li><a href="#" class="flex items-center text-gray-700 hover:text-blue-600 font-medium"><span class="material-icons mr-2">people</span>Пользователи</a></li>
-          <li><a href="#" class="flex items-center text-gray-700 hover:text-blue-600 font-medium"><span class="material-icons mr-2">folder</span>Файлы</a></li>
-          <li><a href="#" class="flex items-center text-gray-700 hover:text-blue-600 font-medium"><span class="material-icons mr-2">settings</span>Настройки</a></li>
-        </ul>
-      </nav>
-      <div class="mt-8">
-        <button class="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Выйти</button>
-      </div>
-    </aside>
-    <main class="flex-1 p-10">
-      <div class="flex items-center justify-between mb-8">
-        <h2 class="text-3xl font-semibold">Панель управления</h2>
-        <div class="flex items-center space-x-4">
-          <span class="text-gray-600">Krishna</span>
-          <img src="https://api.dicebear.com/7.x/identicon/svg?seed=krishna" alt="Avatar" class="w-10 h-10 rounded-full border-2 border-blue-400">
-        </div>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-xl shadow hover:shadow-xl transition">
-          <h3 class="text-lg font-bold mb-2">Всего пользователей</h3>
-          <p class="text-3xl font-semibold text-blue-600">12</p>
-        </div>
-        <div class="bg-white p-6 rounded-xl shadow hover:shadow-xl transition">
-          <h3 class="text-lg font-bold mb-2">Загружено файлов</h3>
-          <p class="text-3xl font-semibold text-green-600">48</p>
-        </div>
-        <div class="bg-white p-6 rounded-xl shadow hover:shadow-xl transition">
-          <h3 class="text-lg font-bold mb-2">Активных сессий</h3>
-          <p class="text-3xl font-semibold text-orange-600">3</p>
-        </div>
-      </div>
-      <div class="mt-10 bg-white rounded-xl shadow p-6">
-        <h4 class="text-xl font-semibold mb-4">Последние действия</h4>
-        <table class="w-full text-left">
-          <thead>
-            <tr>
-              <th class="py-2">Дата</th>
-              <th class="py-2">Пользователь</th>
-              <th class="py-2">Событие</th>
-              <th class="py-2">Статус</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="py-2">2025-06-12</td>
-              <td class="py-2">Krishna</td>
-              <td class="py-2">Добавлен файл</td>
-              <td class="py-2"><span class="inline-block px-2 py-1 bg-green-100 text-green-800 rounded">Успешно</span></td>
-            </tr>
-            <tr>
-              <td class="py-2">2025-06-12</td>
-              <td class="py-2">Ivan</td>
-              <td class="py-2">Удалён пользователь</td>
-              <td class="py-2"><span class="inline-block px-2 py-1 bg-red-100 text-red-800 rounded">Ошибка</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </main>
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMS</title>
+    <script type="module" crossorigin src="/web-app-ar/assets/cp-EhQ9al08.js"></script>
+    <link rel="modulepreload" crossorigin href="/web-app-ar/assets/style-Yv-X3phN.js">
+    <link rel="modulepreload" crossorigin href="/web-app-ar/assets/auth-5C6X5tix.js">
+    <link rel="modulepreload" crossorigin href="/web-app-ar/assets/models-BPT0YZdd.js">
+    <link rel="stylesheet" crossorigin href="/web-app-ar/assets/style-D8vHXfBI.css">
+  </head>
+  <body class="p-4 space-y-4">
+    <div id="message" class=""></div>
+    <div id="auth">
+      <form id="login-form" class="card inline-form">
+        <input id="login-email" type="email" placeholder="Email" class="text-input" required />
+        <input id="login-password" type="password" placeholder="Password" class="text-input" required />
+        <button type="submit" class="button button-primary">Login</button>
+        <button type="button" id="show-register" class="button">Register</button>
+      </form>
+      <form id="register-form" class="card inline-form" style="display:none;">
+        <input id="register-username" placeholder="Username" class="text-input" required />
+        <input id="register-email" type="email" placeholder="Email" class="text-input" required />
+        <input id="register-password" type="password" placeholder="Password" class="text-input" required />
+        <button type="submit" class="button button-primary">Register</button>
+        <button type="button" id="show-login" class="button">Login</button>
+      </form>
+      <button id="logout" class="button button-secondary" style="display:none;">Logout</button>
+    </div>
+
+    <div id="upload-section" style="display:none;">
+      <form id="upload-form" class="inline-form card">
+        <input id="upload-file" type="file" accept=".glb" class="text-input" required />
+        <input id="upload-marker" type="number" value="0" class="text-input" required />
+        <button type="submit" class="button button-primary">Upload</button>
+      </form>
+    </div>
+
+    <ul id="models-list" class="space-y-2"></ul>
+
+  </body>
 </html>
