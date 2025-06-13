@@ -74,16 +74,18 @@ const s3 = new S3Client({
   forcePathStyle: true,
 });
 
-// Test R2 connectivity on startup
-(async () => {
-  try {
-    const resp = await s3.send(new ListBucketsCommand({}));
-    const names = resp.Buckets?.map((b) => b.Name) || [];
-    console.log('✅ [r2] connection OK, buckets:', names.join(', '));
-  } catch (err) {
-    console.error('❌ [r2] connection error:', err.message);
-  }
-})();
+// Test R2 connectivity on startup (skipped in tests)
+if (process.env.NODE_ENV !== 'test') {
+  (async () => {
+    try {
+      const resp = await s3.send(new ListBucketsCommand({}));
+      const names = resp.Buckets?.map((b) => b.Name) || [];
+      console.log('✅ [r2] connection OK, buckets:', names.join(', '));
+    } catch (err) {
+      console.error('❌ [r2] connection error:', err.message);
+    }
+  })();
+}
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/ar';
 
