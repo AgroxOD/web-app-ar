@@ -3,6 +3,8 @@ process.env.NODE_ENV = 'test';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import request from 'supertest';
 import { app, Model, main, User, requireRole } from '../server.js';
+import fs from 'fs';
+import path from 'path';
 import mongoose from 'mongoose';
 import { sign } from './helpers/sign.js';
 import jwt from 'jsonwebtoken';
@@ -284,5 +286,19 @@ describe('rate limit cleanup', () => {
 
     limiter.stop();
     vi.useRealTimers();
+  });
+});
+
+describe('startup setup', () => {
+  it('recreates assets directory if missing', async () => {
+    const dir = path.join(process.cwd(), 'public', 'assets');
+    const backup = `${dir}-bak`;
+    fs.cpSync(dir, backup, { recursive: true });
+    fs.rmSync(dir, { recursive: true, force: true });
+    vi.resetModules();
+    await import('../server.js');
+    expect(fs.existsSync(dir)).toBe(true);
+    fs.rmSync(dir, { recursive: true, force: true });
+    fs.renameSync(backup, dir);
   });
 });
