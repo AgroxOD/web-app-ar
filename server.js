@@ -7,6 +7,7 @@ mongoose.set('bufferCommands', false);
 mongoose.set('bufferTimeoutMS', 0);
 import multer from 'multer';
 import bcrypt from 'bcryptjs';
+import helmet from 'helmet';
 import {
   S3Client,
   PutObjectCommand,
@@ -20,6 +21,7 @@ import rateLimit from 'express-rate-limit';
 
 export const app = express();
 app.use(express.json());
+app.use(helmet());
 const allowedOrigins = process.env.FRONTEND_ORIGINS
   ? process.env.FRONTEND_ORIGINS.split(',')
       .map((o) => o.trim())

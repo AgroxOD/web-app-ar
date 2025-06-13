@@ -28,6 +28,7 @@
     "mind-ar": "^1.2.5",
     "mongoose": "^8.3.0",
     "multer": "^2.0.1",
+    "helmet": "^7.0.0",
     "three": "0.152.2",
     "vite": "5.4.19",
     "express-rate-limit": "file:lib/express-rate-limit"
