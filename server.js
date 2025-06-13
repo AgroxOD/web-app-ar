@@ -279,6 +279,14 @@ app.post('/auth/login', async (req, res) => {
   }
 });
 
+app.get('/api/me', requireRole('user'), (req, res) => {
+  res.json({
+    id: req.user._id,
+    email: req.user.email,
+    role: req.user.role,
+  });
+});
+
 app.get('/api/models', async (req, res) => {
   try {
     const list = await Model.find().select('name url markerIndex').lean();
