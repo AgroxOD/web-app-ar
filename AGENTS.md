@@ -87,11 +87,21 @@ project-root/
 git clone <repo-url>
 cd <project-name>
 
+# убедись, что используется поддерживаемая версия Node.js
+nvm install
+nvm use
+sh scripts/setup-node.sh
+
 # 2. Установи зависимости
 pnpm install
 
 # скопируй пример конфигурации и заполни значения
 cp .env.example .env
+
+# при необходимости скачай тяжёлые модели
+sh public/assets/download_models.sh
+# пример для Cloudflare R2
+# MODEL_URL=https://<account>.r2.cloudflarestorage.com/<bucket>/model.glb sh public/assets/download_models.sh
 
 # 3. Сгенерируй target.mind для своего маркера через онлайн-сервис:
 #    3.1 Перейди на https://hiukim.github.io/mind-ar-js-doc/tools/compile/
