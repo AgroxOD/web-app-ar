@@ -53,6 +53,7 @@ const s3 = new S3Client({
   },
   endpoint: process.env.R2_ENDPOINT,
   region: process.env.AWS_REGION || 'us-east-1',
+  forcePathStyle: true,
 });
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/ar';
