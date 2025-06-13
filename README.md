@@ -1,4 +1,5 @@
 # Шаблон AR веб-приложения
+
 [English README](./README.en.md)
 
 **Современный шаблон AR-веб-приложения на MindAR.js и Three.js с деплоем на GitHub Pages и перспективой CRM-интеграции.**
@@ -145,8 +146,9 @@ pnpm start  # запуск API-сервера (опционально)
    - `MONGODB_URI` – строка подключения к MongoDB Atlas
    - `JWT_SECRET` – секретная фраза для подписи JWT
    - `JWT_MISSING_STATUS` – код статуса, если `JWT_SECRET` не задан; некорректные значения приводят к 500
-  - `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`
-  - `R2_ENDPOINT`, `R2_BUCKET`, `R2_PUBLIC_URL`
+
+- `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`
+- `R2_ENDPOINT`, `R2_BUCKET`, `R2_PUBLIC_URL`
 
 - `FRONTEND_ORIGINS` – список разрешённых доменов для CORS
 - `RATE_LIMIT_MAX` – максимальное число запросов за 15 минут (по умолчанию 100)
