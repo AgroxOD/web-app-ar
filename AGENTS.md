@@ -39,7 +39,7 @@
 - [Tailwind CSS](https://tailwindcss.com/) — utility‑first CSS
 - [Visual Studio Code](https://code.visualstudio.com/) — основная IDE
 - [Express](https://expressjs.com/) — API сервер
-- [express-rate-limit](https://www.npmjs.com/package/express-rate-limit) — ограничение количества запросов
+- [express-rate-limit](https://www.npmjs.com/package/express-rate-limit) — ограничение количества запросов (используется минимальная локальная версия из `lib/express-rate-limit`)
 - [Vitest](https://vitest.dev/) — тестовый фреймворк
 - _(В перспективе)_ [MongoDB](https://www.mongodb.com/) — хранение пользовательских данных и CRM-метаданных
 - _(Планируется)_ [Cloudflare R2](https://www.cloudflare.com/products/r2/) — для хранения `.glb`-моделей

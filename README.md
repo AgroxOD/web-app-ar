@@ -28,7 +28,7 @@
 - [Tailwind CSS](https://tailwindcss.com/) — utility‑first CSS
 - [MindAR Marker Compiler](https://hiukim.github.io/mind-ar-js-doc/tools/compile/) — онлайн-конвертер PNG/JPG в `.mind`
 - [Express](https://expressjs.com/) — API-сервер
-- [express-rate-limit](https://www.npmjs.com/package/express-rate-limit) — ограничение числа запросов
+- [express-rate-limit](https://www.npmjs.com/package/express-rate-limit) — ограничение числа запросов (в проекте используется минимальная локальная версия из `lib/express-rate-limit`)
 - [Vitest](https://vitest.dev/) — тестовый фреймворк
 - ESLint + Prettier (flat config `eslint.config.js`)
 - _(опционально)_ [MongoDB Atlas](https://www.mongodb.com/atlas), [Cloudflare R2](https://www.cloudflare.com/products/r2/)
