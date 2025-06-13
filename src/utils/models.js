@@ -1,8 +1,6 @@
 let API_BASE = (import.meta.env.VITE_API_BASE_URL || '').trim();
 if (!API_BASE) {
-  console.warn(
-    'VITE_API_BASE_URL is empty; falling back to location.origin',
-  );
+  console.warn('VITE_API_BASE_URL is empty; falling back to location.origin');
   API_BASE = typeof location !== 'undefined' ? location.origin : '';
 }
 const DEFAULT_MODEL_URL = import.meta.env.VITE_MODEL_URL;
