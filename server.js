@@ -101,12 +101,15 @@ function parseRawFilename(req, res, next) {
   if (!ct.startsWith('multipart/form-data')) return next();
 
   let buf = Buffer.alloc(0);
-  function onData(chunk) {
+
+  function processChunk(chunk) {
     buf = Buffer.concat([buf, chunk]);
     const idx = buf.indexOf('\r\n\r\n');
-    if (idx === -1 && buf.length < 8192) return; // wait for more
+    if (idx === -1 && buf.length < 8192) {
+      req.once('data', processChunk);
+      return;
+    }
 
-    req.off('data', onData);
     req.unshift(buf);
     const header = buf
       .slice(0, idx === -1 ? buf.length : idx)
@@ -127,7 +130,7 @@ function parseRawFilename(req, res, next) {
     next();
   }
 
-  req.on('data', onData);
+  req.once('data', processChunk);
 }
 
 export function requireRole(role) {
