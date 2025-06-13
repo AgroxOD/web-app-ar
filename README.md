@@ -144,8 +144,8 @@ pnpm start  # запуск API-сервера (опционально)
    - `MONGODB_URI` – строка подключения к MongoDB Atlas
    - `JWT_SECRET` – секретная фраза для подписи JWT
    - `JWT_MISSING_STATUS` – код статуса, если `JWT_SECRET` не задан; некорректные значения приводят к 500
-   - `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`
-   - `R2_ENDPOINT`, `R2_BUCKET`
+  - `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`
+  - `R2_ENDPOINT`, `R2_BUCKET`, `R2_PUBLIC_URL`
 
 - `FRONTEND_ORIGINS` – список разрешённых доменов для CORS
 - `RATE_LIMIT_MAX` – максимальное число запросов за 15 минут (по умолчанию 100)
@@ -211,7 +211,7 @@ pnpm start
 - `POST /auth/register` — регистрация пользователя
 - `POST /auth/login` — получение JWT
 - `GET /api/me` — данные текущего пользователя
-- перед запуском задайте переменные `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION` (по умолчанию `us-east-1`), `R2_ENDPOINT`, `R2_BUCKET` и `JWT_SECRET`
+- перед запуском задайте переменные `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION` (по умолчанию `us-east-1`), `R2_ENDPOINT`, `R2_BUCKET`, `R2_PUBLIC_URL` и `JWT_SECRET`
 
 > `JWT_SECRET` является обязательной переменной. Если она не указана, защищённые маршруты API вернут код `500` или значение `JWT_MISSING_STATUS`, если оно представляет собой число.
 
@@ -223,6 +223,7 @@ AWS_SECRET_ACCESS_KEY=yyyy
 AWS_REGION=auto
 R2_ENDPOINT=https://<account>.r2.cloudflarestorage.com
 R2_BUCKET=my-bucket
+R2_PUBLIC_URL=https://pub-<account>.r2.dev/
 JWT_SECRET=super-secret
 JWT_MISSING_STATUS=
 FRONTEND_ORIGINS=

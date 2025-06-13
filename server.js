@@ -92,6 +92,7 @@ const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/ar';
 
 const modelSchema = new mongoose.Schema({
   name: String,
+  key: String,
   url: String,
   markerIndex: { type: Number, default: 0 },
 });
@@ -218,13 +219,19 @@ async function syncR2Models() {
     } while (token);
 
     if (keys.length === 0) return;
-    const existing = await Model.find({ url: { $in: keys } })
-      .select('url')
+    const existing = await Model.find({ key: { $in: keys } })
+      .select('key')
       .lean();
-    const existingSet = new Set(existing.map((m) => m.url));
+    const existingSet = new Set(existing.map((m) => m.key));
+    const base = process.env.R2_PUBLIC_URL ?? '';
     const docs = keys
       .filter((k) => !existingSet.has(k))
-      .map((k) => ({ name: path.parse(k).name, url: k, markerIndex: 0 }));
+      .map((k) => ({
+        name: path.parse(k).name,
+        key: k,
+        url: base + k,
+        markerIndex: 0,
+      }));
     if (docs.length) await Model.insertMany(docs);
   } catch (e) {
     console.error('R2 sync error', e);
@@ -241,7 +248,7 @@ async function validateMongoSchema() {
   }
 
   const checks = [
-    { model: Model, fields: ['name', 'url', 'markerIndex'] },
+    { model: Model, fields: ['name', 'key', 'url', 'markerIndex'] },
     { model: User, fields: ['username', 'email', 'passwordHash', 'role'] },
   ];
   for (const { model, fields } of checks) {
@@ -425,11 +432,13 @@ app.post(
       });
       await s3.send(command);
       try {
+        const base = process.env.R2_PUBLIC_URL ?? '';
         await Model.updateOne(
-          { url: filename },
+          { key: filename },
           {
             name: path.parse(filename).name,
-            url: filename,
+            key: filename,
+            url: base + filename,
             markerIndex: parseInt(req.body.markerIndex ?? '0', 10) || 0,
           },
           { upsert: true },

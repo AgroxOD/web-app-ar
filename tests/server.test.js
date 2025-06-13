@@ -110,8 +110,8 @@ describe('API endpoints', () => {
     expect(res.body).toEqual({ key: 'm.glb' });
     expect(updateSpy).toHaveBeenCalledTimes(1);
     expect(updateSpy).toHaveBeenCalledWith(
-      { url: 'm.glb' },
-      expect.objectContaining({ markerIndex: 2 }),
+      { key: 'm.glb' },
+      expect.objectContaining({ key: 'm.glb', markerIndex: 2 }),
       { upsert: true },
     );
   });
