@@ -74,4 +74,26 @@ describe('auth endpoints', () => {
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ id: 1, email: 'e', role: 'user' });
   });
+
+  it('rate limits /auth/login', async () => {
+    vi.resetModules();
+    process.env.RATE_LIMIT_MAX = '1';
+    const { app: rlApp, User: RLUser } = await import('../server.js');
+    vi.spyOn(RLUser, 'findOne').mockResolvedValue({
+      _id: 1,
+      passwordHash: 'h',
+      role: 'user',
+    });
+    vi.spyOn(bcrypt, 'compare').mockResolvedValue(true);
+
+    await request(rlApp)
+      .post('/auth/login')
+      .send({ email: 'e', password: 'p' });
+    const res = await request(rlApp)
+      .post('/auth/login')
+      .send({ email: 'e', password: 'p' });
+
+    expect(res.status).toBe(429);
+    delete process.env.RATE_LIMIT_MAX;
+  });
 });
