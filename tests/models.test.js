@@ -45,9 +45,7 @@ describe('model routes', () => {
       }),
     });
 
-    const res = await request(app).get(
-      '/api/models/60f7f9b763d1c8a0b4e2cd34',
-    );
+    const res = await request(app).get('/api/models/60f7f9b763d1c8a0b4e2cd34');
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ name: 'm', url: 'm.glb', markerIndex: 1 });
   });
