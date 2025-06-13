@@ -21,3 +21,7 @@ After running, the file will be saved as `assets/model.glb`.
 The application expects `assets/model.glb` to exist when served. A
 `model-placeholder.txt` file is included so the directory exists in the
 repository, but it will not be used by the application.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
