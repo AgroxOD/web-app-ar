@@ -10,7 +10,7 @@ This project offers a lightweight AR scene that can be extended with CRM feature
 
 ## Quick Setup
 
-_Requires Node.js 18–21._
+_Requires Node.js 18–21 (Node.js 20 LTS recommended)._ 
 
 ```bash
 git clone <repo-url>
