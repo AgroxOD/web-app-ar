@@ -1,4 +1,7 @@
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+if (API_BASE.endsWith('/api')) {
+  console.warn('VITE_API_BASE_URL should not include "/api"');
+}
 
 export async function loadModels() {
   try {

@@ -116,6 +116,7 @@ pnpm start  # запуск API-сервера (опционально)
    ```bash
    VITE_API_BASE_URL=https://example.com pnpm build
    ```
+   Не добавляй суффикс `/api` в конце URL
 
 # Затем залей содержимое папки dist/ в ветку gh-pages (см. AGENTS.md для подробностей)
 
@@ -149,6 +150,7 @@ pnpm start  # запуск API-сервера (опционально)
 - `FRONTEND_ORIGINS` – список разрешённых доменов для CORS
 - `RATE_LIMIT_MAX` – максимальное число запросов за 15 минут (по умолчанию 100)
 - `VITE_API_BASE_URL` – base URL for API requests when running or building the CMS/front‑end
+- не добавляй `/api`, просто `https://example.com`
 - `PORT` – укажи `10000` (Render запускает приложение на этом порту)
 
 5. Сохрани настройки и запусти деплой. После успешного билда сервис будет доступен по адресу вида `https://<name>.onrender.com`.
@@ -256,7 +258,7 @@ pnpm format
 
 1. Запусти фронтенд командой `pnpm dev`.
 2. Перейди по адресу `http://localhost:5173/web-app-ar/cms/`.
-3. Укажи `VITE_API_BASE_URL` в `.env` (например, `http://localhost:3000`) и запусти API (`pnpm api`).
+3. Укажи `VITE_API_BASE_URL` в `.env` (например, `http://localhost:3000`, без `/api`) и запусти API (`pnpm api`).
 
 После авторизации (регистрация и вход выполняются через форму страницы) доступны операции для пользователей с ролью `admin`:
 
