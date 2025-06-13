@@ -253,7 +253,8 @@ describe('API endpoints', () => {
 
 describe('rate limit cleanup', () => {
   it('removes expired entries on interval', async () => {
-    const rateLimit = (await import('../lib/express-rate-limit/index.js')).default;
+    const rateLimit = (await import('../lib/express-rate-limit/index.js'))
+      .default;
     vi.useFakeTimers();
     const limiter = rateLimit({ windowMs: 100, max: 1, cleanupIntervalMs: 50 });
     const req = { ip: '1', headers: {} };
