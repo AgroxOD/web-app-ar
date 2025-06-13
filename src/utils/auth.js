@@ -53,7 +53,13 @@ export function isAuthenticated() {
   return Boolean(getToken());
 }
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+let API_BASE = (import.meta.env.VITE_API_BASE_URL || '').trim();
+if (!API_BASE) {
+  console.warn(
+    'VITE_API_BASE_URL is empty; falling back to location.origin',
+  );
+  API_BASE = typeof location !== 'undefined' ? location.origin : '';
+}
 
 async function sendAuth(path, payload, failMsg) {
   const url = API_BASE + path;
