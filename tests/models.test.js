@@ -45,7 +45,9 @@ describe('model routes', () => {
       }),
     });
 
-    const res = await request(app).get('/api/models/123');
+    const res = await request(app).get(
+      '/api/models/60f7f9b763d1c8a0b4e2cd34',
+    );
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ name: 'm', url: 'm.glb', markerIndex: 1 });
   });
@@ -71,13 +73,13 @@ describe('model routes', () => {
     });
 
     const res = await request(app)
-      .put('/api/models/123')
+      .put('/api/models/60f7f9b763d1c8a0b4e2cd34')
       .set('Authorization', `Bearer ${token}`)
       .send({ name: 'x', url: 'x.glb', markerIndex: 2 });
 
     expect(res.status).toBe(200);
     expect(spy).toHaveBeenCalledWith(
-      '123',
+      '60f7f9b763d1c8a0b4e2cd34',
       { name: 'x', url: 'x.glb', markerIndex: 2 },
       { new: true },
     );
@@ -90,7 +92,7 @@ describe('model routes', () => {
       .mockReturnValue({ lean: vi.fn() });
 
     const res = await request(app)
-      .put('/api/models/123')
+      .put('/api/models/60f7f9b763d1c8a0b4e2cd34')
       .send({ name: 'x', url: 'x.glb', markerIndex: 2 });
 
     expect(res.status).toBe(401);
@@ -106,7 +108,7 @@ describe('model routes', () => {
       .mockReturnValue({ lean: vi.fn() });
 
     const res = await request(app)
-      .put('/api/models/123')
+      .put('/api/models/60f7f9b763d1c8a0b4e2cd34')
       .set('Authorization', `Bearer ${token}`)
       .send({ name: 'x', url: 'x.glb', markerIndex: 0 });
 
@@ -141,12 +143,12 @@ describe('model routes', () => {
     });
 
     const res = await request(app)
-      .delete('/api/models/123')
+      .delete('/api/models/60f7f9b763d1c8a0b4e2cd34')
       .set('Authorization', `Bearer ${token}`);
 
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ success: true });
-    expect(spy).toHaveBeenCalledWith('123');
+    expect(spy).toHaveBeenCalledWith('60f7f9b763d1c8a0b4e2cd34');
   });
 
   it('DELETE /api/models/:id without Authorization returns 401', async () => {
@@ -155,7 +157,9 @@ describe('model routes', () => {
       .spyOn(Model, 'findByIdAndDelete')
       .mockReturnValue({ lean: vi.fn() });
 
-    const res = await request(app).delete('/api/models/123');
+    const res = await request(app).delete(
+      '/api/models/60f7f9b763d1c8a0b4e2cd34',
+    );
 
     expect(res.status).toBe(401);
     expect(spy).not.toHaveBeenCalled();
@@ -170,7 +174,7 @@ describe('model routes', () => {
       .mockReturnValue({ lean: vi.fn() });
 
     const res = await request(app)
-      .delete('/api/models/123')
+      .delete('/api/models/60f7f9b763d1c8a0b4e2cd34')
       .set('Authorization', `Bearer ${token}`);
 
     expect(res.status).toBe(403);
