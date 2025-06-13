@@ -464,7 +464,8 @@ app.get('/model/:filename', async (req, res) => {
 async function main() {
   try {
     await mongoose.connect(mongoUri);
-    console.log(`✅ [mongo] connected to ${mongoUri}`);
+    const mongoHost = new URL(mongoUri).host;
+    console.log(`✅ [mongo] connected to ${mongoHost}`);
     await validateMongoSchema();
   } catch (err) {
     console.error(
