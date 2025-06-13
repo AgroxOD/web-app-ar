@@ -174,6 +174,21 @@ describe('API endpoints', () => {
     expect(res.body).toEqual({ error: 'Invalid filename' });
   });
 
+  it('POST /upload rejects unsupported file extension', async () => {
+    process.env.R2_BUCKET = 'test-bucket';
+    process.env.JWT_SECRET = 's';
+    vi.spyOn(User, 'findOne').mockResolvedValue({ role: 'admin' });
+    const token = sign({ id: '1', role: 'admin' }, 's');
+
+    const res = await request(app)
+      .post('/upload')
+      .set('Authorization', `Bearer ${token}`)
+      .attach('model', Buffer.from('data'), 'model.txt');
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ error: 'Invalid file extension' });
+  });
+
   it('POST /upload with non-admin returns 403', async () => {
     process.env.R2_BUCKET = 'test-bucket';
     process.env.JWT_SECRET = 's';
