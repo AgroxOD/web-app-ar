@@ -38,6 +38,10 @@ export const startAR = async (modelsList) => {
     return false;
   }
   logEvent('sessionStart');
+  if (!modelsList || modelsList.length === 0) {
+    const fallback = import.meta.env.VITE_MODEL_URL;
+    if (fallback) modelsList = [{ url: fallback, markerIndex: 0 }];
+  }
   const base = import.meta.env.BASE_URL;
   const mindarThree = new MindARThree({
     container: document.querySelector('#ar-container'),
