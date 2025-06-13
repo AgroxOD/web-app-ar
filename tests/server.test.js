@@ -250,3 +250,23 @@ describe('API endpoints', () => {
     delete process.env.RATE_LIMIT_MAX;
   });
 });
+
+describe('rate limit cleanup', () => {
+  it('removes expired entries on interval', async () => {
+    const rateLimit = (await import('../lib/express-rate-limit/index.js')).default;
+    vi.useFakeTimers();
+    const limiter = rateLimit({ windowMs: 100, max: 1, cleanupIntervalMs: 50 });
+    const req = { ip: '1', headers: {} };
+    const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
+    const next = vi.fn();
+
+    limiter(req, res, next);
+    expect(limiter._store.size).toBe(1);
+
+    vi.advanceTimersByTime(120);
+    expect(limiter._store.size).toBe(0);
+
+    limiter.stop();
+    vi.useRealTimers();
+  });
+});
