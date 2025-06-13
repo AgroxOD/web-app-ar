@@ -255,7 +255,7 @@ async function validateMongoSchema() {
   }
 }
 
-app.post('/auth/register', async (req, res) => {
+app.post('/auth/register', limiter, async (req, res) => {
   const { username, email, password, role = 'user' } = req.body || {};
   if (!email || !password)
     return res.status(400).json({ error: 'Missing fields' });
@@ -282,7 +282,7 @@ app.post('/auth/register', async (req, res) => {
   }
 });
 
-app.post('/auth/login', async (req, res) => {
+app.post('/auth/login', limiter, async (req, res) => {
   const { email, password } = req.body || {};
   if (!email || !password)
     return res.status(400).json({ error: 'Missing fields' });
