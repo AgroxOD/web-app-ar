@@ -31,8 +31,9 @@ describe('login', () => {
   it('sends POST to /auth/login', async () => {
     fetch.mockResolvedValue({ ok: true, json: vi.fn().mockResolvedValue({}) });
     await login('user@example.com', 'pass');
+    const base = import.meta.env.VITE_API_BASE_URL || '';
     expect(fetch).toHaveBeenCalledWith(
-      '/auth/login',
+      base + '/auth/login',
       expect.objectContaining({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -55,8 +56,9 @@ describe('register', () => {
   it('sends POST to /auth/register', async () => {
     fetch.mockResolvedValue({ ok: true, json: vi.fn().mockResolvedValue({}) });
     await register('u', 'e', 'p');
+    const base = import.meta.env.VITE_API_BASE_URL || '';
     expect(fetch).toHaveBeenCalledWith(
-      '/auth/register',
+      base + '/auth/register',
       expect.objectContaining({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
