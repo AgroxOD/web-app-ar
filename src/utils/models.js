@@ -1,4 +1,5 @@
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+const DEFAULT_MODEL_URL = import.meta.env.VITE_MODEL_URL;
 
 if (API_BASE.endsWith('/api')) {
   console.warn('VITE_API_BASE_URL should not include "/api"');
