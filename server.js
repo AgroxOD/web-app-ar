@@ -74,11 +74,12 @@ const userSchema = new mongoose.Schema({
 export const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 function verifyJwt(token, secret) {
-  return jwt.verify(token, secret);
+  const { id, role } = jwt.verify(token, secret);
+  return { id, role };
 }
 
 function signJwt(payload, secret) {
-  return jwt.sign(payload, secret, { noTimestamp: true });
+  return jwt.sign(payload, secret, { expiresIn: '1h', noTimestamp: true });
 }
 
 // Multer sanitizes `file.originalname` using `path.basename` before our
