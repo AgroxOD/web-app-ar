@@ -1,4 +1,5 @@
 # Шаблон AR веб-приложения
+[English README](./README.en.md)
 
 **Современный шаблон AR-веб-приложения на MindAR.js и Three.js с деплоем на GitHub Pages и перспективой CRM-интеграции.**
 
