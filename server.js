@@ -44,6 +44,11 @@ const upload = multer({
       const err = new multer.MulterError('INVALID_FILENAME');
       return cb(err);
     }
+    const ext = path.extname(name).toLowerCase();
+    if (ext !== '.glb' && ext !== '.gltf') {
+      const err = new multer.MulterError('INVALID_EXTENSION');
+      return cb(err);
+    }
     cb(null, true);
   },
 });
@@ -363,6 +368,8 @@ app.post(
           return res.status(413).json({ error: 'File too large' });
         if (err.code === 'INVALID_FILENAME')
           return res.status(400).json({ error: 'Invalid filename' });
+        if (err.code === 'INVALID_EXTENSION')
+          return res.status(400).json({ error: 'Invalid file extension' });
         return res.status(400).json({ error: 'Upload failed' });
       }
       next();
@@ -373,6 +380,10 @@ app.post(
     const name = req.rawFilename || req.file.originalname;
     if (!isValidFilename(name)) {
       return res.status(400).json({ error: 'Invalid filename' });
+    }
+    const ext = path.extname(name).toLowerCase();
+    if (ext !== '.glb' && ext !== '.gltf') {
+      return res.status(400).json({ error: 'Invalid file extension' });
     }
     const bucket = process.env.R2_BUCKET;
     if (!bucket)
