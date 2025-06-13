@@ -55,7 +55,7 @@ describe('API endpoints', () => {
   });
 
   it('POST /upload rejects unauthorized', async () => {
-    process.env.R2_BUCKET = 'b';
+    process.env.R2_BUCKET = 'test-bucket';
     // set secret so auth middleware doesn't return 500
     process.env.JWT_SECRET = 'dummy-secret';
     const res = await request(app)
@@ -65,7 +65,7 @@ describe('API endpoints', () => {
   });
 
   it('POST /upload fails when JWT_SECRET missing', async () => {
-    process.env.R2_BUCKET = 'b';
+    process.env.R2_BUCKET = 'test-bucket';
     delete process.env.JWT_SECRET;
     const res = await request(app)
       .post('/upload')
@@ -93,7 +93,7 @@ describe('API endpoints', () => {
   });
 
   it('POST /upload accepts valid token', async () => {
-    process.env.R2_BUCKET = 'b';
+    process.env.R2_BUCKET = 'test-bucket';
     process.env.JWT_SECRET = 's';
     vi.spyOn(S3Client.prototype, 'send').mockResolvedValue({});
     vi.spyOn(User, 'findOne').mockResolvedValue({ role: 'admin' });
@@ -115,7 +115,7 @@ describe('API endpoints', () => {
   });
 
   it('POST /upload rejects oversized file', async () => {
-    process.env.R2_BUCKET = 'b';
+    process.env.R2_BUCKET = 'test-bucket';
     process.env.JWT_SECRET = 's';
     vi.spyOn(User, 'findOne').mockResolvedValue({ role: 'admin' });
     const token = sign({ id: '1', role: 'admin' }, 's');
@@ -128,7 +128,7 @@ describe('API endpoints', () => {
   });
 
   it('POST /upload rejects path traversal filename', async () => {
-    process.env.R2_BUCKET = 'b';
+    process.env.R2_BUCKET = 'test-bucket';
     process.env.JWT_SECRET = 's';
     vi.spyOn(User, 'findOne').mockResolvedValue({ role: 'admin' });
     const token = sign({ id: '1', role: 'admin' }, 's');
@@ -144,7 +144,7 @@ describe('API endpoints', () => {
   });
 
   it('POST /upload rejects path traversal filename without quotes', async () => {
-    process.env.R2_BUCKET = 'b';
+    process.env.R2_BUCKET = 'test-bucket';
     process.env.JWT_SECRET = 's';
     vi.spyOn(User, 'findOne').mockResolvedValue({ role: 'admin' });
     const token = sign({ id: '1', role: 'admin' }, 's');
@@ -168,7 +168,7 @@ describe('API endpoints', () => {
   });
 
   it('POST /upload with non-admin returns 403', async () => {
-    process.env.R2_BUCKET = 'b';
+    process.env.R2_BUCKET = 'test-bucket';
     process.env.JWT_SECRET = 's';
     vi.spyOn(User, 'findOne').mockResolvedValue({ role: 'user' });
     const token = sign({ id: '1', role: 'user' }, 's');
@@ -216,7 +216,7 @@ describe('API endpoints', () => {
   it('rate limits POST /upload', async () => {
     vi.resetModules();
     process.env.RATE_LIMIT_MAX = '2';
-    process.env.R2_BUCKET = 'b';
+    process.env.R2_BUCKET = 'test-bucket';
     process.env.JWT_SECRET = 's';
     const {
       app: rlApp,
