@@ -218,7 +218,11 @@ describe('API endpoints', () => {
     process.env.RATE_LIMIT_MAX = '2';
     process.env.R2_BUCKET = 'b';
     process.env.JWT_SECRET = 's';
-    const { app: rlApp, User: RLUser, Model: RLModel } = await import('../server.js');
+    const {
+      app: rlApp,
+      User: RLUser,
+      Model: RLModel,
+    } = await import('../server.js');
     vi.spyOn(S3Client.prototype, 'send').mockResolvedValue({});
     vi.spyOn(RLModel, 'updateOne').mockResolvedValue({});
     vi.spyOn(RLUser, 'findOne').mockResolvedValue({ role: 'admin' });

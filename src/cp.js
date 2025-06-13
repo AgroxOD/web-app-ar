@@ -1,4 +1,11 @@
-import { login, register, logout, isAuthenticated, setAuth, getRole } from './utils/auth.js';
+import {
+  login,
+  register,
+  logout,
+  isAuthenticated,
+  setAuth,
+  getRole,
+} from './utils/auth.js';
 import { loadModels, deleteModel } from './utils/models.js';
 import { showEditForm } from './utils/editForm.js';
 
@@ -51,7 +58,8 @@ function updateAuthUI() {
     registerForm.style.display = 'none';
   }
   logoutBtn.style.display = logged ? 'inline-block' : 'none';
-  uploadSection.style.display = logged && getRole() === 'admin' ? 'block' : 'none';
+  uploadSection.style.display =
+    logged && getRole() === 'admin' ? 'block' : 'none';
 }
 
 loginForm.addEventListener('submit', async (e) => {

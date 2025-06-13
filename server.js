@@ -62,8 +62,8 @@ const modelSchema = new mongoose.Schema({
   url: String,
   markerIndex: { type: Number, default: 0 },
 });
-export const Model = mongoose.models.Model ||
-  mongoose.model('Model', modelSchema);
+export const Model =
+  mongoose.models.Model || mongoose.model('Model', modelSchema);
 
 const userSchema = new mongoose.Schema({
   username: String,
@@ -71,8 +71,7 @@ const userSchema = new mongoose.Schema({
   passwordHash: String,
   role: { type: String, enum: ['admin', 'user'], default: 'user' },
 });
-export const User = mongoose.models.User ||
-  mongoose.model('User', userSchema);
+export const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 function verifyJwt(token, secret) {
   return jwt.verify(token, secret);
@@ -113,9 +112,7 @@ function parseRawFilename(req, res, next) {
       .slice(0, idx === -1 ? buf.length : idx)
       .toString('latin1');
 
-    const match = header.match(
-      /filename[^=]*=\s*(?:"([^"\\]*)"|([^;\r\n]*))/i,
-    );
+    const match = header.match(/filename[^=]*=\s*(?:"([^"\\]*)"|([^;\r\n]*))/i);
     if (match) {
       req.rawFilename = match[1] ?? match[2];
     }
@@ -277,9 +274,7 @@ app.post('/auth/login', async (req, res) => {
 
 app.get('/api/models', async (req, res) => {
   try {
-    const list = await Model.find()
-      .select('name url markerIndex')
-      .lean();
+    const list = await Model.find().select('name url markerIndex').lean();
     res.json(list);
   } catch (e) {
     console.error(e);
