@@ -58,4 +58,20 @@ describe('auth endpoints', () => {
       role: 'user',
     });
   });
+
+  it('GET /api/me returns current user', async () => {
+    vi.spyOn(User, 'findOne').mockResolvedValue({
+      _id: 1,
+      email: 'e',
+      role: 'user',
+    });
+    const token = sign({ id: 1, role: 'user' }, 'secret');
+
+    const res = await request(app)
+      .get('/api/me')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ id: 1, email: 'e', role: 'user' });
+  });
 });
