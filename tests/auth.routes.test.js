@@ -35,7 +35,7 @@ describe('auth endpoints', () => {
 
     expect(res.status).toBe(200);
     expect(res.body).toEqual({
-      jwt: sign({ id: 1, role: 'user' }, 'secret'),
+      jwt: sign({ id: '1', role: 'user' }, 'secret'),
       role: 'user',
     });
   });
@@ -54,7 +54,7 @@ describe('auth endpoints', () => {
 
     expect(res.status).toBe(200);
     expect(res.body).toEqual({
-      jwt: sign({ id: 1, role: 'user' }, 'secret'),
+      jwt: sign({ id: '1', role: 'user' }, 'secret'),
       role: 'user',
     });
   });
@@ -65,7 +65,7 @@ describe('auth endpoints', () => {
       email: 'e',
       role: 'user',
     });
-    const token = sign({ id: 1, role: 'user' }, 'secret');
+    const token = sign({ id: '1', role: 'user' }, 'secret');
 
     const res = await request(app)
       .get('/api/me')
