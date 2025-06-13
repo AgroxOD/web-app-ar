@@ -148,7 +148,7 @@ pnpm start  # запуск API-сервера (опционально)
    - `JWT_MISSING_STATUS` – код статуса, если `JWT_SECRET` не задан; некорректные значения приводят к 500
 
 - `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`
-- `R2_ENDPOINT`, `R2_BUCKET`, `R2_PUBLIC_URL`
+- `R2_ENDPOINT`, `R2_BUCKET`, `R2_PUBLIC_URL` (заканчивается на `/`)
 
 - `FRONTEND_ORIGINS` – список разрешённых доменов для CORS
 - `RATE_LIMIT_MAX` – максимальное число запросов за 15 минут (по умолчанию 100)
@@ -226,12 +226,14 @@ AWS_SECRET_ACCESS_KEY=yyyy
 AWS_REGION=auto
 R2_ENDPOINT=https://<account>.r2.cloudflarestorage.com
 R2_BUCKET=my-bucket
-R2_PUBLIC_URL=https://pub-<account>.r2.dev/
+R2_PUBLIC_URL=https://pub-<account>.r2.dev/ # важно: слэш в конце
 JWT_SECRET=super-secret
 JWT_MISSING_STATUS=
 FRONTEND_ORIGINS=
 RATE_LIMIT_MAX=
 ````
+
+При изменении `R2_PUBLIC_URL` перезапустите сервер, чтобы обновить URL существующих моделей.
 
 #### Логи при запуске сервера
 

@@ -96,6 +96,7 @@ describe('API endpoints', () => {
 
   it('POST /upload accepts valid token', async () => {
     process.env.R2_BUCKET = 'test-bucket';
+    process.env.R2_PUBLIC_URL = 'https://cdn.com/base';
     process.env.JWT_SECRET = 's';
     vi.spyOn(S3Client.prototype, 'send').mockResolvedValue({});
     vi.spyOn(User, 'findOne').mockResolvedValue({ role: 'admin' });
@@ -111,7 +112,11 @@ describe('API endpoints', () => {
     expect(updateSpy).toHaveBeenCalledTimes(1);
     expect(updateSpy).toHaveBeenCalledWith(
       { key: 'm.glb' },
-      expect.objectContaining({ key: 'm.glb', markerIndex: 2 }),
+      expect.objectContaining({
+        key: 'm.glb',
+        markerIndex: 2,
+        url: 'https://cdn.com/base/m.glb',
+      }),
       { upsert: true },
     );
   });
@@ -300,5 +305,45 @@ describe('startup setup', () => {
     expect(fs.existsSync(dir)).toBe(true);
     fs.rmSync(dir, { recursive: true, force: true });
     fs.renameSync(backup, dir);
+  });
+});
+
+describe('syncR2Models', () => {
+  it('updates URLs when base changes', async () => {
+    process.env.R2_BUCKET = 'bucket';
+    process.env.R2_PUBLIC_URL = 'https://new.example.com';
+    vi.spyOn(S3Client.prototype, 'send').mockResolvedValue({
+      Contents: [{ Key: '1.glb' }],
+      IsTruncated: false,
+    });
+
+    vi.spyOn(mongoose, 'connect').mockResolvedValue({});
+    mongoose.connection.db = {
+      listCollections: () => ({
+        toArray: () => Promise.resolve([{ name: 'models' }, { name: 'users' }]),
+      }),
+    };
+
+    vi.spyOn(Model, 'find').mockReturnValue({
+      select: vi.fn().mockReturnThis(),
+      lean: vi.fn().mockResolvedValue([
+        { _id: 'id1', key: '1.glb', url: 'https://old.example.com/1.glb' },
+      ]),
+    });
+
+    const updateSpy = vi.spyOn(Model, 'updateOne').mockResolvedValue({});
+    vi.spyOn(Model, 'insertMany').mockResolvedValue([]);
+    const listenSpy = vi
+      .spyOn(app, 'listen')
+      .mockReturnValue({ close: vi.fn() });
+
+    await main();
+
+    expect(updateSpy).toHaveBeenCalledWith(
+      { _id: 'id1' },
+      { url: 'https://new.example.com/1.glb' },
+    );
+
+    listenSpy.mockRestore();
   });
 });

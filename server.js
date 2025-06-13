@@ -123,6 +123,12 @@ function signJwt(payload, secret) {
   );
 }
 
+function r2BaseUrl() {
+  let base = process.env.R2_PUBLIC_URL || '';
+  if (base && !base.endsWith('/')) base += '/';
+  return base;
+}
+
 // Multer sanitizes `file.originalname` using `path.basename` before our
 // `fileFilter` runs. `isValidFilename` therefore checks the already sanitized
 // value. This means paths like "../model.glb" become "model.glb" and are
@@ -209,7 +215,7 @@ export function requireRole(role) {
   };
 }
 
-async function syncR2Models() {
+export async function syncR2Models() {
   const bucket = process.env.R2_BUCKET;
   if (!bucket) return;
   try {
@@ -227,10 +233,18 @@ async function syncR2Models() {
 
     if (keys.length === 0) return;
     const existing = await Model.find({ key: { $in: keys } })
-      .select('key')
+      .select('_id key url')
       .lean();
-    const existingSet = new Set(existing.map((m) => m.key));
-    const base = process.env.R2_PUBLIC_URL ?? '';
+    const existingSet = new Set();
+    const updates = [];
+    const base = r2BaseUrl();
+    for (const doc of existing) {
+      existingSet.add(doc.key);
+      const expected = base + doc.key;
+      if (doc.url !== expected) {
+        updates.push(Model.updateOne({ _id: doc._id }, { url: expected }));
+      }
+    }
     const docs = keys
       .filter((k) => !existingSet.has(k))
       .map((k) => ({
@@ -240,6 +254,7 @@ async function syncR2Models() {
         markerIndex: 0,
       }));
     if (docs.length) await Model.insertMany(docs);
+    if (updates.length) await Promise.all(updates);
   } catch (e) {
     console.error('R2 sync error', e);
   }
@@ -439,7 +454,7 @@ app.post(
       });
       await s3.send(command);
       try {
-        const base = process.env.R2_PUBLIC_URL ?? '';
+        const base = r2BaseUrl();
         await Model.updateOne(
           { key: filename },
           {
