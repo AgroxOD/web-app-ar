@@ -326,9 +326,11 @@ describe('syncR2Models', () => {
 
     vi.spyOn(Model, 'find').mockReturnValue({
       select: vi.fn().mockReturnThis(),
-      lean: vi.fn().mockResolvedValue([
-        { _id: 'id1', key: '1.glb', url: 'https://old.example.com/1.glb' },
-      ]),
+      lean: vi
+        .fn()
+        .mockResolvedValue([
+          { _id: 'id1', key: '1.glb', url: 'https://old.example.com/1.glb' },
+        ]),
     });
 
     const updateSpy = vi.spyOn(Model, 'updateOne').mockResolvedValue({});
