@@ -1,14 +1,19 @@
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+const DEFAULT_MODEL_URL = import.meta.env.VITE_MODEL_URL || '';
 
 export async function loadModels() {
+  let list = [];
   try {
     const res = await fetch(`${API_BASE}/api/models`);
     if (!res.ok) throw new Error(`API request failed: ${res.status}`);
-    return await res.json();
+    list = await res.json();
   } catch (e) {
     console.error('API error', e);
-    return [];
   }
+  if (!Array.isArray(list) || list.length === 0) {
+    if (DEFAULT_MODEL_URL) list = [{ url: DEFAULT_MODEL_URL, markerIndex: 0 }];
+  }
+  return list;
 }
 
 function authHeaders(json = false) {
