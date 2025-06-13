@@ -117,7 +117,6 @@ pnpm preview  # проверка dist/
 3. Укажи `VITE_API_BASE_URL` в `.env` и запусти API (`pnpm api`).
 4. Операции **Upload**, **Edit** и **Delete** доступны только пользователям с ролью `admin`.
 
-
 ---
 
 ## Инструкция по разработке
