@@ -242,6 +242,8 @@ RATE_LIMIT_MAX=
    выполнить вход.
 
 Создайте бакет в панели Cloudflare R2 и укажите его имя в `R2_BUCKET`.
+При инициализации `S3Client` для работы с R2 необходимо передавать опцию
+`forcePathStyle: true`.
 
 ```bash
 pnpm lint
