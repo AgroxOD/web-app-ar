@@ -113,7 +113,14 @@ function verifyJwt(token, secret) {
 }
 
 function signJwt(payload, secret) {
-  return jwt.sign(payload, secret, { expiresIn: '1h', noTimestamp: true });
+  return jwt.sign(
+    {
+      ...payload,
+      id: payload.id !== undefined ? String(payload.id) : payload.id,
+    },
+    secret,
+    { expiresIn: '1h', noTimestamp: true },
+  );
 }
 
 // Multer sanitizes `file.originalname` using `path.basename` before our
