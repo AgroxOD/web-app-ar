@@ -62,7 +62,7 @@ git clone <repo-url>
 cd <project-name>
 nvm install  # установит Node.js из .nvmrc (проект требует Node.js 18–21)
 nvm use
-sh scripts/setup-node.sh # убедись в поддерживаемой версии перед pnpm install
+sh scripts/setup-node.sh # проверит наличие nvm и подходящую версию Node.js
 pnpm install
 # скопируй пример конфигурации и заполни значения
 cp .env.example .env
@@ -81,6 +81,8 @@ pnpm build # production сборка
 pnpm preview # предпросмотр dist/
 pnpm start  # запуск API-сервера (опционально)
 ```
+
+> Скрипт `setup-node.sh` завершится с подсказкой по установке `nvm`, если менеджер не найден.
 
 Этот проект использует **pnpm** как менеджер пакетов. В репозитории хранится `pnpm-lock.yaml`; файл `package-lock.json` не используется.
 В `.gitattributes` прописано `pnpm-lock.yaml merge=ours`, поэтому при слияниях предпочтение отдаётся локальному lockfile.
