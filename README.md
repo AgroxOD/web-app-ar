@@ -20,8 +20,10 @@ After running, the file will be saved as `assets/model.glb`.
 
 ## Required assets
 
+
 The application expects `assets/model.glb` to exist when served. A `model-placeholder.txt` file is included so the directory exists in the repository but it is not used by the application.
 
 ## Running locally
 
 Use the `serve.sh` script to start a small development server. It checks for `assets/model.glb` and downloads it automatically if missing before launching `python3 -m http.server`.
+
