@@ -2,9 +2,6 @@
   'use strict';
   $(function () {
     var body = $('body');
-    var contentWrapper = $('.content-wrapper');
-    var scroller = $('.container-scroller');
-    var footer = $('.footer');
     var sidebar = $('.sidebar');
 
     //Add active class to nav-link based on url dynamically
