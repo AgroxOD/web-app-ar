@@ -74,6 +74,8 @@ files were about 3.8 MB). If you prefer local assets, place them in
 The archive `MajesticAdmin-Free-Bootstrap-Admin-Template-master.zip` was removed
 from version control and is listed in `.gitignore` to avoid bloating the
 repository history.
+If you need the original template, download it from GitHub:
+<https://github.com/BootstrapDash/MajesticAdmin-Free-Bootstrap-Admin-Template/archive/refs/heads/master.zip>.
 
 ## Build
 
