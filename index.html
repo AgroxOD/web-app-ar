@@ -71,196 +71,35 @@
         pointer-events: none;
         z-index: 20;
       }
-
-      #model-controls {
-        display: none;
-        margin-top: 10px;
-        color: white;
-        font-family: sans-serif;
-        z-index: 30;
-      }
-
-      #menu {
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        z-index: 40;
-        color: white;
-        font-family: sans-serif;
-      }
-
-      #menu form {
-        margin-bottom: 6px;
-      }
-
-      #menu input {
-        margin-right: 4px;
-      }
     </style>
   </head>
 
   <body>
-    <div id="menu">
-      <form id="login-form">
-        <input id="login-email" placeholder="Email" required />
-        <input
-          id="login-password"
-          type="password"
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Login</button>
-        <button type="button" id="show-register">Register</button>
-      </form>
-      <form id="register-form" style="display: none">
-        <input id="register-username" placeholder="Username" required />
-        <input id="register-email" type="email" placeholder="Email" required />
-        <input
-          id="register-password"
-          type="password"
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Register</button>
-        <button type="button" id="show-login">Back</button>
-      </form>
-      <button id="logout" style="display: none">Logout</button>
-    </div>
     <div id="ar-container"></div>
     <div id="ar-frame"></div>
     <div id="ar-overlay">
-      <select id="marker-select"></select>
-      <select id="model-select"></select>
       <button id="start-ar">Start AR</button>
-    </div>
-    <div id="model-controls">
-      <label>
-        Поворот Y
-        <input type="range" id="rot-y" min="0" max="360" value="0" />
-      </label>
-      <label style="margin-left: 10px">
-        Масштаб
-        <input type="range" id="scale" min="0.5" max="2" step="0.1" value="1" />
-      </label>
+      <a id="cms-link" href="#">CMS</a>
     </div>
     <div id="instructions">
-      После распознавания маркера появятся ползунки для поворота и
-      масштабирования модели.
+      После распознавания маркера появятся ползунки для поворота и масштабирования
+      модели.
     </div>
     <script type="module">
       const overlay = document.getElementById('ar-overlay');
       const startButton = document.getElementById('start-ar');
-      const markerSelect = document.getElementById('marker-select');
-      const select = document.getElementById('model-select');
+      const cmsLink = document.getElementById('cms-link');
       const instructions = document.getElementById('instructions');
-      const loginForm = document.getElementById('login-form');
-      const registerForm = document.getElementById('register-form');
-      const logoutBtn = document.getElementById('logout');
-      const { startAR, modelParams } = await import('./src/ar-scene.js');
+      const { startAR } = await import('./src/ar-scene.js');
       const { loadModels } = await import('./src/utils/models.js');
-      const { login, register, logout, isAuthenticated, setAuth } =
-        await import('./src/utils/auth.js');
+      const base = import.meta.env.BASE_URL;
+      cmsLink.href = `${base}cms/`;
 
       let list = [];
       try {
         list = await loadModels();
-        const markers = [...new Set(list.map((m) => m.markerIndex))];
-        markers.forEach((idx) => {
-          const opt = document.createElement('option');
-          opt.value = idx;
-          opt.textContent = `Marker ${idx}`;
-          markerSelect.appendChild(opt);
-        });
-
-        const populate = (idx) => {
-          select.innerHTML = '';
-          list
-            .filter((m) => m.markerIndex === parseInt(idx, 10))
-            .forEach((m) => {
-              const opt = document.createElement('option');
-              opt.value = m.url;
-              opt.textContent = m.name;
-              select.appendChild(opt);
-            });
-        };
-        populate(markers[0]);
-        markerSelect.addEventListener('change', (e) =>
-          populate(e.target.value),
-        );
       } catch {}
 
-      let showRegister = false;
-
-      function updateMenu() {
-        const logged = isAuthenticated();
-        if (logged) {
-          loginForm.style.display = 'none';
-          registerForm.style.display = 'none';
-        } else if (showRegister) {
-          loginForm.style.display = 'none';
-          registerForm.style.display = 'block';
-        } else {
-          loginForm.style.display = 'block';
-          registerForm.style.display = 'none';
-        }
-        logoutBtn.style.display = logged ? 'block' : 'none';
-        overlay.style.display = logged ? 'block' : 'none';
-      }
-
-      loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        try {
-          const { jwt } = await login(
-            document.getElementById('login-email').value,
-            document.getElementById('login-password').value,
-          );
-          setAuth(jwt);
-          updateMenu();
-        } catch (err) {
-          alert(err.message);
-        }
-      });
-
-      registerForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        try {
-          const { jwt } = await register(
-            document.getElementById('register-username').value,
-            document.getElementById('register-email').value,
-            document.getElementById('register-password').value,
-          );
-          setAuth(jwt);
-          updateMenu();
-        } catch (err) {
-          alert(err.message);
-        }
-      });
-
-      logoutBtn.addEventListener('click', () => {
-        logout();
-        updateMenu();
-      });
-
-      document.getElementById('show-register').addEventListener('click', () => {
-        showRegister = true;
-        updateMenu();
-      });
-
-      document.getElementById('show-login').addEventListener('click', () => {
-        showRegister = false;
-        updateMenu();
-      });
-
-      updateMenu();
-
-      const bind = (id, key) => {
-        const el = document.getElementById(id);
-        el.addEventListener('input', (e) => {
-          modelParams[key] = parseFloat(e.target.value);
-        });
-      };
-      bind('rot-y', 'rotationY');
-      bind('scale', 'scale');
       startButton.addEventListener('click', async () => {
         const started = await startAR(list);
         if (started) {
