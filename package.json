@@ -10,7 +10,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint .",
+    "lint": "node scripts/run-lint.js",
     "prelint": "node scripts/check-deps.js",
     "test": "vitest run",
     "pretest": "node scripts/check-deps.js",
@@ -31,7 +31,6 @@
     "jsonwebtoken": "^9.0.2",
     "mind-ar": "^1.2.5",
     "mongoose": "^8.3.0",
-    "morgan": "^1.10.0",
     "multer": "^2.0.1",
     "three": "0.152.2",
     "vite": "5.4.19"

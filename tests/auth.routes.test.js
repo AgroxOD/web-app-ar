@@ -4,6 +4,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import request from 'supertest';
 import { app, User } from '../server.js';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 import { sign } from './helpers/sign.js';
 
@@ -53,10 +54,9 @@ describe('auth endpoints', () => {
       .send({ email: 'e', password: 'p' });
 
     expect(res.status).toBe(200);
-    expect(res.body).toEqual({
-      jwt: sign({ id: '1', role: 'user' }, 'secret'),
-      role: 'user',
-    });
+    expect(res.body.role).toBe('user');
+    const payload = jwt.verify(res.body.jwt, 'secret');
+    expect(payload).toEqual(expect.objectContaining({ id: '1', role: 'user' }));
   });
 
   it('GET /api/me returns current user', async () => {

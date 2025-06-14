@@ -11,6 +11,8 @@ This project offers a lightweight AR scene that can be extended with CRM feature
 ## Requirements
 
 - **Node.js** 18–21 (Node.js 20 LTS recommended; Node.js 22 is not supported)
+- Run `nvm use 20` before `pnpm install` (see `.nvmrc`).
+  You can use `scripts/setup-node.sh` to switch Node automatically.
 - **pnpm** 9 or newer (the repository stores `pnpm-lock.yaml` only)
 - `scripts/check-deps.js` warns when dependencies are missing before running lint or tests
 - A modern browser such as Chrome, Firefox or Edge
@@ -55,6 +57,7 @@ Copy `.env.example` to `.env` and adjust values as needed. Important variables:
 
 - `pnpm dev` – run the Vite dev server
 - `pnpm lint` – run ESLint
+  In CI the output is written to `lint.log`; view this file if the check fails.
 - `pnpm test` – run Vitest
 - _Make sure `pnpm install` has been run before these commands._
 - `pnpm format` – run Prettier
@@ -67,7 +70,10 @@ Open [http://localhost:5173/web-app-ar/](http://localhost:5173/web-app-ar/) and 
 The Majestic template fonts and background images are loaded from external CDNs
 (Google Fonts and placeholder.com) to keep the repository slim (the original
 files were about 3.8 MB). If you prefer local assets, place them in
-`cms/fonts/` and `cms/images/` and adjust paths in `cms/majestic/style.css`.
+`cms/fonts/` and `cms/images/` and adjust paths in `public/cms/majestic/style.css`.
+The archive `MajesticAdmin-Free-Bootstrap-Admin-Template-master.zip` was removed
+from version control and is listed in `.gitignore` to avoid bloating the
+repository history.
 
 ## Build
 

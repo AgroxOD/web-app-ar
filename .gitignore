@@ -10,3 +10,9 @@ package-lock.json
 
 # Ignore leftover patch files
 change.patch
+lint.log
+
+# Admin template (not used)
+template/
+# Original archive removed to keep history small
+MajesticAdmin-Free-Bootstrap-Admin-Template-master.zip
