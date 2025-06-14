@@ -316,6 +316,8 @@ pnpm format
 ```
 Перед выполнением команд `pnpm lint` и `pnpm test` обязательно запусти `pnpm install`.
 
+Перед выполнением команд `pnpm lint` и `pnpm test` обязательно запусти `pnpm install`.
+
 ### CMS / Content Manager
 
 Страница `cms/index.html` служит минимальной CMS для загрузки и редактирования моделей.
