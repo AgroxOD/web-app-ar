@@ -500,8 +500,6 @@ export function notFound(req, res) {
   res.status(404).json({ error: 'Not Found' });
 }
 app.use(notFound);
-// expose for tests
-global.notFound = notFound;
 
 async function main() {
   try {
