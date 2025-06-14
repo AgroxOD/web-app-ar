@@ -42,6 +42,9 @@ Copy `.env.example` to `.env` and adjust values as needed. Important variables:
 - `VITE_ANALYTICS_ENDPOINT` – optional analytics URL
 - `VITE_MODEL_URL` – fallback model URL
 - `VITE_API_BASE_URL` – base API URL (without `/api`)
+- The value must be a plain URL without extra text or spaces.
+  Example: `"https://example.com"`.
+  Leading or trailing spaces are trimmed by the app and may cause tests to fail.
 - `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION` – credentials for Cloudflare R2/S3
 - `R2_ENDPOINT`, `R2_BUCKET`, `R2_PUBLIC_URL` – R2 endpoint, bucket name and public base URL
 - `FRONTEND_ORIGINS` – comma separated CORS origins
