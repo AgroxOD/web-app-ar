@@ -128,7 +128,7 @@ async function handleUpload(e) {
     if (!res.ok) throw new Error(data.error || `Upload failed: ${res.status}`);
     showMessage('Uploaded');
     uploadForm.reset();
-    await refreshModels();
+    await window.refreshModels();
   } catch (err) {
     showMessage(err.message, true);
   }
@@ -161,7 +161,7 @@ function renderModels(list) {
         try {
           await deleteModel(li.dataset.id);
           showMessage('Model deleted');
-          await refreshModels();
+          await window.refreshModels();
         } catch (err) {
           showMessage(err.message, true);
         }
@@ -186,4 +186,4 @@ export async function refreshModels() {
 window.refreshModels = refreshModels;
 
 updateAuthUI();
-refreshModels();
+window.refreshModels();
