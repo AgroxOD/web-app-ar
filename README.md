@@ -130,6 +130,17 @@ pnpm start  # запуск API-сервера (опционально)
    VITE_API_BASE_URL=https://example.com pnpm build
    ```
 
+   Для Windows:
+
+   - `cmd.exe`:
+     ```cmd
+     set VITE_API_BASE_URL=https://example.com && pnpm build
+     ```
+   - PowerShell:
+     ```powershell
+     $env:VITE_API_BASE_URL='https://example.com'; pnpm build
+     ```
+
    Не добавляй суффикс `/api` в конце URL
 
 3. Создай пустой файл `.nojekyll` в корне проекта, чтобы отключить обработку Jekyll на GitHub Pages.
