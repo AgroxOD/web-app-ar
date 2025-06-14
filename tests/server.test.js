@@ -214,9 +214,13 @@ describe('API endpoints', () => {
     vi.spyOn(User, 'findOne').mockResolvedValue(user);
     vi.spyOn(jwt, 'verify').mockReturnValue({ id: '1' });
     const token = 'token';
+    // server.js adds the 404 handler on load. Temporarily remove it to
+    // register test routes before re-appending.
+    const notFound = app._router.stack.pop();
     app.get('/test/me', requireRole('admin'), (req, res) => {
       res.json(req.user);
     });
+    app._router.stack.push(notFound);
 
     const res = await request(app)
       .get('/test/me')
@@ -231,9 +235,12 @@ describe('API endpoints', () => {
     process.env.JWT_SECRET = 's';
     vi.spyOn(jwt, 'verify').mockReturnValue({ id: 1 });
     const token = 'bad';
+    // Remove 404 handler so the test route is reachable
+    const notFound = app._router.stack.pop();
     app.get('/test/bad', requireRole('admin'), (req, res) => {
       res.json({});
     });
+    app._router.stack.push(notFound);
 
     const res = await request(app)
       .get('/test/bad')
