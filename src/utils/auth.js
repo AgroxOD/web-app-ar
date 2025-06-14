@@ -54,6 +54,12 @@ export function isAuthenticated() {
 }
 
 let API_BASE = (import.meta.env.VITE_API_BASE_URL || '').trim();
+if (API_BASE.includes(' ')) {
+  console.warn(
+    'VITE_API_BASE_URL contains spaces; using value before first space',
+  );
+  API_BASE = API_BASE.split(/\s+/)[0];
+}
 if (!API_BASE) {
   console.warn('VITE_API_BASE_URL is empty; falling back to location.origin');
   API_BASE = typeof location !== 'undefined' ? location.origin : '';
