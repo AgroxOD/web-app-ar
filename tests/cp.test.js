@@ -165,8 +165,9 @@ describe('cp page interactions', () => {
 
     expect(fetch).toHaveBeenCalledTimes(1);
     const [url, opts] = fetch.mock.calls[0];
-    expect(url).toBe('/upload');
-    expect(opts.headers).toEqual({ Authorization: 'Bearer null' });
+    const base = import.meta.env.VITE_API_BASE_URL || '';
+    expect(url).toBe(`${base}/upload`);
+    expect(opts.headers).toEqual({});
     expect(opts.method).toBe('POST');
     const body = opts.body;
     expect(body).toBeInstanceOf(FormData);
