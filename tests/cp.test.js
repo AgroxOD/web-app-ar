@@ -163,7 +163,6 @@ describe('cp page interactions', () => {
 
     const cp = await importCp();
     const refreshSpy = vi.spyOn(cp, 'refreshModels');
-    const showSpy = vi.spyOn(window, 'showMessage');
     const form = document.getElementById('upload-form');
     const fileInput = document.getElementById('upload-file');
     const file = new File(['x'], 'm.glb');
@@ -188,7 +187,7 @@ describe('cp page interactions', () => {
     expect(body.get('model')).toEqual(file);
     expect(body.get('markerIndex')).toBe('0');
     expect(resetSpy).toHaveBeenCalled();
-    expect(showSpy).toHaveBeenCalledWith('Uploaded');
+    expect(document.getElementById('message').textContent).toBe('Uploaded');
     expect(refreshSpy).toHaveBeenCalled();
   });
 });
