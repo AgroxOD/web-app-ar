@@ -10,7 +10,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint .",
+    "lint": "node scripts/run-lint.js",
     "prelint": "node scripts/check-deps.js",
     "test": "vitest run",
     "pretest": "node scripts/check-deps.js",

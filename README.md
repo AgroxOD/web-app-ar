@@ -77,6 +77,7 @@ MODEL_URL=<url> sh public/assets/download_models.sh
 # MODEL_URL=https://<account>.r2.cloudflarestorage.com/<bucket>/model.glb sh public/assets/download_models.sh
 pnpm dev
 pnpm lint # проверка стиля (требует предварительного pnpm install)
+# В CI вывод сохраняется в lint.log — открой файл, если проверка завершилась с ошибкой
 pnpm test  # запуск тестов
 # Vitest по умолчанию запускается в среде Node.
 # jsdom подключается только для DOM-тестов через директиву
@@ -330,6 +331,7 @@ RATE_LIMIT_MAX=
 
 ```bash
 pnpm lint
+# В CI журнал сохраняется в lint.log
 pnpm format
 ```
 

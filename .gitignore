@@ -10,3 +10,4 @@ package-lock.json
 
 # Ignore leftover patch files
 change.patch
+lint.log

@@ -55,6 +55,7 @@ Copy `.env.example` to `.env` and adjust values as needed. Important variables:
 
 - `pnpm dev` – run the Vite dev server
 - `pnpm lint` – run ESLint
+  In CI the output is written to `lint.log`; view this file if the check fails.
 - `pnpm test` – run Vitest
 - _Make sure `pnpm install` has been run before these commands._
 - `pnpm format` – run Prettier
