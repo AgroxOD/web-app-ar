@@ -70,7 +70,7 @@ pnpm install
 # скопируй пример конфигурации и заполни значения
 cp .env.example .env
 # при необходимости скачай тяжелые модели
-sh public/assets/download_models.sh
+MODEL_URL=<url> sh public/assets/download_models.sh
 # пример для Cloudflare R2
 # MODEL_URL=https://<account>.r2.cloudflarestorage.com/<bucket>/model.glb sh public/assets/download_models.sh
 pnpm dev
@@ -172,7 +172,7 @@ pnpm start  # запуск API-сервера (опционально)
 - PNG-маркеры хранятся в `public/`
 - Каждый маркер требует свой `.mind`-файл. Его можно сгенерировать через онлайн-компилятор [MindAR Marker Compiler](https://hiukim.github.io/mind-ar-js-doc/tools/compile/). Помести полученный файл в `public/` рядом с маркером.
 - Основная логика находится в `src/ar-scene.js`, ассеты загружаются из `public/`
-- Тяжёлые `.glb` модели не хранятся в репозитории. Скачай их скриптом `public/assets/download_models.sh` или укажи `VITE_MODEL_URL` (она также используется как запасная модель при ошибке API).
+- Тяжёлые `.glb` модели не хранятся в репозитории. Скачай их скриптом `public/assets/download_models.sh`, передав `MODEL_URL=<url>`, или укажи `VITE_MODEL_URL` (она также используется как запасная модель при ошибке API).
 - AR-сцену запускает функция `startAR()`, остановка — через `stopAR()`
 - Рекомендуемые расширения VS Code: ESLint, Prettier, Vite
 - Для проверки кода и автоформатирования используй:
@@ -350,7 +350,7 @@ pnpm install
 - Если установлена версия Node.js 22 или выше, могут возникнуть проблемы. Используй Node.js 20 LTS или другую поддерживаемую версию (18–21).
 - В мобильных браузерах запуск AR иногда требует взаимодействия пользователя (например, нажатия на экран).
 - Проверяйте ошибки в консоли и вкладке Network браузера.
-- Убедитесь, что `target.mind` присутствует и 3D‑модель скачана (`download_models.sh`) либо задайте `VITE_MODEL_URL`. При недоступности `/api/models` будет использована эта модель с индексом 0.
+- Убедитесь, что `target.mind` присутствует и 3D‑модель скачана (`MODEL_URL=<url> sh public/assets/download_models.sh`) либо задайте `VITE_MODEL_URL`. При недоступности `/api/models` будет использована эта модель с индексом 0.
 - Запускайте страницу по HTTPS и предоставляйте доступ к камере.
 - При деплое на GitHub Pages проверьте корректность `BASE_URL`.
 - Для теста исключите проблемы с моделью, отобразив простую геометрию (например, куб).
