@@ -26,7 +26,7 @@ if (!messageEl) {
 
 let showRegister = false;
 
-function showMessage(msg, error = false) {
+export function showMessage(msg, error = false) {
   if (!messageEl) return;
   messageEl.textContent = msg;
   messageEl.className = error
