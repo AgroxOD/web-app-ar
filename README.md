@@ -131,6 +131,7 @@ pnpm start  # запуск API-сервера (опционально)
    ```
 
    Для Windows:
+
    - `cmd.exe`:
      ```cmd
      set VITE_API_BASE_URL=https://example.com && pnpm build
