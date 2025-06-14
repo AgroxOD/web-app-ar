@@ -221,7 +221,7 @@ describe('API endpoints', () => {
 
       res.json(req.user);
     });
-    app._router.stack.push(notFound);
+    testApp.use(notFound);
 
     const res = await request(testApp)
       .get('/test/me')
@@ -243,7 +243,7 @@ describe('API endpoints', () => {
 
       res.json({});
     });
-    app._router.stack.push(notFound);
+    testApp.use(notFound);
 
     const res = await request(testApp)
       .get('/test/bad')
