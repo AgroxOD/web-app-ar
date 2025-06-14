@@ -6,7 +6,11 @@ import globals from 'globals';
 
 export default [
   {
-    ignores: ['node_modules/**', 'cms/majestic/vendor.bundle.base.js'],
+    ignores: [
+      'node_modules/**',
+      'cms/majestic/vendor.bundle.base.js',
+      'cms/majestic/template.js',
+    ],
   },
   js.configs.recommended,
   // Общие правила для JS-файлов фронта (браузер)
