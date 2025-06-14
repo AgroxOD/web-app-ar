@@ -99,7 +99,9 @@ describe('cp page interactions', () => {
     expect(authMocks.login).toHaveBeenCalledWith('e', 'p');
     expect(authMocks.setAuth).toHaveBeenCalledWith('t', 'admin');
     expect(document.getElementById('login-form').style.display).toBe('none');
-    expect(document.getElementById('logout').style.display).toBe('inline-block');
+    expect(document.getElementById('logout').style.display).toBe(
+      'inline-block',
+    );
   });
 
   it('handles register form', async () => {
@@ -124,7 +126,9 @@ describe('cp page interactions', () => {
     expect(authMocks.register).toHaveBeenCalledWith('u', 'e', 'p');
     expect(authMocks.setAuth).toHaveBeenCalledWith('t', 'admin');
     expect(document.getElementById('register-form').style.display).toBe('none');
-    expect(document.getElementById('logout').style.display).toBe('inline-block');
+    expect(document.getElementById('logout').style.display).toBe(
+      'inline-block',
+    );
   });
 
   it('handles logout button', async () => {
@@ -160,7 +164,9 @@ describe('cp page interactions', () => {
     Object.defineProperty(fileInput, 'files', { value: [file] });
     const resetSpy = vi.spyOn(form, 'reset');
 
-    form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    form.dispatchEvent(
+      new Event('submit', { bubbles: true, cancelable: true }),
+    );
     await flush();
 
     expect(fetch).toHaveBeenCalledTimes(1);

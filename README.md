@@ -119,9 +119,9 @@ pnpm start  # запуск API-сервера (опционально)
    > ⚠️ Значение `base` должно совпадать с названием репозитория на GitHub.
    > Обязательно укажите `build.target = 'esnext'`, иначе топ-левел `await` не
    > будет работать на GitHub Pages.
-   Можно также указать путь через переменную `VITE_BASE_PATH`, например
-   `VITE_BASE_PATH=/my-repo/ pnpm build`. Если переменная не задана,
-   используется значение по умолчанию `/web-app-ar/`.
+   > Можно также указать путь через переменную `VITE_BASE_PATH`, например
+   > `VITE_BASE_PATH=/my-repo/ pnpm build`. Если переменная не задана,
+   > используется значение по умолчанию `/web-app-ar/`.
 2. Укажи URL бэкенда через `VITE_API_BASE_URL`, чтобы страница CMS могла обращаться к API:
    ```bash
    VITE_API_BASE_URL=https://example.com pnpm build

@@ -73,6 +73,7 @@ Use `pnpm build` for a production build and `pnpm preview` to preview the output
      build: { target: 'esnext' },
    });
    ```
+
 2. Build the project:
    ```bash
    pnpm build
