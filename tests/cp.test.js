@@ -162,7 +162,7 @@ describe('cp page interactions', () => {
     fetch.mockResolvedValue({ ok: true, json: vi.fn().mockResolvedValue({}) });
 
     const cp = await importCp();
-    const refreshSpy = vi.spyOn(cp, 'refreshModels');
+    const refreshSpy = vi.spyOn(window, 'refreshModels');
     const form = document.getElementById('upload-form');
     const fileInput = document.getElementById('upload-file');
     const file = new File(['x'], 'm.glb');
