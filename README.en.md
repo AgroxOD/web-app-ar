@@ -15,7 +15,6 @@ This project offers a lightweight AR scene that can be extended with CRM feature
 - A modern browser such as Chrome, Firefox or Edge
 - GitHub account if you plan to deploy to GitHub Pages
 
-
 ## Quick Setup
 
 _Requires Node.js 18–21 (Node.js 20 LTS recommended)._
@@ -57,7 +56,6 @@ Copy `.env.example` to `.env` and adjust values as needed. Important variables:
 - `pnpm preview` – preview built files
 - `pnpm start` – launch the API server (same as `pnpm api`)
 
-
 Open [http://localhost:5173/web-app-ar/](http://localhost:5173/web-app-ar/) and click **Start AR** to test the scene.
 
 ## Build
@@ -90,7 +88,6 @@ Use `pnpm build` for a production build and `pnpm preview` to preview the output
 
 4. Optionally configure GitHub Actions for automatic deployment.
 5. Ensure paths in `index.html` are correct. GitHub Pages serves content over HTTPS which is required for AR.
-
 
 ## License
 

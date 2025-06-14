@@ -219,7 +219,6 @@ describe('API endpoints', () => {
     const express = await import('express');
     const testApp = express.default();
     testApp.get('/test/me', requireRole('admin'), (req, res) => {
-
       res.json(req.user);
     });
     app._router.stack.push(notFound);
@@ -241,7 +240,6 @@ describe('API endpoints', () => {
     const express = await import('express');
     const testApp = express.default();
     testApp.get('/test/bad', requireRole('admin'), (req, res) => {
-
       res.json({});
     });
     app._router.stack.push(notFound);

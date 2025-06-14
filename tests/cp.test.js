@@ -71,7 +71,8 @@ beforeEach(() => {
 afterEach(() => {
   delete global.localStorage;
   vi.restoreAllMocks();
-  if (oldBase === undefined) delete process.env.VITE_API_BASE_URL; else process.env.VITE_API_BASE_URL = oldBase;
+  if (oldBase === undefined) delete process.env.VITE_API_BASE_URL;
+  else process.env.VITE_API_BASE_URL = oldBase;
 });
 
 async function importCp() {
