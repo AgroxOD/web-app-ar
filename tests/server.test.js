@@ -214,11 +214,13 @@ describe('API endpoints', () => {
     vi.spyOn(User, 'findOne').mockResolvedValue(user);
     vi.spyOn(jwt, 'verify').mockReturnValue({ id: '1' });
     const token = 'token';
-    app.get('/test/me', requireRole('admin'), (req, res) => {
+    const express = await import('express');
+    const testApp = express.default();
+    testApp.get('/test/me', requireRole('admin'), (req, res) => {
       res.json(req.user);
     });
 
-    const res = await request(app)
+    const res = await request(testApp)
       .get('/test/me')
       .set('Authorization', `Bearer ${token}`);
 
@@ -231,11 +233,13 @@ describe('API endpoints', () => {
     process.env.JWT_SECRET = 's';
     vi.spyOn(jwt, 'verify').mockReturnValue({ id: 1 });
     const token = 'bad';
-    app.get('/test/bad', requireRole('admin'), (req, res) => {
+    const express = await import('express');
+    const testApp = express.default();
+    testApp.get('/test/bad', requireRole('admin'), (req, res) => {
       res.json({});
     });
 
-    const res = await request(app)
+    const res = await request(testApp)
       .get('/test/bad')
       .set('Authorization', `Bearer ${token}`);
 
