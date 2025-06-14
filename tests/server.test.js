@@ -271,6 +271,12 @@ describe('API endpoints', () => {
     expect(res.status).toBe(429);
     delete process.env.RATE_LIMIT_MAX;
   });
+
+  it('returns JSON 404 for unknown route', async () => {
+    const res = await request(app).get('/non-existent');
+    expect(res.status).toBe(404);
+    expect(res.body).toEqual({ error: 'Not Found' });
+  });
 });
 
 describe('rate limit cleanup', () => {
