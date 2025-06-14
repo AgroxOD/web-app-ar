@@ -53,10 +53,20 @@ project-root/
 
 ## CMS
 
-1. Запустите `pnpm dev`.
-2. Откройте `http://localhost:5173/web-app-ar/cms/`.
-3. Задайте `VITE_API_BASE_URL` в `.env` и авторизуйтесь для загрузки моделей.
-4. При необходимости скачайте исходный шаблон **Majestic Admin** с GitHub:
+Каталог `cms/` основан на шаблоне **MajesticAdmin**. Страницу CMS следует
+открывать по пути `${base}cms/`, где `${base}` — значение `base` из
+`vite.config.js` (по умолчанию `/web-app-ar/`). Пример локального URL:
+`http://localhost:5173/web-app-ar/cms/`.
+
+1. Запустите `pnpm dev` и API командой `pnpm api`.
+2. Укажите `VITE_API_BASE_URL` в `.env`.
+3. Зарегистрируйте пользователя с ролью `admin` через `/auth/register` и
+   войдите в CMS. После входа станет доступна форма **Upload** для загрузки
+   моделей.
+4. Для использования локальных шрифтов и изображений поместите файлы в
+   `cms/fonts/` и `cms/images/`, скорректировав пути в
+   `public/cms/majestic/style.css`.
+5. При необходимости скачайте исходный шаблон Majestic Admin с GitHub:
    <https://github.com/BootstrapDash/MajesticAdmin-Free-Bootstrap-Admin-Template/archive/refs/heads/master.zip>
    и распакуйте файлы в каталог `cms/`.
 
