@@ -71,6 +71,9 @@ The Majestic template fonts and background images are loaded from external CDNs
 (Google Fonts and placeholder.com) to keep the repository slim (the original
 files were about 3.8 MB). If you prefer local assets, place them in
 `cms/fonts/` and `cms/images/` and adjust paths in `cms/majestic/style.css`.
+The archive `MajesticAdmin-Free-Bootstrap-Admin-Template-master.zip` was removed
+from version control and is listed in `.gitignore` to avoid bloating the
+repository history.
 
 ## Build
 
