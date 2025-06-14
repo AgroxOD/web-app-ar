@@ -114,6 +114,9 @@ pnpm start  # запуск API-сервера (опционально)
    > ⚠️ Значение `base` должно совпадать с названием репозитория на GitHub.
    > Обязательно укажите `build.target = 'esnext'`, иначе топ-левел `await` не
    > будет работать на GitHub Pages.
+   Можно также указать путь через переменную `VITE_BASE_PATH`, например
+   `VITE_BASE_PATH=/my-repo/ pnpm build`. Если переменная не задана,
+   используется значение по умолчанию `/web-app-ar/`.
 2. Укажи URL бэкенда через `VITE_API_BASE_URL`, чтобы страница CMS могла обращаться к API:
    ```bash
    VITE_API_BASE_URL=https://example.com pnpm build
@@ -154,6 +157,7 @@ pnpm start  # запуск API-сервера (опционально)
 - `RATE_LIMIT_MAX` – максимальное число запросов за 15 минут (по умолчанию 100)
 - `VITE_API_BASE_URL` – base URL for API requests when running or building the CMS/front‑end
 - не добавляй `/api`, просто `https://example.com`
+- `VITE_BASE_PATH` – базовый путь для GitHub Pages (например, `/web-app-ar/`)
 - `PORT` – укажи `10000` (Render запускает приложение на этом порту)
 
 5. Сохрани настройки и запусти деплой. После успешного билда сервис будет доступен по адресу вида `https://<name>.onrender.com`.

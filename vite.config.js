@@ -4,7 +4,7 @@ import postcss from './src/postcss.config.js';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
-    base: '/web-app-ar/',
+    base: env.VITE_BASE_PATH || '/web-app-ar/',
     build: {
       target: 'esnext',
       rollupOptions: {
