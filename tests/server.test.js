@@ -9,7 +9,6 @@ import mongoose from 'mongoose';
 import { sign } from './helpers/sign.js';
 import jwt from 'jsonwebtoken';
 import { S3Client } from '@aws-sdk/client-s3';
-import express from 'express';
 
 describe('API endpoints', () => {
   let originalR2;
