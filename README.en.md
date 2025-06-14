@@ -95,7 +95,7 @@ Use `pnpm build` for a production build and `pnpm preview` to preview the output
 4. Optionally configure GitHub Actions for automatic deployment.
 5. Ensure paths in `index.html` are correct. GitHub Pages serves content over HTTPS which is required for AR.
 
-## 📢 Deployment on Render.com
+## Deployment on Render.com
 
 See the [Russian README](./README.md) for full setup instructions.
 
