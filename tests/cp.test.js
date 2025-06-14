@@ -172,7 +172,7 @@ describe('cp page interactions', () => {
     const [url, opts] = fetch.mock.calls[0];
     const base = import.meta.env.VITE_API_BASE_URL || '';
 
-    expect(url).toBe(base + '/upload');
+    expect(url).toBe(`${base}/upload`);
 
     expect(opts.headers).toEqual({});
     expect(opts.method).toBe('POST');
