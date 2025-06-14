@@ -16,8 +16,8 @@ import {
   ListBucketsCommand,
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import path from 'path';
-import fs from 'fs';
+import path from 'node:path';
+import fs from 'node:fs';
 import jwt from 'jsonwebtoken';
 import rateLimit from 'express-rate-limit';
 
