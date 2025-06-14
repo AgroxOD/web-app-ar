@@ -1,0 +1,11 @@
+# Pings Render.com API to keep the service awake
+name: Render keep awake
+on:
+  schedule:
+    - cron: '*/14 * * * *'
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping API
+        run: curl -fsS https://web-app-ar-api.onrender.com/api/models

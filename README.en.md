@@ -89,6 +89,10 @@ Use `pnpm build` for a production build and `pnpm preview` to preview the output
 4. Optionally configure GitHub Actions for automatic deployment.
 5. Ensure paths in `index.html` are correct. GitHub Pages serves content over HTTPS which is required for AR.
 
+## Keeping Render Awake
+
+The repository includes `.github/workflows/ping-render.yml` which pings the Render API periodically so the service does not go to sleep.
+
 ## License
 
 [MIT](./LICENSE)

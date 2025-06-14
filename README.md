@@ -177,7 +177,7 @@ pnpm start  # запуск API-сервера (опционально)
 
 #### GitHub Actions
 
-Создай файл `.github/workflows/ping-render.yml` со следующим содержимым:
+В репозитории уже имеется файл `.github/workflows/ping-render.yml` со следующим содержимым:
 
 ```yaml
 name: Render keep awake
