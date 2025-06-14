@@ -73,7 +73,7 @@ loginForm.addEventListener('submit', async (e) => {
     showRegister = false;
     updateAuthUI();
   } catch (err) {
-    window.showMessage(err.message, true);
+    showMessage(err.message, true);
   }
 });
 
@@ -89,7 +89,7 @@ registerForm.addEventListener('submit', async (e) => {
     showRegister = false;
     updateAuthUI();
   } catch (err) {
-    window.showMessage(err.message, true);
+    showMessage(err.message, true);
   }
 });
 
@@ -126,11 +126,11 @@ async function handleUpload(e) {
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.error || `Upload failed: ${res.status}`);
-    window.showMessage('Uploaded');
+    showMessage('Uploaded');
     uploadForm.reset();
     await refreshModels();
   } catch (err) {
-    window.showMessage(err.message, true);
+    showMessage(err.message, true);
   }
 }
 
@@ -160,10 +160,10 @@ function renderModels(list) {
         if (!confirm('Delete this model?')) return;
         try {
           await deleteModel(li.dataset.id);
-          window.showMessage('Model deleted');
+          showMessage('Model deleted');
           await refreshModels();
         } catch (err) {
-          window.showMessage(err.message, true);
+          showMessage(err.message, true);
         }
       });
       li.appendChild(delBtn);
@@ -179,7 +179,7 @@ export async function refreshModels() {
     renderModels(list);
   } catch (err) {
     modelsList.innerHTML = '';
-    window.showMessage(err.message || 'Failed to load models', true);
+    showMessage(err.message || 'Failed to load models', true);
   }
 }
 
