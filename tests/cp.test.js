@@ -161,7 +161,7 @@ describe('cp page interactions', () => {
     authMocks.getRole.mockReturnValue('admin');
     fetch.mockResolvedValue({ ok: true, json: vi.fn().mockResolvedValue({}) });
 
-    const cp = await importCp();
+    await importCp();
     const refreshSpy = vi.spyOn(window, 'refreshModels');
     const form = document.getElementById('upload-form');
     const fileInput = document.getElementById('upload-file');
