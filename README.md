@@ -63,7 +63,8 @@ project-root/
 git clone <repo-url>
 cd <project-name>
 nvm install  # установит Node.js из .nvmrc (проект требует Node.js 18–21)
-nvm use
+nvm use       # обязательно выполните, если у вас Node.js 22+
+              # (скрипт scripts/check-node.js напомнит версию из .nvmrc)
 sh scripts/setup-node.sh # проверит наличие nvm и подходящую версию Node.js
 pnpm install
 # скопируй пример конфигурации и заполни значения
@@ -83,6 +84,10 @@ pnpm build # production сборка
 pnpm preview # предпросмотр dist/
 pnpm start  # запуск API-сервера (опционально)
 ```
+
+> **Важно:** если у вас уже установлен Node.js 22 или новее, выполните
+> `nvm use $(cat .nvmrc)` — иначе установка зависимостей может завершиться
+> ошибкой.
 
 > Скрипт `setup-node.sh` завершится с подсказкой по установке `nvm`, если менеджер не найден.
 
