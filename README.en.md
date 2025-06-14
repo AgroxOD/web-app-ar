@@ -89,6 +89,37 @@ Use `pnpm build` for a production build and `pnpm preview` to preview the output
 4. Optionally configure GitHub Actions for automatic deployment.
 5. Ensure paths in `index.html` are correct. GitHub Pages serves content over HTTPS which is required for AR.
 
+## 📢 Deployment on Render.com
+
+See the [Russian README](./README.md) for full setup instructions.
+
+### Keeping Render awake
+
+Free services on Render fall asleep after 15 minutes with no requests. Ping the API periodically so it stays responsive.
+
+#### GitHub Actions
+
+Create `.github/workflows/ping-render.yml` with:
+
+```yaml
+name: Render keep awake
+on:
+  schedule:
+    - cron: '*/14 * * * *'
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping API
+        run: curl -fsS https://web-app-ar-api.onrender.com/api/models
+```
+
+This workflow sends a GET request every ~14 minutes to prevent the service from going to sleep.
+
+#### External services
+
+Instead of GitHub Actions you can use external cron solutions such as [cron-job.org](https://cron-job.org/) or any monitoring service (UptimeRobot, etc.) to ping the same URL.
+
 ## License
 
 [MIT](./LICENSE)
