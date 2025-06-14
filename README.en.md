@@ -64,6 +64,11 @@ Copy `.env.example` to `.env` and adjust values as needed. Important variables:
 
 Open [http://localhost:5173/web-app-ar/](http://localhost:5173/web-app-ar/) and click **Start AR**. The camera page now shows only the AR view with a **CMS** link for switching to the content manager, and the CMS page has a **Back to Camera** link.
 
+The Majestic template fonts and background images are loaded from external CDNs
+(Google Fonts and placeholder.com) to keep the repository slim (the original
+files were about 3.8 MB). If you prefer local assets, place them in
+`cms/fonts/` and `cms/images/` and adjust paths in `cms/majestic/style.css`.
+
 ## Build
 
 Use `pnpm build` for a production build and `pnpm preview` to preview the output.
