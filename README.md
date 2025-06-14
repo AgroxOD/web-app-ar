@@ -56,6 +56,9 @@ project-root/
 1. Запустите `pnpm dev`.
 2. Откройте `http://localhost:5173/web-app-ar/cms/`.
 3. Задайте `VITE_API_BASE_URL` в `.env` и авторизуйтесь для загрузки моделей.
+4. При необходимости скачайте исходный шаблон **Majestic Admin** с GitHub:
+   <https://github.com/BootstrapDash/MajesticAdmin-Free-Bootstrap-Admin-Template/archive/refs/heads/master.zip>
+   и распакуйте файлы в каталог `cms/`.
 
 ## Сборка и деплой
 
