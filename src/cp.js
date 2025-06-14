@@ -29,9 +29,7 @@ let showRegister = false;
 export function showMessage(msg, error = false) {
   if (!messageEl) return;
   messageEl.textContent = msg;
-  messageEl.className = error
-    ? 'p-2 bg-red-200 text-red-800'
-    : 'p-2 bg-green-200 text-green-800';
+  messageEl.className = error ? 'alert alert-danger' : 'alert alert-success';
   messageEl.style.display = 'block';
   clearTimeout(messageEl._hideTimer);
   if (msg) {
@@ -147,7 +145,7 @@ function renderModels(list) {
     if (admin && id) {
       const editBtn = document.createElement('button');
       editBtn.textContent = 'Edit';
-      editBtn.className = 'button button-primary ml-2';
+      editBtn.className = 'btn btn-primary ms-2';
       editBtn.addEventListener('click', () =>
         showEditForm(li, li.dataset.id, m, editBtn),
       );
@@ -155,7 +153,7 @@ function renderModels(list) {
 
       const delBtn = document.createElement('button');
       delBtn.textContent = 'Delete';
-      delBtn.className = 'button button-secondary ml-2';
+      delBtn.className = 'btn btn-secondary ms-2';
       delBtn.addEventListener('click', async () => {
         if (!confirm('Delete this model?')) return;
         try {
