@@ -2,14 +2,13 @@ process.env.NODE_ENV = 'test';
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import request from 'supertest';
-import { app, Model, main, User, requireRole } from '../server.js';
+import { app, Model, main, User, requireRole, notFound } from '../server.js';
 import fs from 'fs';
 import path from 'path';
 import mongoose from 'mongoose';
 import { sign } from './helpers/sign.js';
 import jwt from 'jsonwebtoken';
 import { S3Client } from '@aws-sdk/client-s3';
-import express from 'express';
 
 describe('API endpoints', () => {
   let originalR2;
@@ -221,7 +220,7 @@ describe('API endpoints', () => {
     testApp.get('/test/me', requireRole('admin'), (req, res) => {
       res.json(req.user);
     });
-    app._router.stack.push(notFound);
+    testApp.use(notFound);
 
     const res = await request(testApp)
       .get('/test/me')
@@ -242,7 +241,7 @@ describe('API endpoints', () => {
     testApp.get('/test/bad', requireRole('admin'), (req, res) => {
       res.json({});
     });
-    app._router.stack.push(notFound);
+    testApp.use(notFound);
 
     const res = await request(testApp)
       .get('/test/bad')

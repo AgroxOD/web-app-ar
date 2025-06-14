@@ -163,7 +163,7 @@ describe('cp page interactions', () => {
 
     const cp = await importCp();
     const refreshSpy = vi.spyOn(cp, 'refreshModels');
-    const showSpy = vi.spyOn(window, 'showMessage');
+    const showSpy = vi.spyOn(cp, 'showMessage');
     const form = document.getElementById('upload-form');
     const fileInput = document.getElementById('upload-file');
     const file = new File(['x'], 'm.glb');
