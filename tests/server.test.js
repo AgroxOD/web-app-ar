@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'test';
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import request from 'supertest';
-import { app, Model, main, User, requireRole } from '../server.js';
+import { app, Model, main, User, requireRole, notFound } from '../server.js';
 import fs from 'fs';
 import path from 'path';
 import mongoose from 'mongoose';
@@ -221,6 +221,7 @@ describe('API endpoints', () => {
 
       res.json(req.user);
     });
+    app._router.stack.push(notFound);
 
     const res = await request(testApp)
       .get('/test/me')
@@ -242,6 +243,7 @@ describe('API endpoints', () => {
 
       res.json({});
     });
+    app._router.stack.push(notFound);
 
     const res = await request(testApp)
       .get('/test/bad')
