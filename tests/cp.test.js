@@ -22,10 +22,14 @@ vi.mock('../src/utils/models.js', () => modelsMocks);
 vi.mock('../src/utils/editForm.js', () => ({ showEditForm: vi.fn() }));
 
 let store;
+let oldBase;
 
 beforeEach(() => {
   vi.restoreAllMocks();
   vi.resetModules();
+
+  oldBase = process.env.VITE_API_BASE_URL;
+  process.env.VITE_API_BASE_URL = '';
 
   Object.values(authMocks).forEach((fn) => fn.mockReset());
   Object.values(modelsMocks).forEach((fn) => fn.mockReset());
@@ -67,6 +71,7 @@ beforeEach(() => {
 afterEach(() => {
   delete global.localStorage;
   vi.restoreAllMocks();
+  if (oldBase === undefined) delete process.env.VITE_API_BASE_URL; else process.env.VITE_API_BASE_URL = oldBase;
 });
 
 async function importCp() {
@@ -166,7 +171,9 @@ describe('cp page interactions', () => {
     expect(fetch).toHaveBeenCalledTimes(1);
     const [url, opts] = fetch.mock.calls[0];
     const base = import.meta.env.VITE_API_BASE_URL || '';
+
     expect(url).toBe(`${base}/upload`);
+
     expect(opts.headers).toEqual({});
     expect(opts.method).toBe('POST');
     const body = opts.body;
