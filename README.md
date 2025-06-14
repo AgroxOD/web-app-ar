@@ -123,10 +123,12 @@ pnpm start  # запуск API-сервера (опционально)
    > `VITE_BASE_PATH=/my-repo/ pnpm build`. Если переменная не задана,
    > используется значение по умолчанию `/web-app-ar/`.
 2. Укажи URL бэкенда через `VITE_API_BASE_URL`, чтобы страница CMS могла обращаться к API:
-    ```bash
-    VITE_API_BASE_URL=https://example.com pnpm build
-    ```
-    Не добавляй суффикс `/api` в конце URL
+
+   ```bash
+   VITE_API_BASE_URL=https://example.com pnpm build
+   ```
+
+   Не добавляй суффикс `/api` в конце URL
 
 3. Создай пустой файл `.nojekyll` в корне проекта, чтобы отключить обработку Jekyll на GitHub Pages.
 
