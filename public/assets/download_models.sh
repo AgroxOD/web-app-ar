@@ -14,7 +14,11 @@ if ! command -v curl >/dev/null 2>&1; then
 fi
 
 TARGET_DIR="$(dirname "$0")"
-MODEL_URL="${MODEL_URL:-https://example.com/model.glb}"
+
+if [ -z "$MODEL_URL" ]; then
+    echo "Usage: MODEL_URL=<url> ./download_models.sh" >&2
+    exit 1
+fi
 
 echo "Downloading model from $MODEL_URL..."
 mkdir -p "$TARGET_DIR"

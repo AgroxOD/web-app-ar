@@ -63,13 +63,14 @@ project-root/
 git clone <repo-url>
 cd <project-name>
 nvm install  # установит Node.js из .nvmrc (проект требует Node.js 18–21)
-nvm use
+nvm use       # обязательно выполните, если у вас Node.js 22+
+              # (скрипт scripts/check-node.js напомнит версию из .nvmrc)
 sh scripts/setup-node.sh # проверит наличие nvm и подходящую версию Node.js
 pnpm install
 # скопируй пример конфигурации и заполни значения
 cp .env.example .env
 # при необходимости скачай тяжелые модели
-sh public/assets/download_models.sh
+MODEL_URL=<url> sh public/assets/download_models.sh
 # пример для Cloudflare R2
 # MODEL_URL=https://<account>.r2.cloudflarestorage.com/<bucket>/model.glb sh public/assets/download_models.sh
 pnpm dev
@@ -83,6 +84,10 @@ pnpm build # production сборка
 pnpm preview # предпросмотр dist/
 pnpm start  # запуск API-сервера (опционально)
 ```
+
+> **Важно:** если у вас уже установлен Node.js 22 или новее, выполните
+> `nvm use $(cat .nvmrc)` — иначе установка зависимостей может завершиться
+> ошибкой.
 
 > Скрипт `setup-node.sh` завершится с подсказкой по установке `nvm`, если менеджер не найден.
 
@@ -114,6 +119,9 @@ pnpm start  # запуск API-сервера (опционально)
    > ⚠️ Значение `base` должно совпадать с названием репозитория на GitHub.
    > Обязательно укажите `build.target = 'esnext'`, иначе топ-левел `await` не
    > будет работать на GitHub Pages.
+   Можно также указать путь через переменную `VITE_BASE_PATH`, например
+   `VITE_BASE_PATH=/my-repo/ pnpm build`. Если переменная не задана,
+   используется значение по умолчанию `/web-app-ar/`.
 2. Укажи URL бэкенда через `VITE_API_BASE_URL`, чтобы страница CMS могла обращаться к API:
    ```bash
    VITE_API_BASE_URL=https://example.com pnpm build
@@ -154,6 +162,7 @@ pnpm start  # запуск API-сервера (опционально)
 - `RATE_LIMIT_MAX` – максимальное число запросов за 15 минут (по умолчанию 100)
 - `VITE_API_BASE_URL` – base URL for API requests when running or building the CMS/front‑end
 - не добавляй `/api`, просто `https://example.com`
+- `VITE_BASE_PATH` – базовый путь для GitHub Pages (например, `/web-app-ar/`)
 - `PORT` – укажи `10000` (Render запускает приложение на этом порту)
 
 5. Сохрани настройки и запусти деплой. После успешного билда сервис будет доступен по адресу вида `https://<name>.onrender.com`.
@@ -163,7 +172,7 @@ pnpm start  # запуск API-сервера (опционально)
 - PNG-маркеры хранятся в `public/`
 - Каждый маркер требует свой `.mind`-файл. Его можно сгенерировать через онлайн-компилятор [MindAR Marker Compiler](https://hiukim.github.io/mind-ar-js-doc/tools/compile/). Помести полученный файл в `public/` рядом с маркером.
 - Основная логика находится в `src/ar-scene.js`, ассеты загружаются из `public/`
-- Тяжёлые `.glb` модели не хранятся в репозитории. Скачай их скриптом `public/assets/download_models.sh` или укажи `VITE_MODEL_URL` (она также используется как запасная модель при ошибке API).
+- Тяжёлые `.glb` модели не хранятся в репозитории. Скачай их скриптом `public/assets/download_models.sh`, передав `MODEL_URL=<url>`, или укажи `VITE_MODEL_URL` (она также используется как запасная модель при ошибке API).
 - AR-сцену запускает функция `startAR()`, остановка — через `stopAR()`
 - Рекомендуемые расширения VS Code: ESLint, Prettier, Vite
 - Для проверки кода и автоформатирования используй:
@@ -341,7 +350,7 @@ pnpm install
 - Если установлена версия Node.js 22 или выше, могут возникнуть проблемы. Используй Node.js 20 LTS или другую поддерживаемую версию (18–21).
 - В мобильных браузерах запуск AR иногда требует взаимодействия пользователя (например, нажатия на экран).
 - Проверяйте ошибки в консоли и вкладке Network браузера.
-- Убедитесь, что `target.mind` присутствует и 3D‑модель скачана (`download_models.sh`) либо задайте `VITE_MODEL_URL`. При недоступности `/api/models` будет использована эта модель с индексом 0.
+- Убедитесь, что `target.mind` присутствует и 3D‑модель скачана (`MODEL_URL=<url> sh public/assets/download_models.sh`) либо задайте `VITE_MODEL_URL`. При недоступности `/api/models` будет использована эта модель с индексом 0.
 - Запускайте страницу по HTTPS и предоставляйте доступ к камере.
 - При деплое на GitHub Pages проверьте корректность `BASE_URL`.
 - Для теста исключите проблемы с моделью, отобразив простую геометрию (например, куб).
