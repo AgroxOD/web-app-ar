@@ -12,6 +12,7 @@ This project offers a lightweight AR scene that can be extended with CRM feature
 
 - **Node.js** 18–21 (Node.js 20 LTS recommended; Node.js 22 is not supported)
 - **pnpm** 9 or newer (the repository stores `pnpm-lock.yaml` only)
+- `scripts/check-deps.js` warns when dependencies are missing before running lint or tests
 - A modern browser such as Chrome, Firefox or Edge
 - GitHub account if you plan to deploy to GitHub Pages
 
@@ -26,6 +27,7 @@ nvm install
 nvm use
 sh scripts/setup-node.sh
 pnpm install
+# Run this before `pnpm lint` or `pnpm test`
 cp .env.example .env # fill in values if needed
 pnpm dev
 ```
@@ -51,6 +53,7 @@ Copy `.env.example` to `.env` and adjust values as needed. Important variables:
 - `pnpm dev` – run the Vite dev server
 - `pnpm lint` – run ESLint
 - `pnpm test` – run Vitest
+- _Make sure `pnpm install` has been run before these commands._
 - `pnpm format` – run Prettier
 - `pnpm build` – production build
 - `pnpm preview` – preview built files
