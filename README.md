@@ -314,6 +314,7 @@ RATE_LIMIT_MAX=
 pnpm lint
 pnpm format
 ```
+
 Перед выполнением команд `pnpm lint` и `pnpm test` обязательно запусти `pnpm install`.
 
 Перед выполнением команд `pnpm lint` и `pnpm test` обязательно запусти `pnpm install`.
