@@ -8,6 +8,7 @@ export default [
   {
     ignores: [
       'node_modules/**',
+      'cms/majestic/**',
       'cms/majestic/vendor.bundle.base.js',
       'cms/majestic/template.js',
     ],
