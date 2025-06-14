@@ -362,6 +362,8 @@ pnpm format
 Они загружаются из CDN (Google Fonts и placeholder.com), чтобы не раздувать
 историю. При необходимости можешь добавить свои файлы в `cms/fonts/` и
 `cms/images/` и обновить пути в `cms/majestic/style.css`.
+Архив с полным шаблоном (`MajesticAdmin-Free-Bootstrap-Admin-Template-master.zip`)
+был удалён и добавлен в `.gitignore`, чтобы не раздувать историю репозитория.
 
 ### Обновление локальной ветки
 
