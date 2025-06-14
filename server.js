@@ -495,6 +495,11 @@ app.get('/model/:filename', async (req, res) => {
   }
 });
 
+// Catch-all 404 handler
+app.use((req, res) => {
+  res.status(404).json({ error: 'Not Found' });
+});
+
 async function main() {
   try {
     await mongoose.connect(mongoUri);
