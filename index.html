@@ -69,81 +69,18 @@
         pointer-events: none;
         z-index: 20;
       }
-
-      #model-controls {
-        display: none;
-        margin-top: 10px;
-        color: white;
-        font-family: sans-serif;
-        z-index: 30;
-      }
-
-      #menu {
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        z-index: 40;
-        color: white;
-        font-family: sans-serif;
-      }
-
-      #menu form {
-        margin-bottom: 6px;
-      }
-
-      #menu input {
-        margin-right: 4px;
-      }
     </style>
-    <script type="module" crossorigin src="/web-app-ar/assets/main-YLokYB2n.js"></script>
-    <link rel="modulepreload" crossorigin href="/web-app-ar/assets/style-Yv-X3phN.js">
-    <link rel="stylesheet" crossorigin href="/web-app-ar/assets/style-D8vHXfBI.css">
-    <link rel="stylesheet" crossorigin href="/web-app-ar/assets/main-xlxoJ07g.css">
+    <script type="module" crossorigin src="/web-app-ar/assets/main-DHw5BKSM.js"></script>
+    <link rel="modulepreload" crossorigin href="/web-app-ar/assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="stylesheet" crossorigin href="/web-app-ar/assets/main-D-iSz3g5.css">
   </head>
 
   <body>
-    <div id="menu">
-      <form id="login-form">
-        <input id="login-email" placeholder="Email" required />
-        <input
-          id="login-password"
-          type="password"
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Login</button>
-        <button type="button" id="show-register">Register</button>
-      </form>
-      <form id="register-form" style="display: none">
-        <input id="register-username" placeholder="Username" required />
-        <input id="register-email" type="email" placeholder="Email" required />
-        <input
-          id="register-password"
-          type="password"
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Register</button>
-        <button type="button" id="show-login">Back</button>
-      </form>
-      <button id="logout" style="display: none">Logout</button>
-    </div>
     <div id="ar-container"></div>
     <div id="ar-frame"></div>
     <div id="ar-overlay">
-      <select id="marker-select"></select>
-      <select id="model-select"></select>
       <button id="start-ar">Start AR</button>
-    </div>
-    <div id="model-controls">
-      <label>
-        Поворот Y
-        <input type="range" id="rot-y" min="0" max="360" value="0" />
-      </label>
-      <label style="margin-left: 10px">
-        Масштаб
-        <input type="range" id="scale" min="0.5" max="2" step="0.1" value="1" />
-      </label>
+      <a id="cms-link" href="#">CMS</a>
     </div>
     <div id="instructions">
       После распознавания маркера появятся ползунки для поворота и
