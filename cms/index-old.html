@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>CMS</title>
+    <link rel="stylesheet" href="../cms/majestic/vendor.bundle.base.css" />
+    <link rel="stylesheet" href="../cms/majestic/style.css" />
+  </head>
+  <body>
+    <div class="container-scroller">
+      <nav class="navbar fixed-top d-flex flex-row">
+        <div class="navbar-brand-wrapper d-flex align-items-center">
+          <a class="navbar-brand" href="../index.html">Back to Camera</a>
+          <button
+            class="navbar-toggler navbar-toggler align-self-center"
+            type="button"
+            data-toggle="minimize"
+          >
+            <span class="mdi mdi-sort-variant"></span>
+          </button>
+        </div>
+      </nav>
+      <div class="container-fluid page-body-wrapper">
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html">
+                <span class="menu-title">Back to Camera</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div id="message" class="alert" style="display: none"></div>
+            <div id="auth">
+              <form id="login-form" class="card p-3 mb-3 d-flex flex-column">
+                <div class="form-group mb-2">
+                  <input
+                    id="login-email"
+                    type="email"
+                    placeholder="Email"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="form-group mb-3">
+                  <input
+                    id="login-password"
+                    type="password"
+                    placeholder="Password"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary me-2">
+                  Login
+                </button>
+                <button
+                  type="button"
+                  id="show-register"
+                  class="btn btn-secondary"
+                >
+                  Register
+                </button>
+              </form>
+              <form
+                id="register-form"
+                class="card p-3 mb-3 d-flex flex-column"
+                style="display: none"
+              >
+                <div class="form-group mb-2">
+                  <input
+                    id="register-username"
+                    placeholder="Username"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="form-group mb-2">
+                  <input
+                    id="register-email"
+                    type="email"
+                    placeholder="Email"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="form-group mb-3">
+                  <input
+                    id="register-password"
+                    type="password"
+                    placeholder="Password"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary me-2">
+                  Register
+                </button>
+                <button type="button" id="show-login" class="btn btn-secondary">
+                  Login
+                </button>
+              </form>
+              <button
+                id="logout"
+                class="btn btn-secondary mb-3"
+                style="display: none"
+              >
+                Logout
+              </button>
+            </div>
+
+            <div id="upload-section" style="display: none">
+              <form
+                id="upload-form"
+                class="card p-3 mb-3 d-flex flex-column gap-2"
+              >
+                <input
+                  id="upload-file"
+                  type="file"
+                  accept=".glb"
+                  class="form-control"
+                  required
+                />
+                <input
+                  id="upload-marker"
+                  type="number"
+                  value="0"
+                  class="form-control"
+                  required
+                />
+                <button type="submit" class="btn btn-primary">Upload</button>
+              </form>
+            </div>
+
+            <ul id="models-list" class="list-group"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="../cms/majestic/vendor.bundle.base.js"></script>
+    <script src="../cms/majestic/template.js"></script>
+    <script type="module" src="../src/cp.js"></script>
+  </body>
+</html>
