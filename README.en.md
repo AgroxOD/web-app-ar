@@ -62,7 +62,7 @@ Copy `.env.example` to `.env` and adjust values as needed. Important variables:
 - `pnpm preview` – preview built files
 - `pnpm start` – launch the API server (same as `pnpm api`)
 
-Open [http://localhost:5173/web-app-ar/](http://localhost:5173/web-app-ar/) and click **Start AR** to test the scene.
+Open [http://localhost:5173/web-app-ar/](http://localhost:5173/web-app-ar/) and click **Start AR**. The camera page now shows only the AR view with a **CMS** link for switching to the content manager, and the CMS page has a **Back to Camera** link.
 
 ## Build
 
