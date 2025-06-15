@@ -22,3 +22,5 @@ MajesticAdmin-Free-Bootstrap-Admin-Template-master.zip
 
 # Admin template (not used)
 MajesticAdmin/node_modules
+public/cms/js/
+public/cms/vendors/
