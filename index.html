@@ -74,12 +74,13 @@
     </style>
   </head>
 
-  <body>
+  <body class="bg-white dark:bg-black text-black dark:text-white">
     <div id="ar-container"></div>
     <div id="ar-frame"></div>
     <div id="ar-overlay">
       <button id="start-ar">Start AR</button>
       <a id="cms-link" href="#">CMS</a>
+      <button id="toggle-theme" aria-label="toggle theme">🌓</button>
     </div>
     <div id="instructions">
       После распознавания маркера появятся ползунки для поворота и
@@ -92,8 +93,10 @@
       const instructions = document.getElementById('instructions');
       const { startAR } = await import('./src/ar-scene.js');
       const { loadModels } = await import('./src/utils/models.js');
+      const { initThemeToggle } = await import('./src/utils/theme.js');
       const base = import.meta.env.BASE_URL;
       cmsLink.href = `${base}cms/`;
+      initThemeToggle('toggle-theme');
 
       let list = [];
       const params = new URLSearchParams(window.location.search);
