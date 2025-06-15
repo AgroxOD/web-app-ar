@@ -1,4 +1,3 @@
-
 async function loadCatalog() {
   const res = await fetch('../api/models');
   const list = await res.json();
@@ -23,7 +22,7 @@ $('#search').on('input', loadCatalog);
 
 $('#catalog-container').on('click', '.preview', function () {
   const id = $(this).data('id');
-  window.open(`../api/models/${id}`, '_blank');
+  window.open(`../index.html?id=${id}`, '_blank');
 });
 
 loadCatalog();
