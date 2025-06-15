@@ -2,18 +2,84 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <title>CMS</title>
     <link rel="stylesheet" href="./majestic/vendor.bundle.base.css" />
     <link rel="stylesheet" href="./majestic/style.css" />
   </head>
   <body>
     <div class="container-scroller">
-      <nav class="navbar fixed-top d-flex flex-row">
-        <div class="navbar-brand-wrapper d-flex align-items-center">
-          <a id="back-camera-link" class="navbar-brand" href="#">Back to Camera</a>
-          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-            <span class="mdi mdi-sort-variant"></span>
+      <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="navbar-brand-wrapper d-flex justify-content-center">
+          <div
+            class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100"
+          >
+            <a id="back-camera-link" class="navbar-brand brand-logo" href="#"
+              ><img src="images/logo.svg" alt="logo"
+            /></a>
+            <a id="back-camera-link-side" class="navbar-brand brand-logo-mini" href="#"
+              ><img src="images/logo-mini.svg" alt="logo"
+            /></a>
+            <button
+              class="navbar-toggler navbar-toggler align-self-center"
+              type="button"
+              data-toggle="minimize"
+            >
+              <span class="mdi mdi-sort-variant"></span>
+            </button>
+          </div>
+        </div>
+        <div
+          class="navbar-menu-wrapper d-flex align-items-center justify-content-end"
+        >
+          <ul class="navbar-nav mr-lg-4 w-100">
+            <li class="nav-item nav-search d-none d-lg-block w-100">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="search">
+                    <i class="mdi mdi-magnify"></i>
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Search now"
+                  aria-label="search"
+                  aria-describedby="search"
+                />
+              </div>
+            </li>
+          </ul>
+          <ul class="navbar-nav navbar-nav-right">
+            <li class="nav-item nav-profile dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                data-bs-toggle="dropdown"
+                id="profileDropdown"
+              >
+                <img src="images/faces/face5.jpg" alt="profile" />
+              </a>
+              <div
+                class="dropdown-menu dropdown-menu-right navbar-dropdown"
+                aria-labelledby="profileDropdown"
+              >
+                <a class="dropdown-item">
+                  <i class="mdi mdi-logout text-primary"></i>
+                  Logout
+                </a>
+              </div>
+            </li>
+          </ul>
+          <button
+            class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+            type="button"
+            data-toggle="offcanvas"
+          >
+            <span class="mdi mdi-menu"></span>
           </button>
         </div>
       </nav>
@@ -21,8 +87,33 @@
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
           <ul class="nav">
             <li class="nav-item">
-              <a id="back-camera-link-side" class="nav-link" href="#">
-                <span class="menu-title">Back to Camera</span>
+              <a class="nav-link" href="index.html">
+                <i class="mdi mdi-home menu-icon"></i>
+                <span class="menu-title">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="app/catalog.html">
+                <i class="mdi mdi-view-list menu-icon"></i>
+                <span class="menu-title">Catalog</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="app/profile.html">
+                <i class="mdi mdi-account menu-icon"></i>
+                <span class="menu-title">Profile</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="app/login.html">
+                <i class="mdi mdi-login menu-icon"></i>
+                <span class="menu-title">Login</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="app/register.html">
+                <i class="mdi mdi-account-plus menu-icon"></i>
+                <span class="menu-title">Register</span>
               </a>
             </li>
           </ul>
