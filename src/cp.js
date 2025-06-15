@@ -10,16 +10,15 @@ import { loadModels, deleteModel } from './utils/models.js';
 import { showEditForm } from './utils/editForm.js';
 
 const sidebar = document.getElementById('sidebar');
-const rootEl = sidebar || document;
-const loginForm = rootEl.querySelector('#login-form');
-const registerForm = rootEl.querySelector('#register-form');
-const logoutBtn = rootEl.querySelector('#logout');
-const showRegisterBtn = rootEl.querySelector('#show-register');
-const showLoginBtn = rootEl.querySelector('#show-login');
+const loginForm = document.querySelector('#login-form');
+const registerForm = document.querySelector('#register-form');
+const logoutBtn = document.querySelector('#logout');
+const showRegisterBtn = document.querySelector('#show-register');
+const showLoginBtn = document.querySelector('#show-login');
 const uploadForm = document.getElementById('upload-form');
 const uploadSection = document.getElementById('upload-section');
 const modelsList = document.getElementById('models-list');
-let messageEl = rootEl.querySelector('#message');
+let messageEl = document.querySelector('#message');
 if (!messageEl) {
   messageEl = document.createElement('div');
   messageEl.id = 'message';
@@ -48,66 +47,79 @@ window.showMessage = showMessage;
 
 function updateAuthUI() {
   const logged = isAuthenticated();
-  if (logged) {
-    loginForm.style.display = 'none';
-    registerForm.style.display = 'none';
-  } else if (showRegister) {
-    loginForm.style.display = 'none';
-    registerForm.style.display = 'flex';
-  } else {
-    loginForm.style.display = 'flex';
-    registerForm.style.display = 'none';
+  if (loginForm && registerForm) {
+    if (logged) {
+      loginForm.style.display = 'none';
+      registerForm.style.display = 'none';
+    } else if (showRegister) {
+      loginForm.style.display = 'none';
+      registerForm.style.display = 'flex';
+    } else {
+      loginForm.style.display = 'flex';
+      registerForm.style.display = 'none';
+    }
   }
-  logoutBtn.style.display = logged ? 'inline-block' : 'none';
-  uploadSection.style.display =
-    logged && getRole() === 'admin' ? 'block' : 'none';
+  if (logoutBtn) logoutBtn.style.display = logged ? 'inline-block' : 'none';
+  if (uploadSection)
+    uploadSection.style.display =
+      logged && getRole() === 'admin' ? 'block' : 'none';
 }
 
-loginForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  try {
-    const { jwt, role } = await login(
-      document.getElementById('login-email').value,
-      document.getElementById('login-password').value,
-    );
-    setAuth(jwt, role);
+if (loginForm) {
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    try {
+      const { jwt, role } = await login(
+        document.getElementById('login-email').value,
+        document.getElementById('login-password').value,
+      );
+      setAuth(jwt, role);
+      showRegister = false;
+      updateAuthUI();
+    } catch (err) {
+      showMessage(err.message, true);
+    }
+  });
+}
+
+if (registerForm) {
+  registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    try {
+      const { jwt, role } = await register(
+        document.getElementById('register-username').value,
+        document.getElementById('register-email').value,
+        document.getElementById('register-password').value,
+      );
+      setAuth(jwt, role);
+      showRegister = false;
+      updateAuthUI();
+    } catch (err) {
+      showMessage(err.message, true);
+    }
+  });
+}
+
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', () => {
+    logout();
+    updateAuthUI();
+  });
+}
+
+if (showRegisterBtn) {
+  showRegisterBtn.addEventListener('click', () => {
+    showRegister = true;
+    updateAuthUI();
+  });
+}
+
+if (showLoginBtn) {
+  showLoginBtn.addEventListener('click', () => {
     showRegister = false;
     updateAuthUI();
-  } catch (err) {
-    showMessage(err.message, true);
-  }
-});
-
-registerForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  try {
-    const { jwt, role } = await register(
-      document.getElementById('register-username').value,
-      document.getElementById('register-email').value,
-      document.getElementById('register-password').value,
-    );
-    setAuth(jwt, role);
-    showRegister = false;
-    updateAuthUI();
-  } catch (err) {
-    showMessage(err.message, true);
-  }
-});
-
-logoutBtn.addEventListener('click', () => {
-  logout();
-  updateAuthUI();
-});
-
-showRegisterBtn.addEventListener('click', () => {
-  showRegister = true;
-  updateAuthUI();
-});
-
-showLoginBtn.addEventListener('click', () => {
-  showRegister = false;
-  updateAuthUI();
-});
+  });
+}
 
 async function handleUpload(e) {
   e.preventDefault();
@@ -135,7 +147,9 @@ async function handleUpload(e) {
   }
 }
 
-uploadForm.addEventListener('submit', handleUpload);
+if (uploadForm) {
+  uploadForm.addEventListener('submit', handleUpload);
+}
 
 function renderModels(list) {
   modelsList.innerHTML = '';
