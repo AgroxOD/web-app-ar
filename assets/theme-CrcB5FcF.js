@@ -1,1 +1,0 @@
-function d(o="toggle-theme"){const e=document.documentElement;localStorage.getItem("theme")==="dark"&&e.classList.add("dark");const t=document.getElementById(o);t&&t.addEventListener("click",()=>{const n=e.classList.toggle("dark");localStorage.setItem("theme",n?"dark":"light")})}export{d as initThemeToggle};
