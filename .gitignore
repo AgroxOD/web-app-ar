@@ -12,6 +12,9 @@ package-lock.json
 change.patch
 lint.log
 
+# macOS Finder metadata
+.DS_Store
+
 # Admin template (not used)
 template/
 # Original archive removed to keep history small
