@@ -4,7 +4,7 @@ Thank you for helping improve **web-app-ar**. These guidelines cover the basic s
 
 ## Prerequisites
 
-- **Node.js** 18–21 (Node.js 20 LTS recommended; Node.js 22 is not supported)
+- **Node.js** 20 LTS (Node.js 22+ is not supported)
 - **pnpm** 9 or newer
 
 See [AGENTS.md](./AGENTS.md) or [README](./README.md) for additional details.
@@ -12,10 +12,10 @@ See [AGENTS.md](./AGENTS.md) or [README](./README.md) for additional details.
 ## Setup
 
 1. Fork and clone the repository.
-2. Ensure you are using a supported Node version:
+2. Ensure you are using Node 20 LTS:
    ```bash
-   nvm install
-   nvm use
+   nvm install 20
+   nvm use 20
    sh scripts/setup-node.sh
    ```
 3. Install dependencies:

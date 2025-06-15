@@ -6,7 +6,7 @@
 
 ## Требования
 
-- Node.js 18–21 (рекомендуется Node.js 20 LTS; Node.js 22 не поддерживается)
+- Node.js 20 LTS (Node.js 22+ не поддерживается)
 - pnpm 9+
 - Современный браузер
 - GitHub аккаунт для деплоя
@@ -16,8 +16,8 @@
 ```bash
 git clone <repo-url>
 cd web-app-ar
-nvm install
-nvm use
+nvm install 20
+nvm use 20
 sh scripts/setup-node.sh
 pnpm install
 cp .env.example .env

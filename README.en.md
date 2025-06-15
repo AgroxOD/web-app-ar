@@ -10,9 +10,9 @@ This project offers a lightweight AR scene that can be extended with CRM feature
 
 ## Requirements
 
-- **Node.js** 18–21 (Node.js 20 LTS recommended; Node.js 22 is not supported)
-- Run `nvm use 20` before `pnpm install` (see `.nvmrc`).
-  You can use `scripts/setup-node.sh` to switch Node automatically.
+- **Node.js** 20 LTS (Node.js 22+ is not supported)
+- Run `nvm use 20` before `pnpm install` (see `.nvmrc`)
+  or run `scripts/setup-node.sh` to switch Node automatically.
 - **pnpm** 9 or newer (the repository stores `pnpm-lock.yaml` only)
 - `scripts/check-deps.js` warns when dependencies are missing before running lint or tests
 - A modern browser such as Chrome, Firefox or Edge
@@ -20,13 +20,13 @@ This project offers a lightweight AR scene that can be extended with CRM feature
 
 ## Quick Setup
 
-_Requires Node.js 18–21 (Node.js 20 LTS recommended)._
+_Requires Node.js 20 LTS._
 
 ```bash
 git clone <repo-url>
 cd <project>
-nvm install
-nvm use
+nvm install 20
+nvm use 20
 sh scripts/setup-node.sh
 pnpm install
 # Run this before `pnpm lint` or `pnpm test`
