@@ -9,19 +9,22 @@ import {
 import { loadModels, deleteModel } from './utils/models.js';
 import { showEditForm } from './utils/editForm.js';
 
-const loginForm = document.getElementById('login-form');
-const registerForm = document.getElementById('register-form');
-const logoutBtn = document.getElementById('logout');
-const showRegisterBtn = document.getElementById('show-register');
-const showLoginBtn = document.getElementById('show-login');
+const sidebar = document.getElementById('sidebar');
+const rootEl = sidebar || document;
+const loginForm = rootEl.querySelector('#login-form');
+const registerForm = rootEl.querySelector('#register-form');
+const logoutBtn = rootEl.querySelector('#logout');
+const showRegisterBtn = rootEl.querySelector('#show-register');
+const showLoginBtn = rootEl.querySelector('#show-login');
 const uploadForm = document.getElementById('upload-form');
 const uploadSection = document.getElementById('upload-section');
 const modelsList = document.getElementById('models-list');
-let messageEl = document.getElementById('message');
+let messageEl = rootEl.querySelector('#message');
 if (!messageEl) {
   messageEl = document.createElement('div');
   messageEl.id = 'message';
-  document.body.prepend(messageEl);
+  if (sidebar) sidebar.prepend(messageEl);
+  else document.body.prepend(messageEl);
 }
 
 let showRegister = false;
