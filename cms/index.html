@@ -162,14 +162,32 @@
               <span class="nav-profile-name">Louis Barnett</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown p-3" aria-labelledby="profileDropdown">
-              <form id="login-form" class="d-flex flex-column">
+              <form id="login-form" class="d-flex flex-column" style="display:flex">
                 <div class="form-group mb-2">
                   <input id="login-email" type="email" placeholder="Email" class="form-control" required />
                 </div>
                 <div class="form-group mb-2">
                   <input id="login-password" type="password" placeholder="Password" class="form-control" required />
                 </div>
-                <button type="submit" class="btn btn-primary btn-sm">Login</button>
+                <div class="d-flex gap-2">
+                  <button type="submit" class="btn btn-primary btn-sm">Login</button>
+                  <button type="button" id="show-register" class="btn btn-secondary btn-sm">Register</button>
+                </div>
+              </form>
+              <form id="register-form" class="d-flex flex-column" style="display:none">
+                <div class="form-group mb-2">
+                  <input id="register-username" placeholder="Username" class="form-control" required />
+                </div>
+                <div class="form-group mb-2">
+                  <input id="register-email" type="email" placeholder="Email" class="form-control" required />
+                </div>
+                <div class="form-group mb-2">
+                  <input id="register-password" type="password" placeholder="Password" class="form-control" required />
+                </div>
+                <div class="d-flex gap-2">
+                  <button type="submit" class="btn btn-primary btn-sm">Register</button>
+                  <button type="button" id="show-login" class="btn btn-secondary btn-sm">Login</button>
+                </div>
               </form>
               <button id="logout" class="btn btn-secondary btn-sm mt-2" style="display:none">Logout</button>
             </div>
