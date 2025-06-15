@@ -20295,6 +20295,7 @@ code {
   color: #4d83ff;
 }
 
+/*
 #proBanner {
   position: fixed;
   left: 0;
@@ -20380,6 +20381,7 @@ code {
     font-size: 1rem;
   }
 }
+*/
 
 .proBanner-padding-top {
   padding-top: 60px !important;
