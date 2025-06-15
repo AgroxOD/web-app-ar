@@ -60,36 +60,42 @@
 
     // Remove pro banner on close
 
-    if ($.cookie('majestic-free-banner') != 'true') {
-      document.querySelector('#proBanner').classList.add('d-flex');
-      document.querySelector('.navbar').classList.remove('fixed-top');
-    } else {
-      document.querySelector('#proBanner').classList.add('d-none');
-      document.querySelector('.navbar').classList.add('fixed-top');
-    }
+    var proBanner = document.querySelector('#proBanner');
+    var navbar = document.querySelector('.navbar');
+    var wrapper = document.querySelector('.page-body-wrapper');
+    var closeBtn = document.querySelector('#bannerClose');
 
-    if ($('.navbar').hasClass('fixed-top')) {
-      document.querySelector('.page-body-wrapper').classList.remove('pt-0');
-      document.querySelector('.navbar').classList.remove('pt-5');
-    } else {
-      document.querySelector('.page-body-wrapper').classList.add('pt-0');
-      document.querySelector('.navbar').classList.add('pt-5');
-      document.querySelector('.navbar').classList.add('mt-3');
+    if (proBanner && navbar) {
+      if ($.cookie('majestic-free-banner') != 'true') {
+        proBanner.classList.add('d-flex');
+        navbar.classList.remove('fixed-top');
+      } else {
+        proBanner.classList.add('d-none');
+        navbar.classList.add('fixed-top');
+      }
+
+      if ($(navbar).hasClass('fixed-top')) {
+        wrapper && wrapper.classList.remove('pt-0');
+        navbar.classList.remove('pt-5');
+      } else {
+        wrapper && wrapper.classList.add('pt-0');
+        navbar.classList.add('pt-5');
+        navbar.classList.add('mt-3');
+      }
+
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function () {
+          proBanner.classList.add('d-none');
+          proBanner.classList.remove('d-flex');
+          navbar.classList.remove('pt-5');
+          navbar.classList.add('fixed-top');
+          wrapper && wrapper.classList.add('proBanner-padding-top');
+          navbar.classList.remove('mt-3');
+          var date = new Date();
+          date.setTime(date.getTime() + 24 * 60 * 60 * 1000);
+          $.cookie('majestic-free-banner', 'true', { expires: date });
+        });
+      }
     }
-    document
-      .querySelector('#bannerClose')
-      .addEventListener('click', function () {
-        document.querySelector('#proBanner').classList.add('d-none');
-        document.querySelector('#proBanner').classList.remove('d-flex');
-        document.querySelector('.navbar').classList.remove('pt-5');
-        document.querySelector('.navbar').classList.add('fixed-top');
-        document
-          .querySelector('.page-body-wrapper')
-          .classList.add('proBanner-padding-top');
-        document.querySelector('.navbar').classList.remove('mt-3');
-        var date = new Date();
-        date.setTime(date.getTime() + 24 * 60 * 60 * 1000);
-        $.cookie('majestic-free-banner', 'true', { expires: date });
-      });
   });
 })(jQuery);
