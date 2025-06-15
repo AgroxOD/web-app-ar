@@ -1,6 +1,7 @@
+import { loadModels as fetchModels } from './utils/models.js';
+
 async function loadCatalog() {
-  const res = await fetch('../api/models');
-  const list = await res.json();
+  const list = await fetchModels();
   render(list);
 }
 
