@@ -11,6 +11,7 @@ export default [
       'public/cms/majestic/**',
       'public/cms/majestic/vendor.bundle.base.js',
       'public/cms/majestic/template.js',
+      'cms/**',
       'dist/**',
     ],
   },
