@@ -161,15 +161,16 @@
               <img src="images/faces/face5.jpg" alt="profile"/>
               <span class="nav-profile-name">Louis Barnett</span>
             </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="mdi mdi-settings text-primary"></i>
-                Settings
-              </a>
-              <a class="dropdown-item">
-                <i class="mdi mdi-logout text-primary"></i>
-                Logout
-              </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown p-3" aria-labelledby="profileDropdown">
+              <form id="login-form" class="d-flex flex-column">
+                <div class="form-group mb-2">
+                  <input id="login-email" type="email" placeholder="Email" class="form-control" required />
+                </div>
+                <div class="form-group mb-2">
+                  <input id="login-password" type="password" placeholder="Password" class="form-control" required />
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">Login</button>
+              </form>
             </div>
           </li>
         </ul>
@@ -251,32 +252,6 @@
         </ul>
           <div class="p-3">
             <div id="message" class="alert" style="display: none"></div>
-            <div id="auth">
-              <form id="login-form" class="card p-3 mb-3 d-flex flex-column">
-                <div class="form-group mb-2">
-                  <input id="login-email" type="email" placeholder="Email" class="form-control" required />
-                </div>
-                <div class="form-group mb-3">
-                  <input id="login-password" type="password" placeholder="Password" class="form-control" required />
-                </div>
-                <button type="submit" class="btn btn-primary me-2">Login</button>
-                <button type="button" id="show-register" class="btn btn-secondary">Register</button>
-              </form>
-              <form id="register-form" class="card p-3 mb-3 d-flex flex-column" style="display: none">
-                <div class="form-group mb-2">
-                  <input id="register-username" placeholder="Username" class="form-control" required />
-                </div>
-                <div class="form-group mb-2">
-                  <input id="register-email" type="email" placeholder="Email" class="form-control" required />
-                </div>
-                <div class="form-group mb-3">
-                  <input id="register-password" type="password" placeholder="Password" class="form-control" required />
-                </div>
-                <button type="submit" class="btn btn-primary me-2">Register</button>
-                <button type="button" id="show-login" class="btn btn-secondary">Login</button>
-              </form>
-              <button id="logout" class="btn btn-secondary mb-3" style="display: none">Logout</button>
-            </div>
           </div>
       </nav>
       <!-- partial -->
