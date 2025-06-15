@@ -69,8 +69,9 @@ project-root/
 5. При необходимости скачайте исходный шаблон Majestic Admin с GitHub:
    <https://github.com/BootstrapDash/MajesticAdmin-Free-Bootstrap-Admin-Template/archive/refs/heads/master.zip>
    и распакуйте файлы в каталог `cms/`.
-6. Для публикации на GitHub Pages добавьте страницы из `cms/app/` в
-   `rollupOptions.input` в `vite.config.js`.
+6. Все файлы каталога `cms/` автоматически копируются плагином
+   `vite-plugin-static-copy` во время сборки, поэтому дополнительные действия
+   не требуются.
 
 ## Сборка и деплой
 
