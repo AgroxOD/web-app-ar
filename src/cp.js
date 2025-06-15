@@ -140,6 +140,12 @@ uploadForm.addEventListener('submit', handleUpload);
 function renderModels(list) {
   modelsList.innerHTML = '';
   const admin = getRole() === 'admin';
+  if (list.length === 0) {
+    const empty = document.createElement('li');
+    empty.textContent = 'No models found';
+    modelsList.appendChild(empty);
+    return;
+  }
   list.forEach((m) => {
     const id = m._id;
     const li = document.createElement('li');
