@@ -1,3 +1,6 @@
 node_modules/
 dist/
 public/cms/majestic/vendor.bundle.base.js
+
+cms/**
+public/cms/**
