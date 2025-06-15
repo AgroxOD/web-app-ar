@@ -96,9 +96,22 @@
       cmsLink.href = `${base}cms/`;
 
       let list = [];
-      try {
-        list = await loadModels();
-      } catch {}
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      if (id) {
+        try {
+          const API_BASE =
+            (import.meta.env.VITE_API_BASE_URL || '').trim() ||
+            window.location.origin;
+          const res = await fetch(`${API_BASE}/api/models/${id}`);
+          if (res.ok) list = [await res.json()];
+        } catch {}
+      }
+      if (list.length === 0) {
+        try {
+          list = await loadModels();
+        } catch {}
+      }
 
       startButton.addEventListener('click', async () => {
         const started = await startAR(list);
