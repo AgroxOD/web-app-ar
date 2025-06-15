@@ -79,6 +79,9 @@ repository history.
 If you need the original template, download it from GitHub:
 <https://github.com/BootstrapDash/MajesticAdmin-Free-Bootstrap-Admin-Template/archive/refs/heads/master.zip>.
 
+When deploying to GitHub Pages, include the pages under `cms/app/` in
+`rollupOptions.input` inside `vite.config.js` so they are copied to `dist/`.
+
 ## Build
 
 Use `pnpm build` for a production build and `pnpm preview` to preview the output.

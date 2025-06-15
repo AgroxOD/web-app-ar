@@ -11,6 +11,10 @@ export default defineConfig(({ mode }) => {
         input: {
           main: 'index.html',
           cms: 'cms/index.html',
+          catalog: 'cms/app/catalog.html',
+          login: 'cms/app/login.html',
+          profile: 'cms/app/profile.html',
+          register: 'cms/app/register.html',
         },
       },
     },
