@@ -75,6 +75,27 @@ describe('auth endpoints', () => {
     expect(res.body).toEqual({ id: 1, email: 'e', role: 'user' });
   });
 
+  it('PUT /api/me updates profile', async () => {
+    const save = vi.fn();
+    vi.spyOn(User, 'findOne').mockResolvedValue({
+      _id: 1,
+      email: 'e',
+      username: 'u',
+      role: 'user',
+      save,
+    });
+    const token = sign({ id: '1', role: 'user' }, 'secret');
+
+    const res = await request(app)
+      .put('/api/me')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ username: 'new' });
+
+    expect(res.status).toBe(200);
+    expect(save).toHaveBeenCalled();
+    expect(res.body).toEqual({ id: 1, email: 'e', role: 'user' });
+  });
+
   it('rate limits /auth/login', async () => {
     vi.resetModules();
     process.env.RATE_LIMIT_MAX = '1';

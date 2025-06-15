@@ -346,6 +346,28 @@ app.get('/api/me', requireRole('user'), (req, res) => {
   });
 });
 
+app.put('/api/me', requireRole('user'), async (req, res) => {
+  const { username, email } = req.body || {};
+  if (!username && !email) {
+    return res.status(400).json({ error: 'Nothing to update' });
+  }
+  if (email) {
+    const existing = await User.findOne({ email });
+    if (existing && String(existing._id) !== String(req.user._id)) {
+      return res.status(400).json({ error: 'Email exists' });
+    }
+  }
+  try {
+    if (username) req.user.username = username;
+    if (email) req.user.email = email;
+    await req.user.save();
+    res.json({ id: req.user._id, email: req.user.email, role: req.user.role });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Failed to update profile' });
+  }
+});
+
 app.get('/api/models', async (req, res) => {
   try {
     const list = await Model.find().select('name url markerIndex').lean();

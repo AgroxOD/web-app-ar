@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Catalog</title>
+  <link rel="stylesheet" href="../../public/cms/majestic/vendor.bundle.base.css" />
+  <link rel="stylesheet" href="../../public/cms/majestic/style.css" />
+</head>
+<body>
+  <div class="container-scroller">
+    <nav class="navbar fixed-top d-flex flex-row">
+      <div class="navbar-brand-wrapper d-flex align-items-center">
+        <a class="navbar-brand" href="profile.html">Profile</a>
+      </div>
+    </nav>
+    <div class="container-fluid page-body-wrapper">
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="catalog.html">
+              <span class="menu-title">Catalog</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="profile.html">
+              <span class="menu-title">Profile</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <input id="search" type="text" class="form-control" placeholder="Search products" />
+            </div>
+          </div>
+          <div class="row" id="catalog-container">
+            <!-- cards go here -->
+          </div>
+        </div>
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">&copy; 2021</span>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+  <script src="../../public/cms/majestic/vendor.bundle.base.js"></script>
+  <script src="../../public/cms/majestic/template.js"></script>
+  <script type="module" src="../../src/catalog.js"></script>
+</body>
+</html>
