@@ -93,10 +93,9 @@ project-root/
    ```bash
    pnpm install
    pnpm format
-   pnpm run worker:deploy
+   CLOUDFLARE_API_TOKEN=<token> pnpm run worker:deploy
    ```
-   Используется CLI [`wrangler`](https://developers.cloudflare.com/workers/wrangler/) (установлен в devDependencies). Конфигурация хранится в `wrangler.toml`.
-   Вместо интерактивной авторизации можно создать API Token в панели Cloudflare (My Profile → API Tokens, шаблон **Edit Cloudflare Workers**) и экспортировать его в переменную `CLOUDFLARE_API_TOKEN` перед запуском `pnpm run worker:deploy`.
+   Используется CLI [`wrangler`](https://developers.cloudflare.com/workers/wrangler/) (установлен в devDependencies). Создайте API Token в панели Cloudflare (My Profile → API Tokens, шаблон **Edit Cloudflare Workers**), установите его в переменную `CLOUDFLARE_API_TOKEN` и запускайте деплой. Подробнее см. в [документации Cloudflare](https://developers.cloudflare.com/api/tokens/create/).
 
 ## Статус
 

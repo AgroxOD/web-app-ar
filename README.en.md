@@ -101,12 +101,11 @@ Use `pnpm build` for a production build and `pnpm preview` to preview the output
    ```bash
    pnpm install
    pnpm format
-   pnpm run worker:deploy
+   CLOUDFLARE_API_TOKEN=<token> pnpm run worker:deploy
    ```
 
 ````
-The [`wrangler`](https://developers.cloudflare.com/workers/wrangler/) CLI is provided as a dev dependency. See `wrangler.toml` for configuration.
-Instead of interactive login you can create an API Token (My Profile → API Tokens, **Edit Cloudflare Workers** template) and export it as `CLOUDFLARE_API_TOKEN` before running `pnpm run worker:deploy`.
+The [`wrangler`](https://developers.cloudflare.com/workers/wrangler/) CLI is provided as a dev dependency. Create an API Token in the Cloudflare dashboard (My Profile → API Tokens, **Edit Cloudflare Workers** template), set it in `CLOUDFLARE_API_TOKEN` and deploy. See the [Cloudflare documentation](https://developers.cloudflare.com/api/tokens/create/) for details.
 
 ## Deployment to GitHub Pages
 
