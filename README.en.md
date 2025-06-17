@@ -102,7 +102,7 @@ Use `pnpm build` for a production build and `pnpm preview` to preview the output
    pnpm format
    pnpm run worker:deploy
    ```
-   See `wrangler.toml` for the configuration.
+   The [`wrangler`](https://developers.cloudflare.com/workers/wrangler/) CLI is provided as a dev dependency. See `wrangler.toml` for configuration.
 
 ## Deployment to GitHub Pages
 
