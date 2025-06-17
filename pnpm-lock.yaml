@@ -59,9 +59,6 @@ importers:
       three:
         specifier: 0.152.2
         version: 0.152.2
-      vite:
-        specifier: 5.4.19
-        version: 5.4.19(@types/node@22.15.29)(terser@5.42.0)
     devDependencies:
       '@eslint/js':
         specifier: ^9.28.0
@@ -99,6 +96,9 @@ importers:
       tailwindcss:
         specifier: ^3.4.4
         version: 3.4.17
+      vite:
+        specifier: 5.4.19
+        version: 5.4.19(@types/node@22.15.29)(terser@5.42.0)
       vite-plugin-static-copy:
         specifier: ^3.0.2
         version: 3.0.2(vite@5.4.19(@types/node@22.15.29)(terser@5.42.0))
