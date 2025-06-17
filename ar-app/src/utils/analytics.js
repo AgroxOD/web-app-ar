@@ -1,3 +1,4 @@
+// Отправка минимальной аналитики на VITE_ANALYTICS_ENDPOINT
 export function logEvent(event, data = {}) {
   const endpoint = import.meta.env.VITE_ANALYTICS_ENDPOINT;
   if (!endpoint) return;

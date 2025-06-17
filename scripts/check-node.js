@@ -1,3 +1,4 @@
+// Скрипт завершает процесс, если версия Node.js несовместима
 import fs from 'node:fs';
 const major = parseInt(process.version.slice(1).split('.')[0], 10);
 

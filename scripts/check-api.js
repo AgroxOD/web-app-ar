@@ -1,3 +1,4 @@
+// Проверка доступности API на указанном в .env адресе
 const base =
   (process.env.VITE_API_BASE_URL || '').trim() || 'http://localhost:3000';
 const url = base.replace(/\/$/, '') + '/api/models';

@@ -1,3 +1,4 @@
+// Mongoose схемы для моделей и пользователей
 import mongoose from 'mongoose';
 
 const modelSchema = new mongoose.Schema({

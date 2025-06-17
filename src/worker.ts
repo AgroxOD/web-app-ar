@@ -1,3 +1,4 @@
+// Простейший Cloudflare Worker, отдаёт список моделей
 import { Router } from 'itty-router'
 
 const router = Router()

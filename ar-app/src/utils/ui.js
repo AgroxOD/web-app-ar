@@ -1,27 +1,21 @@
-export function showInstructions(temp = false) {
-  const el = document.getElementById('instructions');
-  if (!el) return;
-  el.style.display = 'block';
-  if (temp) {
-    setTimeout(() => {
-      el.style.display = 'none';
-    }, 5000);
-  }
-}
+// UI helpers: отображение инструкций и контролов модели
+const toggle = (id, on) => {
+  const el = document.getElementById(id);
+  if (el) el.style.display = on ? 'block' : 'none';
+};
 
-export function hideInstructions() {
-  const el = document.getElementById('instructions');
-  if (el) el.style.display = 'none';
-}
+export const showInstructions = (temp = false) => {
+  toggle('instructions', true);
+  if (temp) setTimeout(() => toggle('instructions', false), 5000);
+};
+export const hideInstructions = () => toggle('instructions', false);
 
-export function showControls() {
-  const el = document.getElementById('model-controls');
-  if (el) el.style.display = 'block';
+export const showControls = () => {
+  toggle('model-controls', true);
   showInstructions(true);
-}
+};
 
-export function hideControls() {
-  const el = document.getElementById('model-controls');
-  if (el) el.style.display = 'none';
+export const hideControls = () => {
+  toggle('model-controls', false);
   hideInstructions();
-}
+};
