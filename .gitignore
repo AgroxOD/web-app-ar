@@ -4,6 +4,7 @@ dist/
 package-lock.json
 
 # Local environment variables
+/.env
 .env
 !/.env.example
 .env.*
