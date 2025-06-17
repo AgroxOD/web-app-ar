@@ -95,7 +95,7 @@ project-root/
    pnpm format
    pnpm run worker:deploy
    ```
-   Конфигурация хранится в `wrangler.toml`.
+   Используется CLI [`wrangler`](https://developers.cloudflare.com/workers/wrangler/) (установлен в devDependencies). Конфигурация хранится в `wrangler.toml`.
 
 ## Статус
 
