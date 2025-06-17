@@ -61,9 +61,9 @@ project-root/
 ## CMS
 
 Панель администрирования построена на [AdminJS](https://github.com/SoftwareBrothers/adminjs).
-Маршрут `/cms` подключается через Express (см. `cms/admin.js`).
-Запустите `pnpm dev` и `pnpm api`, затем перейдите по адресу
-`http://localhost:5173/web-app-ar/cms/`.
+Маршрут `/cms` подключается через Express (см. `cms/admin.js`) и работает на API-сервере.
+Запустите `pnpm dev` и `pnpm api`, затем откройте
+`http://localhost:3000/cms/`.
 Для входа используйте учётные данные пользователя с ролью `admin`
 (`POST /auth/register`). После авторизации можно управлять моделями и
 пользователями.
