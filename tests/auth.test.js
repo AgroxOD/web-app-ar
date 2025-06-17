@@ -5,7 +5,7 @@ import {
   isAuthenticated,
   setToken,
   logout,
-} from '../src/utils/auth.js';
+} from '../ar-app/src/utils/auth.js';
 
 let store;
 

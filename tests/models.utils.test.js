@@ -21,7 +21,7 @@ describe('loadModels', () => {
     const fetchMock = vi.fn().mockRejectedValue(err);
     global.fetch = fetchMock;
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    const { loadModels } = await import('../src/utils/models.js');
+    const { loadModels } = await import('../ar-app/src/utils/models.js');
     const list = await loadModels();
     expect(errorSpy).toHaveBeenCalledWith('API error', err);
     expect(list).toEqual([{ url: 'fallback.glb', markerIndex: 0 }]);
@@ -35,7 +35,7 @@ describe('loadModels', () => {
       json: vi.fn().mockResolvedValue([]),
     });
     global.fetch = fetchMock;
-    const { loadModels } = await import('../src/utils/models.js');
+    const { loadModels } = await import('../ar-app/src/utils/models.js');
     const list = await loadModels();
     expect(list).toEqual([{ url: 'fallback.glb', markerIndex: 0 }]);
   });

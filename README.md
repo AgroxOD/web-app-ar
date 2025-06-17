@@ -35,7 +35,7 @@ MODEL_URL=<url> sh public/assets/download_models.sh
 ```plaintext
 project-root/
 ├── public/         # статические файлы и маркеры
-├── src/            # код AR‑сцены
+├── ar-app/         # код AR‑сцены (файлы в ar-app/src)
 ├── cms/            # минимальная CMS
 ├── server.js       # API сервер Express
 └── vite.config.js
