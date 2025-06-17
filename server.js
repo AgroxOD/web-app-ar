@@ -20,22 +20,13 @@ import path from 'node:path';
 import fs from 'node:fs';
 import jwt from 'jsonwebtoken';
 import rateLimit from 'express-rate-limit';
-import AdminJS from 'adminjs';
-import AdminJSExpress from '@adminjs/express';
-import * as AdminJSMongoose from '@adminjs/mongoose';
+import adminRouter from './cms/admin.js';
 
 export const app = express();
 app.use(express.json());
 app.use(helmet());
 
-AdminJS.registerAdapter(AdminJSMongoose);
-
-const admin = new AdminJS({
-  databases: [mongoose],
-  rootPath: '/admin',
-});
-const adminRouter = AdminJSExpress.buildRouter(admin);
-app.use(admin.options.rootPath, adminRouter);
+app.use('/cms', adminRouter());
 const allowedOrigins = process.env.FRONTEND_ORIGINS
   ? process.env.FRONTEND_ORIGINS.split(',')
       .map((o) => o.trim())
