@@ -21,6 +21,8 @@ import fs from 'node:fs';
 import jwt from 'jsonwebtoken';
 import rateLimit from 'express-rate-limit';
 import adminRouter from './cms/admin.js';
+import { Model, User } from './models/index.js';
+export { Model, User } from './models/index.js';
 
 export const app = express();
 app.use(express.json());
@@ -92,23 +94,6 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/ar';
-
-const modelSchema = new mongoose.Schema({
-  name: String,
-  key: String,
-  url: String,
-  markerIndex: { type: Number, default: 0 },
-});
-export const Model =
-  mongoose.models.Model || mongoose.model('Model', modelSchema);
-
-const userSchema = new mongoose.Schema({
-  username: String,
-  email: { type: String, unique: true },
-  passwordHash: String,
-  role: { type: String, enum: ['admin', 'user'], default: 'user' },
-});
-export const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 function verifyJwt(token, secret) {
   const { id, role } = jwt.verify(token, secret);
