@@ -2,7 +2,7 @@
 
 [English README](./README.en.md)
 
-Современное marker‑based AR приложение на MindAR.js, Three.js и Vite. Проект можно развернуть локально и опубликовать на GitHub Pages или Render.
+Современное marker‑based AR приложение на MindAR.js, Three.js и Vite. Проект можно развернуть локально и опубликовать на GitHub Pages.
 
 ## Требования
 
@@ -34,8 +34,7 @@ MODEL_URL=<url> sh public/assets/download_models.sh
 ## Переменные окружения
 
 - `VITE_API_BASE_URL` — базовый URL API без `/api`.
-  Для локального режима используйте `http://localhost:3000`,
-  для Render — `https://web-app-ar-api.onrender.com`.
+  Для локального режима используйте `http://localhost:3000`. Для продакшена укажите URL своего API, например `https://example.com`.
   Значение не должно содержать лишних пробелов.
 
 ## Структура
@@ -72,7 +71,7 @@ project-root/
 ## Сборка и деплой
 
 1. При необходимости укажите `VITE_BASE_PATH` в `vite.config.js`.
-2. Выполните `pnpm build` и загрузите содержимое `dist/` на GitHub Pages или Render.
+2. Выполните `pnpm build` и загрузите содержимое `dist/` на GitHub Pages.
 
 ### Cloudflare R2 и Worker
 
