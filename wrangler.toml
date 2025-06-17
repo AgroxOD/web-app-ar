@@ -2,3 +2,4 @@ name = "web-app-ar-worker"
 main = "src/worker.ts"
 compatibility_date = "2025-06-17"
 compatibility_flags = ["nodejs_compat"]
+tsconfig = "./tsconfig.json"
