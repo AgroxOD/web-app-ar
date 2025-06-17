@@ -18,7 +18,8 @@
     "format:check": "prettier --check \"**/*.{js,css,html,json,md}\"",
     "api": "node server.js",
     "start": "node server.js",
-    "check-api": "node scripts/check-api.js"
+    "check-api": "node scripts/check-api.js",
+    "worker:deploy": "wrangler deploy"
   },
   "dependencies": {
     "@adminjs/express": "^6.1.1",
@@ -37,7 +38,8 @@
     "mongoose": "^8.3.0",
     "multer": "^2.0.1",
     "three": "0.152.2",
-    "vite": "5.4.19"
+    "vite": "5.4.19",
+    "itty-router": "^5.0.18"
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",
