@@ -97,6 +97,7 @@ project-root/
    pnpm run worker:deploy
    ```
    Используется CLI [`wrangler`](https://developers.cloudflare.com/workers/wrangler/) (установлен в devDependencies). Конфигурация хранится в `wrangler.toml`.
+   Вместо интерактивной авторизации можно создать API Token в панели Cloudflare (My Profile → API Tokens, шаблон **Edit Cloudflare Workers**) и экспортировать его в переменную `CLOUDFLARE_API_TOKEN` перед запуском `pnpm run worker:deploy`.
 
 ## Статус
 
