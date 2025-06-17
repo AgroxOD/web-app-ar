@@ -38,8 +38,7 @@
     "mind-ar": "^1.2.5",
     "mongoose": "^8.3.0",
     "multer": "^2.0.1",
-    "three": "0.152.2",
-    "vite": "5.4.19"
+    "three": "0.152.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",
@@ -54,6 +53,7 @@
     "prettier": "^3.5.3",
     "supertest": "^6.3.3",
     "tailwindcss": "^3.4.4",
+    "vite": "5.4.19",
     "vite-plugin-static-copy": "^3.0.2",
     "vitest": "^1.5.1",
     "wrangler": "^4.20.1"
