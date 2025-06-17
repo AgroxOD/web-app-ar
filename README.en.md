@@ -104,17 +104,21 @@ Use `pnpm build` for a production build and `pnpm preview` to preview the output
    pnpm format
    pnpm run worker:deploy
    ```
-   The [`wrangler`](https://developers.cloudflare.com/workers/wrangler/) CLI is provided as a dev dependency. See `wrangler.toml` for configuration.
+
+````
+The [`wrangler`](https://developers.cloudflare.com/workers/wrangler/) CLI is provided as a dev dependency. See `wrangler.toml` for configuration.
+Instead of interactive login you can create an API Token (My Profile → API Tokens, **Edit Cloudflare Workers** template) and export it as `CLOUDFLARE_API_TOKEN` before running `pnpm run worker:deploy`.
 
 ## Deployment to GitHub Pages
 
 1. Edit `vite.config.js`:
-   ```js
-   export default defineConfig({
-     base: '/web-app-ar/', // repository name
-     build: { target: 'esnext' }, // required for GitHub Pages
-   });
-   ```
+ ```js
+ export default defineConfig({
+   base: '/web-app-ar/', // repository name
+   build: { target: 'esnext' }, // required for GitHub Pages
+ });
+````
+
 2. Build the project:
    ```bash
    pnpm build
