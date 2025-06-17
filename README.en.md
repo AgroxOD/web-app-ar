@@ -71,7 +71,8 @@ The camera page now shows only the AR view with a **CMS** link for switching to 
 The admin panel uses [AdminJS](https://github.com/SoftwareBrothers/adminjs).
 It is mounted at `/cms` via Express (see `cms/admin.js`).
 Run `pnpm dev` and `pnpm api`, then open `http://localhost:5173/web-app-ar/cms/`.
-Register a user with `role: admin` through `/auth/register` to manage models.
+Log in using an account with `role: admin` (`POST /auth/register`).
+After authentication you can manage models and users.
 
 ## Build
 
