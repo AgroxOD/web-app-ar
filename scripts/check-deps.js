@@ -1,3 +1,4 @@
+// Убедись, что зависимости установлены перед запуском lint и тестов
 import fs from 'node:fs';
 
 if (!fs.existsSync('node_modules')) {

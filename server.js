@@ -1,3 +1,4 @@
+// Express API сервер: аутентификация, управление моделями и загрузка файлов
 import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';

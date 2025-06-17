@@ -29,6 +29,8 @@ nvm install 20
 nvm use 20
 sh scripts/setup-node.sh
 pnpm install
+# Run Prettier after install
+pnpm format
 # Run this before `pnpm lint` or `pnpm test`
 cp .env.example .env # fill in values if needed
 pnpm dev

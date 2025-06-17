@@ -20,6 +20,7 @@ nvm install 20
 nvm use 20
 sh scripts/setup-node.sh
 pnpm install
+pnpm format
 cp .env.example .env
 pnpm dev
 ```

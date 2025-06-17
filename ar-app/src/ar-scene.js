@@ -1,3 +1,4 @@
+// Основная сцена AR. Загружает модели и управляет событиями MindAR
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { MindARThree } from 'mind-ar/dist/mindar-image-three.prod.js';
@@ -21,15 +22,10 @@ function setFrameColor(color) {
   if (frame) frame.style.borderColor = color;
 }
 
-function showFrame() {
-  const frame = document.getElementById('ar-frame');
-  if (frame) frame.style.display = 'block';
-}
-
-function hideFrame() {
-  const frame = document.getElementById('ar-frame');
-  if (frame) frame.style.display = 'none';
-}
+const toggleFrame = (on) => {
+  const f = document.getElementById('ar-frame');
+  if (f) f.style.display = on ? 'block' : 'none';
+};
 
 // Инициализация AR-сцены при загрузке страницы
 export const startAR = async (modelsList) => {
@@ -91,14 +87,14 @@ export const startAR = async (modelsList) => {
       anchor.group.visible = false;
       anchor.onTargetFound = () => {
         anchor.group.visible = true;
-        hideFrame();
+        toggleFrame(false);
         showControls();
         setFrameColor('green');
         logEvent('targetFound');
       };
       anchor.onTargetLost = () => {
         anchor.group.visible = false;
-        showFrame();
+        toggleFrame(true);
         hideControls();
         setFrameColor('white');
         logEvent('targetLost');
@@ -114,7 +110,7 @@ export const startAR = async (modelsList) => {
 
   try {
     await mindarThree.start();
-    showFrame();
+    toggleFrame(true);
     setFrameColor('white');
     // Создаём скрытый canvas для оценки яркости кадра
     const video = mindarThree.video;
