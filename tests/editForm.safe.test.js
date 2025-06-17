@@ -2,7 +2,7 @@
  * @vitest-environment jsdom
  */
 import { describe, it, expect } from 'vitest';
-import { showEditForm } from '../src/utils/editForm.js';
+import { showEditForm } from '../ar-app/src/utils/editForm.js';
 
 describe('showEditForm', () => {
   it('renders model name safely', () => {

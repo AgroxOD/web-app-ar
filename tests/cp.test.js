@@ -11,15 +11,15 @@ const authMocks = {
   setAuth: vi.fn(),
   getRole: vi.fn(),
 };
-vi.mock('../src/utils/auth.js', () => authMocks);
+vi.mock('../ar-app/src/utils/auth.js', () => authMocks);
 
 const modelsMocks = {
   loadModels: vi.fn().mockResolvedValue([]),
   deleteModel: vi.fn(),
 };
-vi.mock('../src/utils/models.js', () => modelsMocks);
+vi.mock('../ar-app/src/utils/models.js', () => modelsMocks);
 
-vi.mock('../src/utils/editForm.js', () => ({ showEditForm: vi.fn() }));
+vi.mock('../ar-app/src/utils/editForm.js', () => ({ showEditForm: vi.fn() }));
 
 let store;
 let oldBase;
@@ -76,7 +76,7 @@ afterEach(() => {
 });
 
 async function importCp() {
-  return await import('../src/cp.js');
+  return await import('../ar-app/src/cp.js');
 }
 
 function flush() {

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { logEvent } from '../src/utils/analytics.js';
+import { logEvent } from '../ar-app/src/utils/analytics.js';
 
 describe('logEvent error', () => {
   beforeEach(() => {

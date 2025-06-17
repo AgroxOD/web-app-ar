@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AR AgroMarket</title>
-    <link rel="stylesheet" href="./src/style.css" />
-    <link rel="stylesheet" href="./src/styles/mindar-image-three.prod.css" />
+    <link rel="stylesheet" href="./ar-app/src/style.css" />
+    <link rel="stylesheet" href="./ar-app/src/styles/mindar-image-three.prod.css" />
     <style>
       *,
       *::before,
@@ -91,9 +91,9 @@
       const startButton = document.getElementById('start-ar');
       const cmsLink = document.getElementById('cms-link');
       const instructions = document.getElementById('instructions');
-      const { startAR } = await import('./src/ar-scene.js');
-      const { loadModels } = await import('./src/utils/models.js');
-      const { initThemeToggle } = await import('./src/utils/theme.js');
+      const { startAR } = await import('./ar-app/src/ar-scene.js');
+      const { loadModels } = await import('./ar-app/src/utils/models.js');
+      const { initThemeToggle } = await import('./ar-app/src/utils/theme.js');
       const base = import.meta.env.BASE_URL;
       cmsLink.href = `${base}cms/`;
       initThemeToggle('toggle-theme');
