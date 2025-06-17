@@ -65,22 +65,13 @@ Copy `.env.example` to `.env` and adjust values as needed. Important variables:
 - `pnpm preview` – preview built files
 - `pnpm start` – launch the API server (same as `pnpm api`)
 
-Open [http://localhost:5173/web-app-ar/](http://localhost:5173/web-app-ar/) and click **Start AR**. The camera page now shows only the AR view with a **CMS** link for switching to the content manager, and the CMS page has a **Back to Camera** link.
+Open [http://localhost:5173/web-app-ar/](http://localhost:5173/web-app-ar/) and click **Start AR**.
+The camera page now shows only the AR view with a **CMS** link for switching to the content manager.
 
-The CMS under `cms/` is based on **MajesticAdmin**. Open it via `${base}cms/`, where `${base}` is the `base` value in `vite.config.js` (default `/web-app-ar/`). For local development this means `http://localhost:5173/web-app-ar/cms/`. Register a user with `role: admin` through `/auth/register` to enable the **Upload** form and manage models.
-
-The Majestic template fonts and background images are loaded from external CDNs
-(Google Fonts and placeholder.com) to keep the repository slim (the original
-files were about 3.8 MB). If you prefer local assets, place them in
-`cms/fonts/` and `cms/images/` and adjust paths in `public/cms/majestic/style.css`.
-The archive `MajesticAdmin-Free-Bootstrap-Admin-Template-master.zip` was removed
-from version control and is listed in `.gitignore` to avoid bloating the
-repository history.
-If you need the original template, download it from GitHub:
-<https://github.com/BootstrapDash/MajesticAdmin-Free-Bootstrap-Admin-Template/archive/refs/heads/master.zip>.
-
-When deploying to GitHub Pages, include the pages under `cms/app/` in
-`rollupOptions.input` inside `vite.config.js` so they are copied to `dist/`.
+The admin panel uses [AdminJS](https://github.com/SoftwareBrothers/adminjs).
+It is mounted at `/cms` via Express (see `cms/admin.js`).
+Run `pnpm dev` and `pnpm api`, then open `http://localhost:5173/web-app-ar/cms/`.
+Register a user with `role: admin` through `/auth/register` to manage models.
 
 ## Build
 

@@ -36,7 +36,7 @@ MODEL_URL=<url> sh public/assets/download_models.sh
 project-root/
 ├── public/         # статические файлы и маркеры
 ├── ar-app/         # код AR‑сцены (файлы в ar-app/src)
-├── cms/            # минимальная CMS
+├── cms/            # конфигурация AdminJS
 ├── server.js       # API сервер Express
 └── vite.config.js
 ```
@@ -53,26 +53,12 @@ project-root/
 
 ## CMS
 
-Каталог `cms/` основан на шаблоне **MajesticAdmin**. Страницу CMS следует
-открывать по пути `${base}cms/`, где `${base}` — значение `base` из
-`vite.config.js` (по умолчанию `/web-app-ar/`). Пример локального URL:
+Панель администрирования построена на [AdminJS](https://github.com/SoftwareBrothers/adminjs).
+Маршрут `/cms` подключается через Express (см. `cms/admin.js`).
+Запустите `pnpm dev` и `pnpm api`, затем перейдите по адресу
 `http://localhost:5173/web-app-ar/cms/`.
-
-1. Запустите `pnpm dev` и API командой `pnpm api`.
-2. Укажите `VITE_API_BASE_URL` в `.env`.
-3. Зарегистрируйте пользователя с ролью `admin` через `/auth/register` и
-   войдите в CMS. После входа станет доступна форма **Upload** для загрузки
-   моделей.
-4. Для использования локальных шрифтов и изображений поместите файлы в
-   `cms/fonts/` и `cms/images/`, скорректировав пути в
-   `public/cms/majestic/style.css`.
-5. При необходимости скачайте исходный шаблон Majestic Admin с GitHub:
-   <https://github.com/BootstrapDash/MajesticAdmin-Free-Bootstrap-Admin-Template/archive/refs/heads/master.zip>
-   и распакуйте файлы в каталог `cms/`.
-
-6. Все файлы каталога `cms/` автоматически копируются плагином
-   `vite-plugin-static-copy` во время сборки, поэтому дополнительные действия
-   не требуются.
+Создайте пользователя с ролью `admin` командой `/auth/register` и войдите,
+чтобы управлять моделями.
 
 ## Сборка и деплой
 
