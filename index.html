@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AR AgroMarket</title>
-    <link rel="stylesheet" href="./ar-app/src/style.css" />
     <link rel="stylesheet" href="./ar-app/src/styles/mindar-image-three.prod.css" />
     <style>
       *,
@@ -80,7 +79,6 @@
     <div id="ar-overlay">
       <button id="start-ar">Start AR</button>
       <a id="cms-link" href="#">CMS</a>
-      <button id="toggle-theme" aria-label="toggle theme">🌓</button>
     </div>
     <div id="instructions">
       После распознавания маркера появятся ползунки для поворота и
@@ -93,10 +91,8 @@
       const instructions = document.getElementById('instructions');
       const { startAR } = await import('./ar-app/src/ar-scene.js');
       const { loadModels } = await import('./ar-app/src/utils/models.js');
-      const { initThemeToggle } = await import('./ar-app/src/utils/theme.js');
       const base = import.meta.env.BASE_URL;
       cmsLink.href = `${base}cms/`;
-      initThemeToggle('toggle-theme');
 
       let list = [];
       const params = new URLSearchParams(window.location.search);
