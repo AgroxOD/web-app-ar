@@ -4,7 +4,7 @@ Thank you for helping improve **web-app-ar**. These guidelines cover the basic s
 
 ## Prerequisites
 
-- **Node.js** 18–21 (20 LTS is recommended; Node.js 22+ is not supported)
+- **Node.js** 20 LTS (Node.js 22+ is not supported)
 - **pnpm** 9 or newer
 
 See [AGENTS.md](./AGENTS.md) or [README](./README.md) for additional details.
