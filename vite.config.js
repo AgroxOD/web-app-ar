@@ -23,7 +23,6 @@ export default defineConfig(({ mode }) => {
             dest: 'cms',
           },
         ],
-        structured: true,
       }),
     ],
     define: {
