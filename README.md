@@ -66,6 +66,30 @@ project-root/
 1. При необходимости укажите `VITE_BASE_PATH` в `vite.config.js`.
 2. Выполните `pnpm build` и загрузите содержимое `dist/` на GitHub Pages или Render.
 
+### Cloudflare R2 и Worker
+
+1. Создайте учётную запись на Cloudflare и в разделе R2 создайте bucket (например `models`).
+2. Сгенерируйте пару `Access Key`/`Secret Key` и скопируйте URL endpoint.
+3. Скопируйте `.env.example` в `.env` и укажите значения:
+   ```
+   AWS_ACCESS_KEY_ID=<ваш access key>
+   AWS_SECRET_ACCESS_KEY=<ваш secret>
+   AWS_REGION=auto
+   R2_ENDPOINT=https://<id>.r2.cloudflarestorage.com
+   R2_BUCKET=<название bucket>
+   R2_PUBLIC_URL=https://pub-<id>.r2.dev/
+   ```
+   Поле `R2_PUBLIC_URL` обязательно должно оканчиваться `/`.
+4. Запустите `pnpm start` и убедитесь в консоли в сообщении `✅ [r2] connection OK, buckets: ...`.
+5. Функция `syncR2Models` синхронизирует файлы из R2 с коллекцией `models` в MongoDB.
+6. Минимальный Worker находится в `src/worker.ts`. Для деплоя выполните:
+   ```bash
+   pnpm install
+   pnpm format
+   pnpm run worker:deploy
+   ```
+   Конфигурация хранится в `wrangler.toml`.
+
 ## Статус
 
 - Локальная разработка ✔️

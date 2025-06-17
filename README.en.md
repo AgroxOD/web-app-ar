@@ -78,6 +78,30 @@ After authentication you can manage models and users.
 
 Use `pnpm build` for a production build and `pnpm preview` to preview the output.
 
+### Cloudflare R2 and Worker
+
+1. Create an account on Cloudflare and in the R2 section make a bucket (e.g. `models`).
+2. Generate an Access Key/Secret Key pair and copy the endpoint URL.
+3. Copy `.env.example` to `.env` and set:
+   ```
+   AWS_ACCESS_KEY_ID=<your access key>
+   AWS_SECRET_ACCESS_KEY=<your secret>
+   AWS_REGION=auto
+   R2_ENDPOINT=https://<id>.r2.cloudflarestorage.com
+   R2_BUCKET=<bucket name>
+   R2_PUBLIC_URL=https://pub-<id>.r2.dev/
+   ```
+   `R2_PUBLIC_URL` must end with `/`.
+4. Run `pnpm start` and check the console for `✅ [r2] connection OK`.
+5. The `syncR2Models` function keeps the MongoDB collection up to date with files stored in R2.
+6. A minimal Worker lives in `src/worker.ts`. Deploy it with:
+   ```bash
+   pnpm install
+   pnpm format
+   pnpm run worker:deploy
+   ```
+   See `wrangler.toml` for the configuration.
+
 ## Deployment to GitHub Pages
 
 1. Edit `vite.config.js`:
