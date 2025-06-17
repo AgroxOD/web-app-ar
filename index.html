@@ -3,128 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AR AgroMarket</title>
-    <link
-      rel="stylesheet"
-      href="./ar-app/src/styles/mindar-image-three.prod.css"
-    />
-    <style>
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        background: #000;
-        height: 100%;
-        overflow: hidden;
-      }
-
-      #ar-container {
-        width: 100vw;
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        left: 0;
-        overflow: hidden;
-      }
-
-      #ar-frame {
-        display: none;
-        position: fixed;
-        left: 50%;
-        top: 50%;
-        width: 50vw;
-        height: 25vw;
-        min-width: 200px;
-        min-height: 120px;
-        max-width: 90vw;
-        max-height: 50vh;
-        border: 6px solid white;
-        border-radius: 18px;
-        pointer-events: none;
-        transform: translate(-50%, -50%);
-        z-index: 10;
-        box-sizing: border-box;
-        transition: border-color 0.2s;
-        box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.2);
-      }
-
-      @media (max-width: 600px) {
-        #ar-frame {
-          width: 70vw;
-          height: 30vw;
-          min-width: 140px;
-          min-height: 90px;
-        }
-      }
-
-      #instructions {
-        display: none;
-        position: fixed;
-        bottom: 20px;
-        width: 100%;
-        text-align: center;
-        font-family: sans-serif;
-        color: #fff;
-        pointer-events: none;
-        z-index: 20;
-      }
-    </style>
-  </head>
-
-  <body class="bg-white dark:bg-black text-black dark:text-white">
-    <div id="ar-container"></div>
-    <div id="ar-frame"></div>
-    <div id="ar-overlay">
-      <button id="start-ar">Start AR</button>
-      <a id="cms-link" href="#">CMS</a>
-    </div>
-    <div id="instructions">
-      После распознавания маркера появятся ползунки для поворота и
-      масштабирования модели.
-    </div>
+    <title>AR CMS</title>
+    <meta http-equiv="refresh" content="0; url=cms/" />
     <script type="module">
-      const overlay = document.getElementById('ar-overlay');
-      const startButton = document.getElementById('start-ar');
-      const cmsLink = document.getElementById('cms-link');
-      const instructions = document.getElementById('instructions');
-      const { startAR } = await import('./ar-app/src/ar-scene.js');
-      const { loadModels } = await import('./ar-app/src/utils/models.js');
-      const base = import.meta.env.BASE_URL;
-      cmsLink.href = `${base}cms/`;
-
-      let list = [];
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
-      if (id) {
-        try {
-          const API_BASE =
-            (import.meta.env.VITE_API_BASE_URL || '').trim() ||
-            window.location.origin;
-          const res = await fetch(`${API_BASE}/api/models/${id}`);
-          if (res.ok) list = [await res.json()];
-        } catch {}
-      }
-      if (list.length === 0) {
-        try {
-          list = await loadModels();
-        } catch {}
-      }
-
-      startButton.addEventListener('click', async () => {
-        const started = await startAR(list);
-        if (started) {
-          overlay.style.display = 'none';
-          instructions.style.display = 'block';
-          setTimeout(() => {
-            instructions.style.display = 'none';
-          }, 5000);
-        }
-      });
+      const base = import.meta.env.BASE_URL || '/';
+      window.location.replace(`${base}cms/`);
     </script>
+  </head>
+  <body>
+    <p>Перенаправление в CMS...</p>
   </body>
 </html>
