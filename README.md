@@ -30,6 +30,13 @@ pnpm dev
 MODEL_URL=<url> sh public/assets/download_models.sh
 ```
 
+## Переменные окружения
+
+- `VITE_API_BASE_URL` — базовый URL API без `/api`.
+  Для локального режима используйте `http://localhost:3000`,
+  для Render — `https://web-app-ar-api.onrender.com`.
+  Значение не должно содержать лишних пробелов.
+
 ## Структура
 
 ```plaintext

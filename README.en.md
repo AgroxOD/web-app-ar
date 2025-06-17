@@ -43,8 +43,10 @@ Copy `.env.example` to `.env` and adjust values as needed. Important variables:
 - `JWT_MISSING_STATUS` – status code when `JWT_SECRET` is missing
 - `VITE_ANALYTICS_ENDPOINT` – optional analytics URL
 - `VITE_MODEL_URL` – fallback model URL
-- `VITE_API_BASE_URL` – base API URL (without `/api`)
-- The value must be a plain URL without extra text or spaces.
+- `VITE_API_BASE_URL` – base API URL (without `/api`).
+  Use `http://localhost:3000` locally or
+  `https://web-app-ar-api.onrender.com` on Render.
+  The value must be a plain URL without extra text or spaces.
   Example: `"https://example.com"`.
   Leading or trailing spaces are trimmed by the app and may cause tests to fail.
 - `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION` – credentials for Cloudflare R2/S3
