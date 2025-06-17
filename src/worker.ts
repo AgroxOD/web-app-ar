@@ -12,4 +12,9 @@ router.get('/api/models', async () => {
 
 router.all('*', () => new Response('Not Found', { status: 404 }))
 
-export default { fetch: router.handle }
+// Обработчик Cloudflare Worker
+export default {
+  async fetch(request: Request, env: unknown, ctx: ExecutionContext) {
+    return router.handle(request, env, ctx)
+  },
+}
