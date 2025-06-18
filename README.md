@@ -103,6 +103,8 @@ project-root/
 - GitHub Pages ✔️
 - Tailwind CSS ✔️
 - Интеграция с MongoDB в разработке
+  Полная дорожная карта: [ROADMAP.md](./ROADMAP.md)
+  Список изменений: [CHANGELOG.md](./CHANGELOG.md)
 
 ## Полезные ссылки
 

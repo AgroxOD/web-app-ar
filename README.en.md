@@ -138,3 +138,5 @@ The [`wrangler`](https://developers.cloudflare.com/workers/wrangler/) CLI is pro
 ## License
 
 [MIT](./LICENSE)
+
+See [ROADMAP.md](./ROADMAP.md) for upcoming features and [CHANGELOG.md](./CHANGELOG.md) for version history.
